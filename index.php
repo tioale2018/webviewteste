@@ -25,7 +25,7 @@ session_start();
                     Login
                 </div>
                 <div class="card-body">
-                    <form action="valida.php" method="POST">
+                    <form action="valida.php" method="GET">
                         <div class="form-group">
                             <label for="email">E-mail</label>
                             <input type="email" name="email" id="email" class="form-control">

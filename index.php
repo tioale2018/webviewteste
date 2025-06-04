@@ -48,9 +48,31 @@ session_start();
 <script>
     document.querySelector('.cadastrar').addEventListener('click', function(e) {
         e.preventDefault();
-        // window.location.href = 'cadastro.php';
         alert('teste');
     });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault(); // impede o envio padrão
+
+        const email = document.getElementById("email").value;
+        const senha = document.getElementById("senha").value;
+
+        // codifica os dados para inclusão segura na URL
+        const query = new URLSearchParams({
+            email: email,
+            senha: senha
+        }).toString();
+
+        // redireciona manualmente para o script PHP
+        window.location.href = form.action + "?" + query;
+    });
+});
+</script>
+
 </body>
 </html>

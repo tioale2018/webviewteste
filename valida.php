@@ -1,0 +1,24 @@
+<?php
+session_start();
+//verifica post
+if (isset($_POST['email']) && isset($_POST['senha'])) {
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+
+    include_once "conexao.php";
+
+    $sql = "select * from pessoas where email = :email and senha = :senha";
+    $stmt = $connPDO->prepare($sql);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':senha', $senha);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        $_SESSION['logado'] = true;
+        header("Location: logado.php");
+    } else {
+        header("Location: index.php");
+    }
+}
+
+?>

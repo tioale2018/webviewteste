@@ -35,6 +35,7 @@ session_start();
                             <input type="password" name="senha" id="senha" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-primary">Entrar</button>
+                        <a href="cadastro.php" class="btn btn-primary cadastrar">Cadastrar</a>
                     </form>
                 </div>
             </div>
@@ -44,5 +45,12 @@ session_start();
 
 
 <script src="./bootstrap/js/bootstrap.min.js"></script>
+<script>
+    document.querySelector('.cadastrar').addEventListener('click', function(e) {
+        e.preventDefault();
+        // window.location.href = 'cadastro.php';
+        alert('teste');
+    });
+</script>
 </body>
 </html>

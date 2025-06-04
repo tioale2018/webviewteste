@@ -15,10 +15,14 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
 
     if ($stmt->rowCount() > 0) {
         $_SESSION['logado'] = true;
-        header("Location: logado.php");
+        $file = "logado.php";
+        // header("Location: logado.php");
     } else {
-        header("Location: index.php");
+        // header("Location: index.php");
+        $file = "index.php";
     }
 }
 
 ?>
+
+<script>window.location.href = '<?= $file ?>';</script>

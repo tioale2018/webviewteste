@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['logado'] = true;
             $destino = "logado.php";
         } else {
-            $destino = "index.php";
+            $destino = "index.php?erro=1";
         }
     }
 }

@@ -34,6 +34,11 @@ session_start();
                             <label for="senha">Senha</label>
                             <input type="password" name="senha" id="senha" class="form-control" required>
                         </div>
+                        <?php if (isset($_GET['erro']) && $_GET['erro'] == 1): ?>
+                            <div class="alert alert-danger" role="alert">
+                                E-mail ou senha inválidos!
+                            </div>
+                        <?php endif; ?>
                         <button type="submit" class="btn btn-primary">Entrar</button>
                         <a href="logado.php" class="btn btn-primary cadastrar">Cadastrar</a>
                     </form>

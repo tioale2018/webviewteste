@@ -47,7 +47,7 @@ session_start();
 <script>
     document.querySelector('.cadastrar').addEventListener('click', function(e) {
         e.preventDefault();
-        alert('teste');
+        location.href = 'logado.php';
     });
 </script>
 

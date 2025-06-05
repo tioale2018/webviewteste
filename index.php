@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Cria um novo formulário e submete numa nova aba/janela (funciona melhor em WebViews)
         const tempForm = document.createElement("form");
         tempForm.method = "POST";
-        tempForm.action = "https://seudominio.com.br/valida.php";
+        tempForm.action = "https://webview.sophx.com.br/valida.php";
         tempForm.style.display = "none";
 
         for (const [key, value] of formData.entries()) {

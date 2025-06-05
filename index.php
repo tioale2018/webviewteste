@@ -1,9 +1,11 @@
 <?php
 session_start();
 
-// if (isset($_SESSION['logado'])) {
-//     header("Location: logado.php");
-// }
+if (isset($_SESSION['logado'])) {
+    // header("Location: logado.php");
+    echo "<script>location.href='./logado.php';</script>";
+    exit;
+}
 
 // protect.php – inclua no início das suas páginas
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';

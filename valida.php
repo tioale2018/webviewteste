@@ -1,7 +1,7 @@
 <?php
 session_start();
 //verifica POST
-if (isset($_POST['email']) && isset($_POST['senha'])) {
+if (isset($_POST['email'])) {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
@@ -23,6 +23,9 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
     }
 }
 
+
+echo "vai para $file";
 ?>
 
-<script>window.location.href = '<?= $file ?>';</script>
+
+<!-- <script>window.location.href = '<?= $file ?>';</script> -->

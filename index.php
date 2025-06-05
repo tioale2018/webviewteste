@@ -52,6 +52,7 @@ session_start();
 </script>
 
 <script>
+    /*
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
 
@@ -87,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 100); // atraso mínimo para renderização
     });
 });
+*/
 </script>
 
 

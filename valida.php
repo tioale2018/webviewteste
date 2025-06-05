@@ -2,9 +2,9 @@
 session_start();
 include_once "conexao.php";
 
-// Evita erros se não houver envio de POST
+$destino = "index.php"; // padrão: volta pro login
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Valida os dados recebidos
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
     $senha = $_POST['senha'] ?? '';
 
@@ -17,20 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->rowCount() > 0) {
             $_SESSION['logado'] = true;
-            header("Location: logado.php");
-            exit;
-        } else {
-            header("Location: index.php");
-            exit;
+            $destino = "logado.php";
         }
-    } else {
-        // dados inválidos
-        header("Location: index.php");
-        exit;
     }
-} else {
-    // acesso direto via GET
-    header("Location: index.php");
-    exit;
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecionando...</title>
+    <script>
+        // Redireciona de forma confiável via JavaScript
+        window.onload = function () {
+            window.location.href = "<?= $destino ?>";
+        };
+    </script>
+</head>
+<body>
+    <p>Redirecionando... Se não for redirecionado, <a href="<?= $destino ?>">clique aqui</a>.</p>
+</body>
+</html>

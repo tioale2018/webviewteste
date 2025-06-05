@@ -25,7 +25,7 @@ session_start();
                     Login
                 </div>
                 <div class="card-body">
-                    <form action="valida.php" method="POST">
+                    <form action="https://webview.sophx.com.br/valida.php" method="POST">
                         <div class="form-group">
                             <label for="email">E-mail</label>
                             <input type="email" name="email" id="email" class="form-control">
@@ -57,33 +57,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
 
     form.addEventListener("submit", function (e) {
-        e.preventDefault(); // impede o envio padrão
+        e.preventDefault();
 
-        // Cria dinamicamente um novo formulário (ou reusa o atual)
-        const tempForm = document.createElement("form");
-        tempForm.action = form.action;
-        tempForm.method = form.method;
-        tempForm.style.display = "none";
-
-        // Adiciona os campos ao novo formulário
         const email = document.getElementById("email").value;
         const senha = document.getElementById("senha").value;
 
-        const inputEmail = document.createElement("input");
-        inputEmail.type = "hidden";
-        inputEmail.name = "email";
-        inputEmail.value = email;
-        tempForm.appendChild(inputEmail);
+        const formData = new FormData();
+        formData.append("email", email);
+        formData.append("senha", senha);
 
-        const inputSenha = document.createElement("input");
-        inputSenha.type = "hidden";
-        inputSenha.name = "senha";
-        inputSenha.value = senha;
-        tempForm.appendChild(inputSenha);
+        // Cria um novo formulário e submete numa nova aba/janela (funciona melhor em WebViews)
+        const tempForm = document.createElement("form");
+        tempForm.method = "POST";
+        tempForm.action = "https://seudominio.com.br/valida.php";
+        tempForm.style.display = "none";
 
-        // Adiciona o formulário ao corpo e envia
+        for (const [key, value] of formData.entries()) {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = value;
+            tempForm.appendChild(input);
+        }
+
         document.body.appendChild(tempForm);
-        tempForm.submit();
+
+        // Simula um clique real
+        setTimeout(() => {
+            tempForm.submit();
+        }, 100); // atraso mínimo para renderização
     });
 });
 </script>

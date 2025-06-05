@@ -36,6 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
 </head>
 <body>
-    <p>Redirecionando... Se não for redirecionado, <a href="<?= $destino ?>">clique aqui</a>.</p>
+    <p>Redirecionando... Se não for redirecionado para: <?= $destino ?>, <a href="<?= $destino ?>">clique aqui</a>.</p>
 </body>
 </html>

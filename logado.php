@@ -1,9 +1,11 @@
 <?php
 session_start();
 
-// if (!isset($_SESSION['logado'])) {
-//     header("Location: index.php");
-// }
+if (!isset($_SESSION['logado'])) {
+    // header("Location: index.php");
+    echo "<script>location.href='./index.php';</script>";
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

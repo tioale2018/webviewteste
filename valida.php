@@ -28,5 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 //echo $destino;
 
-header("Location: $destino");
+// header("Location: $destino");
+echo "<script>location.href='$destino';</script>";
 ?>

@@ -26,5 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-echo $destino;
+//echo $destino;
+
+header("Location: $destino");
 ?>

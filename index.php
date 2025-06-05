@@ -25,7 +25,7 @@ session_start();
                     Login
                 </div>
                 <div class="card-body">
-                    <form action="valida.php" method="GET">
+                    <form action="valida.php" method="POST">
                         <div class="form-group">
                             <label for="email">E-mail</label>
                             <input type="email" name="email" id="email" class="form-control">
@@ -59,20 +59,35 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", function (e) {
         e.preventDefault(); // impede o envio padrão
 
+        // Cria dinamicamente um novo formulário (ou reusa o atual)
+        const tempForm = document.createElement("form");
+        tempForm.action = form.action;
+        tempForm.method = form.method;
+        tempForm.style.display = "none";
+
+        // Adiciona os campos ao novo formulário
         const email = document.getElementById("email").value;
         const senha = document.getElementById("senha").value;
 
-        // codifica os dados para inclusão segura na URL
-        const query = new URLSearchParams({
-            email: email,
-            senha: senha
-        }).toString();
+        const inputEmail = document.createElement("input");
+        inputEmail.type = "hidden";
+        inputEmail.name = "email";
+        inputEmail.value = email;
+        tempForm.appendChild(inputEmail);
 
-        // redireciona manualmente para o script PHP
-        window.location.href = form.action + "?" + query;
+        const inputSenha = document.createElement("input");
+        inputSenha.type = "hidden";
+        inputSenha.name = "senha";
+        inputSenha.value = senha;
+        tempForm.appendChild(inputSenha);
+
+        // Adiciona o formulário ao corpo e envia
+        document.body.appendChild(tempForm);
+        tempForm.submit();
     });
 });
 </script>
+
 
 </body>
 </html>

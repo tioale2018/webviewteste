@@ -28,11 +28,11 @@ session_start();
                     <form action="https://webview.sophx.com.br/valida.php" method="POST">
                         <div class="form-group">
                             <label for="email">E-mail</label>
-                            <input type="email" name="email" id="email" class="form-control">
+                            <input type="email" name="email" id="email" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="senha">Senha</label>
-                            <input type="password" name="senha" id="senha" class="form-control">
+                            <input type="password" name="senha" id="senha" class="form-control" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Entrar</button>
                         <a href="cadastro.php" class="btn btn-primary cadastrar">Cadastrar</a>

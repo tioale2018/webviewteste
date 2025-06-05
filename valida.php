@@ -1,4 +1,6 @@
 <?php
+header("Location: logado.php");
+/*
 session_start();
 include_once "conexao.php";
 
@@ -21,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -39,3 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p>Redirecionando... Se não for redirecionado para: <?= $destino ?>, <a href="<?= $destino ?>">clique aqui</a>.</p>
 </body>
 </html>
+
+*/
+?>

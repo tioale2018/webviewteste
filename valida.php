@@ -1,6 +1,6 @@
 <?php
-header("Location: logado.php");
-/*
+// header("Location: logado.php");
+
 session_start();
 include_once "conexao.php";
 
@@ -20,27 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->rowCount() > 0) {
             $_SESSION['logado'] = true;
             $destino = "logado.php";
+        } else {
+            $destino = "index.php";
         }
     }
 }
 
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Redirecionando...</title>
-    <script>
-        // Redireciona de forma confiável via JavaScript
-        window.onload = function () {
-            window.location.href = "<?= $destino ?>";
-        };
-    </script>
-</head>
-<body>
-    <p>Redirecionando... Se não for redirecionado para: <?= $destino ?>, <a href="<?= $destino ?>">clique aqui</a>.</p>
-</body>
-</html>
-
-*/
+echo $destino;
 ?>

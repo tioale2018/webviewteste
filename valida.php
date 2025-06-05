@@ -1,9 +1,9 @@
 <?php
 session_start();
-//verifica GET
-if (isset($_GET['email']) && isset($_GET['senha'])) {
-    $email = $_GET['email'];
-    $senha = $_GET['senha'];
+//verifica POST
+if (isset($_POST['email']) && isset($_POST['senha'])) {
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
     include_once "conexao.php";
 

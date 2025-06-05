@@ -43,7 +43,6 @@ session_start();
     </div>
 </div>
 
-
 <script src="./bootstrap/js/bootstrap.min.js"></script>
 <script>
     document.querySelector('.cadastrar').addEventListener('click', function(e) {

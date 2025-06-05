@@ -45,10 +45,10 @@ session_start();
 
 <script src="./bootstrap/js/bootstrap.min.js"></script>
 <script>
-    document.querySelector('.cadastrar').addEventListener('click', function(e) {
-        e.preventDefault();
-        location.href = 'logado.php';
-    });
+    // document.querySelector('.cadastrar').addEventListener('click', function(e) {
+    //     e.preventDefault();
+    //     location.href = 'logado.php';
+    // });
 </script>
 
 <script>

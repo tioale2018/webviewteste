@@ -40,7 +40,6 @@ session_start();
                             </div>
                         <?php endif; ?>
                         <button type="submit" class="btn btn-primary">Entrar</button>
-                        <a href="logado.php" class="btn btn-primary cadastrar">Cadastrar</a>
                     </form>
                 </div>
             </div>

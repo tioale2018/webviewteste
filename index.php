@@ -4,7 +4,18 @@ session_start();
 // if (isset($_SESSION['logado'])) {
 //     header("Location: logado.php");
 // }
+
+// protect.php – inclua no início das suas páginas
+$ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+
+if (strpos($ua, 'SophxApp/1.0') === false) {
+    // header('Location: ./erro.php');
+    echo "<script>location.href='./erro.php';</script>";
+    exit;
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

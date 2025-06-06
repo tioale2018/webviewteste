@@ -21,7 +21,6 @@ if (!isset($_SESSION['logado'])) {
 include_once "conexao.php";
 include_once "menu.php"; 
 
-
 $sql = "select * from pessoas";
 
 $result = $connPDO->query($sql);

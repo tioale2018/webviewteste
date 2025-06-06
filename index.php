@@ -1,6 +1,6 @@
 <?php
-session_start();
-
+// session_start();
+/*
 if (isset($_SESSION['logado'])) {
     // header("Location: logado.php");
     echo "<script>location.href='./logado.php';</script>";
@@ -15,6 +15,7 @@ if (strpos($ua, 'SophxApp/1.0') === false) {
     echo "<script>location.href='./erro.php';</script>";
     exit;
 }
+*/
 ?>
 
 
@@ -25,20 +26,26 @@ if (strpos($ua, 'SophxApp/1.0') === false) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <style>
+        .area-login {
+            /* height: 100vh!important; */
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
 
 <!-- tela de login com bootstrap -->
 
-<div class="container">
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center area-login">
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card vw-100">
                 <div class="card-header">
                     Login
                 </div>
                 <div class="card-body">
-                    <form action="https://webview.sophx.com.br/valida.php" method="POST">
+                    <form action="dashboard.php" method="POST">
                         <div class="form-group">
                             <label for="email">E-mail</label>
                             <input type="email" name="email" id="email" class="form-control" required>
@@ -68,45 +75,6 @@ if (strpos($ua, 'SophxApp/1.0') === false) {
     // });
 </script>
 
-<script>
-    /*
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
-
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const email = document.getElementById("email").value;
-        const senha = document.getElementById("senha").value;
-
-        const formData = new FormData();
-        formData.append("email", email);
-        formData.append("senha", senha);
-
-        // Cria um novo formulário e submete numa nova aba/janela (funciona melhor em WebViews)
-        const tempForm = document.createElement("form");
-        tempForm.method = "POST";
-        tempForm.action = "https://webview.sophx.com.br/valida.php";
-        tempForm.style.display = "none";
-
-        for (const [key, value] of formData.entries()) {
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = key;
-            input.value = value;
-            tempForm.appendChild(input);
-        }
-
-        document.body.appendChild(tempForm);
-
-        // Simula um clique real
-        setTimeout(() => {
-            tempForm.submit();
-        }, 100); // atraso mínimo para renderização
-    });
-});
-*/
-</script>
 
 
 </body>

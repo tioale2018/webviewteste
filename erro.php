@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Sem permissão para esta página</h1>
+    <h1>Sem permissão para esta páginas</h1>
     
     <script src="./bootstrap/js/bootstrap.min.js"></script>
 </body>

@@ -6,7 +6,7 @@ if (isset($_SESSION['logado'])) {
     echo "<script>location.href='./logado.php';</script>";
     exit;
 }
-
+/*
 // protect.php – inclua no início das suas páginas
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
@@ -15,7 +15,7 @@ if (strpos($ua, 'SophxApp/1.0') === false) {
     echo "<script>location.href='./erro.php';</script>";
     exit;
 }
-
+*/
 ?>
 
 

@@ -1,6 +1,6 @@
 <?php
 // session_start();
-/*
+
 if (isset($_SESSION['logado'])) {
     // header("Location: logado.php");
     echo "<script>location.href='./logado.php';</script>";
@@ -15,7 +15,7 @@ if (strpos($ua, 'SophxApp/1.0') === false) {
     echo "<script>location.href='./erro.php';</script>";
     exit;
 }
-*/
+
 ?>
 
 

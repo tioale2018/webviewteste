@@ -3,7 +3,8 @@ $server_name = $_SERVER['SERVER_NAME'];
 $servername  = "localhost";
 $username    = "root";
 $password    = "";
-$database    = "bdwebview";
+// $database    = "bdwebview";
+$database    = "inscricao-editais";
 
 if ($server_name == 'webview.sophx.com.br') {
   $username = "comsophxadm_userbd";

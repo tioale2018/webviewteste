@@ -1,0 +1,51 @@
+/* Primary color override */
+body {
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+}
+.bg-primary {
+  background-color: #1cb3bb !important;
+}
+.btn-primary {
+  background-color: #1cb3bb !important;
+  border-color: #1cb3bb !important;
+  color: rgb(255, 255, 255) !important;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #2fd0d3 !important;
+  border-color: #2fd0d3 !important;
+  color: rgb(255, 255, 255);
+}
+.text-primary {
+  color: #1cb3bb !important;
+}
+.nav-link.active.text-primary {
+  background-color: rgba(52, 232, 235, 0.2) !important;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #1cb3bb !important;
+  color: rgb(255, 255, 255) !important;
+}
+
+.nav-link {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #1cb3bb3f !important;
+  color: #000 !important;
+}
+
+.section-title {
+  font-weight: 600;
+  font-size: 1rem;
+  background: #f8f9fa;
+  padding: 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+}
+.card {
+  margin-bottom: 1rem;
+}
+.file-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+}

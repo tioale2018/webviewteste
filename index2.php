@@ -1,9 +1,9 @@
 <?php
 // session_start();
 
-if (isset($_SESSION['loggedin'])) {
+if (isset($_SESSION['logado'])) {
     // header("Location: logado.php");
-    echo "<script>location.href='./lista_editais.php';</script>";
+    echo "<script>location.href='./logado.php';</script>";
     exit;
 }
 /*
@@ -39,14 +39,14 @@ if (strpos($ua, 'SophxApp/1.0') === false) {
       <img src="src/logo.svg" alt="Logo" class="img-fluid" style="height: 100px;">
     </div>
     <h5 class="text-center mb-3 fw-semibold">Acesso ao Sistema</h5>
-    <form action="login.php" method="POST">
+    <form action="dashboard.php" method="POST">
       <div class="mb-3">
-        <label for="documento" class="form-label">CNPJ/CPF</label>
+        <label for="email" class="form-label">E-mail</label>
         <div class="input-group">
           <span class="input-group-text bg-white">
             <i class="bi bi-envelope"></i>
           </span>
-          <input type="number" name="documento" id="documento" class="form-control" placeholder="Digite seu CNPJ/CPF" required>
+          <input type="email" name="email" id="email" class="form-control" placeholder="Digite seu e-mail" required>
         </div>
       </div>
       <div class="mb-3">
@@ -58,12 +58,11 @@ if (strpos($ua, 'SophxApp/1.0') === false) {
           <input type="password" name="senha" id="senha" class="form-control" placeholder="Digite sua senha" required>
         </div>
       </div>
-      <?php if (isset($_GET['error']) && $_GET['error'] == 1): ?>
+      <?php if (isset($_GET['erro']) && $_GET['erro'] == 1): ?>
         <div class="alert alert-danger" role="alert">
-          Documento ou senha inválidos!
+          E-mail ou senha inválidos!
         </div>
       <?php endif; ?>
-      <input type="hidden" name="login" value="1">
       <button type="submit" class="btn btn-primary w-100">Entrar</button>
     </form>
   </div>

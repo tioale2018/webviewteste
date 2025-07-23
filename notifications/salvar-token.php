@@ -8,7 +8,7 @@ $token = $data['token'] ?? null;
 
 if ($cpf && $token) {
     try {
-        $stmt = $pdo->prepare("INSERT IGNORE INTO tokens (cpf, token) VALUES (?, ?)");
+        $stmt = $connPDO->prepare("INSERT IGNORE INTO tokens (cpf, token) VALUES (?, ?)");
         $stmt->execute([$cpf, $token]);
         echo json_encode(['success' => true, 'message' => 'Token vinculado ao CPF com sucesso.']);
     } catch (PDOException $e) {

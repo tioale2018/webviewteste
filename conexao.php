@@ -7,9 +7,9 @@ $password    = "";
 $database    = "inscricao-editais";
 
 if ($server_name == 'webview.sophx.com.br') {
-  $username = "comsophxadm_userbd";
-  $password = "wOJCqMYH=[i@";
-  $database = "comsophxadm_bdwebview";
+  $username = getenv('DB_USERNAME');
+  $password = getenv('DB_PASSWORD');
+  $database = getenv('DB_DATABASE');
 } 
 
 date_default_timezone_set('America/Sao_Paulo');

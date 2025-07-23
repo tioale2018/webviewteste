@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 // Obter a Server Key de uma variável de ambiente segura
-$serverKey = getenv('FIREBASE_API_KEY'); // ⚠️ configure essa variável no seu servidor
+$serverKey = 'firebase-adminsdk-fbsvc@fcm-messaging-6e953.iam.gserviceaccount.com'; // ⚠️ configure essa variável no seu servidor
 
 // Lê o JSON enviado no body da requisição
 $input = json_decode(file_get_contents('php://input'), true);

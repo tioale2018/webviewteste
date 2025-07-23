@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 // Obter a Server Key de uma variável de ambiente segura
-$serverKey = 'AIzaSyBHu2hZ2fW4W0LnSB_XFDhtejtOuRzFEOc'; // ⚠️ configure essa variável no seu servidor
+$serverKey = ''; // ⚠️ configure essa variável no seu servidor
 
 // Lê o JSON enviado no body da requisição
 $input = json_decode(file_get_contents('php://input'), true);

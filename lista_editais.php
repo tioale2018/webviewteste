@@ -1,5 +1,10 @@
+<?php
+session_start();
+$cpf = $_SESSION['cpf'] ?? null;
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,10 +13,18 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
 </head>
-<body class="bg-light">
 
+<body class="bg-light">
+  <?php if ($cpf): ?>
+    <script>
+      window.ReactNativeWebView?.postMessage(JSON.stringify({
+        tipo: 'autenticacao',
+        cpf: '<?= $cpf ?>'
+      }));
+    </script>
+  <?php endif; ?>
   <?php include_once "navbar.php";
-        
+
   $editais = getEditaisAtivos();
 
   echo '<main class="container-fluid py-3">
@@ -27,7 +40,7 @@
               <div class="mb-2">
                 <span class="fw-semibold">' . htmlspecialchars($edital['titulo']) . '</span>
               </div>
-            <span class="badge bg-' . $status . ' rounded-pill my-2">'. $statusText . '</span>
+            <span class="badge bg-' . $status . ' rounded-pill my-2">' . $statusText . '</span>
               <div class="d-flex w-100 justify-content-between">
                 <small class="text-muted">' . date('d/m/Y', $edital['datacria']) . ' - ' . date('d/m/Y', $edital['datafecha']) . '</small>
              
@@ -126,4 +139,5 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

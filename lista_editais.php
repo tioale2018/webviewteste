@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 $cpf = $_SESSION['cpf'] ?? null;
 ?>
 <!DOCTYPE html>

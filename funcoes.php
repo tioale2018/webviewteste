@@ -181,3 +181,31 @@ function getPendencias($id) {
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
+
+
+function verificaUltimoTokenAtivo($token) {
+    global $connPDO;
+    
+    $stmt = $connPDO->prepare("SELECT * FROM tokens WHERE token = :token AND ativo = 1 LIMIT 1 ORDER BY data_criacao DESC");
+    $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+    $stmt->execute();
+    
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Token ativo
+    } else {
+        return false; // Token n o encontrado
+    }
+}
+
+function getTokensAtivos() {
+    global $connPDO;
+    
+    $stmt = $connPDO->prepare("SELECT * FROM tokens WHERE ativo = 1");
+    $stmt->execute();
+    
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os tokens ativos
+    } else {
+        return []; // Nenhum token ativo encontrado
+    }
+}

@@ -1,18 +1,34 @@
 <?php
-header('Content-Type: application/json');
+require __DIR__ . '/../vendor/autoload.php';
 
-// Obter a Server Key de uma variável de ambiente segura
-$serverKey = ''; // ⚠️ configure essa variável no seu servidor
+use Google\Client;
+use GuzzleHttp\RequestOptions;
+
+
+
+// var_dump(file_exists(__DIR__ . '/../firebase_credentials.json'));
+// die();
+
+// Carrega as credenciais da conta de serviço
+
+if (getenv('SERVER_NAME') == 'webview.sophx.com.br') {
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=/home/comsophxadm/firebase_credentials.json');
+} else {
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . __DIR__ . '/../firebase_credentials.json');
+}
+
+
+$client = new Client();
+$client->useApplicationDefaultCredentials();
+$client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+
+$httpClient = $client->authorize();
+
+// ID do projeto (do seu JSON)
+$projectId = $_ENV['FIREBASE_ID_PROJECT'];
 
 // Lê o JSON enviado no body da requisição
 $input = json_decode(file_get_contents('php://input'), true);
-
-// Verificações básicas
-if (!$serverKey) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'FIREBASE_API_KEY não está definida no ambiente.']);
-    exit;
-}
 
 $token = $input['token'] ?? null;
 $title = $input['title'] ?? 'Notificação';
@@ -24,37 +40,31 @@ if (!$token) {
     exit;
 }
 
-// Monta os dados da notificação
-$notification = [
-    'title' => $title,
-    'body' => $body,
+// Monta a mensagem no formato da API v1
+$message = [
+    'message' => [
+        'token' => $token,
+        'notification' => [
+            'title' => $title,
+            'body' => $body,
+        ],
+        'data' => [
+            'extra_info' => 'valor opcional'
+        ]
+    ]
 ];
 
-$data = [
-    'to' => $token,
-    'notification' => $notification,
-    'priority' => 'high',
-];
+// Envia a requisição para a API v1
+$response = $httpClient->request('POST',
+    "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send",
+    [
+        RequestOptions::JSON => $message
+    ]
+);
 
-$headers = [
-    'Authorization: key=' . $serverKey,
-    'Content-Type: application/json',
-];
-
-// Envia a requisição para o FCM
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
 
 // Retorna a resposta
 echo json_encode([
-    'success' => $httpCode === 200,
-    'response' => json_decode($response, true),
+    'success' => true,
+    'response' => json_decode($response->getBody(), true),
 ]);

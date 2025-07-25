@@ -40,7 +40,7 @@ include_once "funcoes.php";
       <h5 class="text-center mb-3 fw-semibold">Acesso ao Sistema</h5>
 
       <!-- MOSTRAR TOKEN RECEBIDO AQUI -->
-      <div id="token-recebido" class="alert alert-info d-none" role="alert"></div>
+      <div id="token-recebido" class="alert alert-info" role="alert"></div>
 
       <form action="login.php" method="POST">
         <div class="mb-3">

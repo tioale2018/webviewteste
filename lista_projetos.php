@@ -29,7 +29,7 @@
     <!-- Tabs as Nav Pills -->
     <ul class="nav nav-pills mb-3" id="tabs" role="tablist">
       <li class="nav-item m-1" role="presentation">
-        <button class="nav-link active" id="tab-abertos" data-bs-toggle="pill" data-bs-target="#pane-abertos" type="button" role="tab">Inscrições Abertas</button>
+        <button class="nav-link active" id="tab-abertos" data-bs-toggle="pill" data-bs-target="#pane-abertos" type="button" role="tab">Não submetidos</button>
       </li>
       <li class="nav-item m-1" role="presentation">
         <button class="nav-link" id="tab-submetidos" data-bs-toggle="pill" data-bs-target="#pane-submetidos" type="button" role="tab">Submetidos</button>

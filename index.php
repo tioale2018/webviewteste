@@ -109,13 +109,13 @@ include_once "funcoes.php";
                 if (res.status === 'sucesso' && res.cpf) {
                   document.getElementById('documento').value = res.cpf;
                 } else {
-                  console.warn('CPF não encontrado:', res.mensagem);
+                  alert('CPF não encontrado:', res.mensagem);
                 }
               })
-              .catch(err => console.error('Erro ao buscar CPF:', err));
+              .catch(err => alert('Erro ao buscar CPF:', err));
           }
         } catch (e) {
-          console.error('Erro ao interpretar mensagem:', e);
+          alert('Erro ao interpretar mensagem:', e);
         }
       })
     };

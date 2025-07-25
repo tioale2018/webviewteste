@@ -209,3 +209,26 @@ function getTokensAtivos() {
         return []; // Nenhum token ativo encontrado
     }
 }
+
+
+function salvarToken($cpf, $token) {
+    global $connPDO;
+
+    if ($cpf && $token) {
+        try {
+            $stmt = $connPDO->prepare("INSERT IGNORE INTO tokens (cpf, token) VALUES (?, ?)");
+            $stmt->execute([$cpf, $token]);
+            return ['success' => true, 'message' => 'Token vinculado ao CPF com sucesso.'];
+        } catch (PDOException $e) {
+            http_response_code(500);
+            return [
+                'success' => false,
+                'message' => 'Erro ao salvar.',
+                'error' => $e->getMessage()
+            ];
+        }
+    } else {
+        http_response_code(400);
+        return ['success' => false, 'message' => 'CPF ou token ausente.'];
+    }
+}

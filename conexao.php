@@ -7,9 +7,10 @@ $password    = "";
 $database    = "inscricao-editais";
 
 if ($server_name == 'webview.sophx.com.br') {
-  $username = getenv('DB_USERNAME');
-  $password = getenv('DB_PASSWORD');
-  $database = getenv('DB_DATABASE');
+  $username = $_ENV['DB_USERNAME'] ?? '';
+  $password = $_ENV['DB_PASSWORD'] ?? '';
+  $database = $_ENV['DB_DATABASE'] ?? '';
+
 } 
 
 date_default_timezone_set('America/Sao_Paulo');

@@ -106,6 +106,7 @@ include_once "funcoes.php";
               .then(response => response.json())
               .then(res => {
                 if (res.status === 'sucesso' && res.cpf) {
+                  alert('CPF encontrado:', res.cpf);
                   document.getElementById('documento').value = res.cpf;
                 } else {
                   alert('CPF não encontrado:', res.mensagem);

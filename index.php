@@ -2,14 +2,56 @@
 // session_start();
 require __DIR__ . '/vendor/autoload.php';
 
+
+
+// Detecta o ambiente automaticamente
+$server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
+$is_production = ($server_name === 'webview.sophx.com.br');
+
+// Define o caminho base do projeto
+$base_path = $is_production ? '/home/comsophxadm/webview.sophx.com.br' : __DIR__;
+
+// Caminho para o autoload do Composer
+$autoload_path = $base_path . '/vendor/autoload.php';
+
+// Verifica se o autoload existe
+if (!file_exists($autoload_path)) {
+    die("Erro: O arquivo 'vendor/autoload.php' não foi encontrado. Execute 'composer install' no diretório: $base_path");
+}
+
+// Carrega o autoload
+require $autoload_path;
+
+// Verifica se a classe Dotenv existe
+if (!class_exists(Dotenv\Dotenv::class)) {
+    die("Erro: A biblioteca vlucas/phpdotenv não está instalada. Adicione-a com 'composer require vlucas/phpdotenv'");
+}
+
 use Dotenv\Dotenv;
+
+// Caminho para o .env
+$env_path = $is_production ? '/home/comsophxadm' : __DIR__;
+
+// Verifica se o arquivo .env existe
+if (!file_exists($env_path . '/.env')) {
+    die("Erro: O arquivo .env não foi encontrado em: $env_path");
+}
+
+// Carrega as variáveis de ambiente
+$dotenv = Dotenv::createImmutable($env_path);
+$dotenv->load();
+
+// Exemplo de uso de variável de ambiente
+echo "Ambiente carregado com sucesso. Variável TESTE = " . ($_ENV['TESTE'] ?? 'não definida');
+
+
+// use Dotenv\Dotenv;
 
 $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
 
 if ($server_name == 'webview.sophx.com.br') {
   $dotenv = Dotenv::createImmutable('/home/comsophxadm');
   $dotenv->load();
-  $dotenv->required(['DB_USERNAME', 'DB_PASSWORD', 'DB_DATABASE', 'FIREBASE_API_KEY', 'FIREBASE_ID_PROJECT']);
 } else  {
   // Local development
   $dotenv = Dotenv::createImmutable(__DIR__);

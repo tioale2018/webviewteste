@@ -1,4 +1,6 @@
 <?php
+require __DIR__ . '/../vendor/autoload.php';
+
 include_once "../conexao.php";
 header('Content-Type: application/json');
 

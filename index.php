@@ -4,40 +4,32 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
+$server_name='localhost';
+
 if ($server_name == 'webview.sophx.com.br') {
   $dotenv = Dotenv::createImmutable('/home/comsophxadm');
   $dotenv->load();
-} else {
+} else  {
   // Local development
   $dotenv = Dotenv::createImmutable(__DIR__);
   $dotenv->load();
 }
-
+/*
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
 if (strpos($ua, 'Desenvolve-Mobile') === false) {
   echo "<script>location.href='./erro.php';</script>";
   exit;
 }
-
-include_once "conexao.php";
-include_once "funcoes.php";
-
+*/
 if (isset($_SESSION['loggedin'])) {
   // header("Location: logado.php");
   echo "<script>location.href='./lista_editais.php';</script>";
   exit;
 }
-/*
-// protect.php – inclua no início das suas páginas
-$ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
-if (strpos($ua, 'SophxApp/1.0') === false) {
-    // header('Location: ./erro.php');
-    echo "<script>location.href='./erro.php';</script>";
-    exit;
-}
-*/
+include_once "conexao.php";
+include_once "funcoes.php";
 
 
 ?>
@@ -97,7 +89,7 @@ if (strpos($ua, 'SophxApp/1.0') === false) {
 
   <script>
     if (navigator.userAgent.includes('Desenvolve-Mobile')) {
-      window.addEventListener('message', function(event) {
+   document.addEventListener('message', function(event) {
         try {
           const data = JSON.parse(event.data);
           if (data.tipo === 'token') {

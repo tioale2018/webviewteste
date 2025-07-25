@@ -1,5 +1,5 @@
 <?php
-
+include_once "../bootstrap.php";
 include_once "../conexao.php";
 include_once "../funcoes.php";
 
@@ -9,5 +9,8 @@ $data = json_decode(file_get_contents('php://input'), true);
 $cpf = $data['cpf'] ?? null;
 $token = $data['token'] ?? null;
 
-salvarToken($cpf, $token);
+
+$response = salvarToken($cpf, $token);
+echo json_encode($response);
+
 

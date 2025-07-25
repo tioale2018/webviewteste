@@ -13,14 +13,14 @@ if ($server_name == 'webview.sophx.com.br') {
   $dotenv = Dotenv::createImmutable(__DIR__);
   $dotenv->load();
 }
-/*
+
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
 if (strpos($ua, 'Desenvolve-Mobile') === false) {
   echo "<script>location.href='./erro.php';</script>";
   exit;
 }
-*/
+
 if (isset($_SESSION['loggedin'])) {
   // header("Location: logado.php");
   echo "<script>location.href='./lista_editais.php';</script>";

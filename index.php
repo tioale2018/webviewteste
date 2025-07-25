@@ -16,10 +16,12 @@ if ($server_name == 'webview.sophx.com.br') {
 
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
+/*
 if (strpos($ua, 'Desenvolve-Mobile') === false) {
   echo "<script>location.href='./erro.php';</script>";
   exit;
 }
+*/
 
 if (isset($_SESSION['loggedin'])) {
   // header("Location: logado.php");

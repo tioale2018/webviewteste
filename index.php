@@ -4,7 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-$server_name='localhost';
+$server_name = $_SERVER['SERVER_NAME'];
 
 if ($server_name == 'webview.sophx.com.br') {
   $dotenv = Dotenv::createImmutable('/home/comsophxadm');

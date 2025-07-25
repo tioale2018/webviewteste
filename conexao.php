@@ -7,7 +7,6 @@ $password    = "";
 $database    = "inscricao-editais";
 
 if ($server_name == 'webview.sophx.com.br') {
-  die('Servidor não configurado para este ambiente.');
   $username = $_ENV['DB_USERNAME'];
   $password = $_ENV['DB_PASSWORD'];
   $database = $_ENV['DB_DATABASE'];

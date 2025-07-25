@@ -25,7 +25,8 @@ $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
 $httpClient = $client->authorize();
 
 // ID do projeto (do seu JSON)
-$projectId = $_ENV['FIREBASE_ID_PROJECT'];
+// $projectId = getenv('FIREBASE_ID_PROJECT') ?: 'fcm-messaging-6e953';
+include("../../variaveis/variaveis.php");
 
 // Lê o JSON enviado no body da requisição
 $input = json_decode(file_get_contents('php://input'), true);

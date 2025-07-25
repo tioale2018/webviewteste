@@ -93,6 +93,7 @@ include_once "funcoes.php";
           const data = JSON.parse(event.data);
           if (data.tipo === 'token') {
             const token = data.token;
+            alert('Token recebido:', token);
 
             fetch('buscar-cpf.php', {
                 method: 'POST',

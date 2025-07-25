@@ -9,6 +9,8 @@ $data = json_decode(file_get_contents('php://input'), true);
 $cpf = $data['cpf'] ?? null;
 $token = $data['token'] ?? null;
 
+file_put_contents('log.txt', json_encode($data));
+
 if ($cpf && $token) {
     try {
         $stmt = $connPDO->prepare("INSERT IGNORE INTO tokens (cpf, token) VALUES (?, ?)");

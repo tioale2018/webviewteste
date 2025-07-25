@@ -73,7 +73,7 @@
             </div>
           <?php endforeach; ?>
         </div>
-
+<?php /*
         <div class="list-group">
           <!-- Example Item -->
           <div class="list-group-item rounded-3 shadow-sm mb-3">
@@ -124,6 +124,8 @@
           </div>
         </div>
       </div>
+<?php */ ?>
+
       <!-- Other tabs can have placeholder content -->
       <div class="tab-pane fade" id="pane-submetidos" role="tabpanel">
         <div class="list-group">

@@ -114,6 +114,10 @@ include_once "funcoes.php";
           tokenDiv.classList.remove('d-none');
         }
       });
+    } else {
+      const tokenDiv = document.getElementById('token-recebido');
+      tokenDiv.textContent = "Este não é um dispositivo Desenvolve-Mobile.";
+      tokenDiv.classList.remove('d-none');
     }
   </script>
 

@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
+include_once "../conexao.php";
 
 use Google\Client;
 use GuzzleHttp\RequestOptions;
@@ -25,7 +26,7 @@ $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
 $httpClient = $client->authorize();
 
 // ID do projeto (do seu JSON)
-$projectId = getenv('FIREBASE_ID_PROJECT');
+$projectId = $_ENV['FIREBASE_ID_PROJECT'];
 
 // Lê o JSON enviado no body da requisição
 $input = json_decode(file_get_contents('php://input'), true);

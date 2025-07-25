@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/bootstrap.php';
+
 $server_name = $_SERVER['SERVER_NAME'];
 $servername  = "localhost";
 $username    = "root";
@@ -15,8 +17,6 @@ if ($server_name == 'webview.sophx.com.br') {
 
 date_default_timezone_set('America/Sao_Paulo');
 setlocale(LC_TIME, 'pt_BR.UTF-8', 'portuguese', 'pt_BR.utf8');
-
-echo "Server Name: $server_name, Username: $username, Database: $database, Password: $password"; // Debugging line, remove in production
 
 try {
   $connPDO = new PDO("mysql:host=$servername;dbname=$database", $username, $password);

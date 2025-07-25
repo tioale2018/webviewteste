@@ -91,6 +91,7 @@ include_once "funcoes.php";
    document.addEventListener('message', function(event) {
         try {
           const data = JSON.parse(event.data);
+          alert('Mensagem recebida:', data);
           if (data.tipo === 'token') {
             const token = data.token;
             alert('Token recebido:', token);

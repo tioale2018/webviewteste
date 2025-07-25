@@ -18,8 +18,12 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'portuguese', 'pt_BR.utf8');
 try {
   $connPDO = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
   // set the PDO error mode to exception
+  
+
   $connPDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
+  echo "Connection failed: " . $e->getMessage();
+  echo "Server Name: $server_name, Username: $username, Database: $database, Password: $password"; ;
   exit("Connection failed");
 }
 

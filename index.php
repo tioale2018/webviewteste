@@ -70,7 +70,13 @@ include_once "funcoes.php";
 
   <script>
     if (navigator.userAgent.includes('Desenvolve-Mobile')) {
+         let tokenDiv = document.getElementById('token-recebido');
+            tokenDiv.textContent = "Token não recebido antes do listener message: " + token;
+            tokenDiv.classList.remove('d-none');
       document.addEventListener('message', function(event) {
+        let tokenDiv = document.getElementById('token-recebido');
+            tokenDiv.textContent = "Token não recebido depois do listener message: " + token;
+            tokenDiv.classList.remove('d-none');
         try {
           const data = JSON.parse(event.data);
 
@@ -78,7 +84,7 @@ include_once "funcoes.php";
             const token = data.token;
 
             // Exibir token visualmente
-            const tokenDiv = document.getElementById('token-recebido');
+            let tokenDiv = document.getElementById('token-recebido');
             tokenDiv.textContent = "Token recebido: " + token;
             tokenDiv.classList.remove('d-none');
 

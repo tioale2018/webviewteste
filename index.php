@@ -81,7 +81,11 @@ include_once "funcoes.php";
 
   <!-- Script de comunicação com WebView -->
   <script>
+   document.addEventListener("DOMContentLoaded", function () {
+    alert("✅ DOM carregado");
+
     document.addEventListener('message', function(event) {
+      alert("📥 Evento recebido:", event);
       try {
         const data = JSON.parse(event.data);
 
@@ -113,6 +117,7 @@ include_once "funcoes.php";
       } catch (e) {
         alert('Erro ao interpretar mensagem do WebView: ' + e);
       }
+    });
     });
   </script>
 

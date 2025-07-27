@@ -9,7 +9,7 @@ if (!isset($input['token'])) {
     exit;
 }
 
-$token = trim($input['token']);
+$token = $input['token'];
 $dadosToken = verificaUltimoTokenAtivo($token);
 
 if ($dadosToken && isset($dadosToken['cpf'])) {

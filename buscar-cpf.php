@@ -18,6 +18,5 @@ $dadosToken = verificaUltimoTokenAtivo($token);
 if ($dadosToken && isset($dadosToken['cpf'])) {
     echo json_encode(['status' => 'sucesso', 'cpf' => $dadosToken['cpf']]);
 } else {
-    // echo json_encode(['status' => 'erro', 'mensagem' => 'CPF não encontrado para o token']);
-    echo json_encode(['status' => 'erro', 'mensagem' => $dadosToken]);
+    echo json_encode(['status' => 'erro', 'mensagem' => 'CPF não encontrado para o token']);
 }

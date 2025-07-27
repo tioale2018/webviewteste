@@ -111,7 +111,7 @@ include_once "funcoes.php";
   </script>
   <script>
    document.addEventListener("DOMContentLoaded", function () {
-    alert("✅ DOM carregado");
+    // alert("✅ DOM carregado");
     if (window.ReactNativeWebView) {
       // alert("📱 App detectado");
       window.ReactNativeWebView.postMessage(JSON.stringify({ tipo: 'pagina', pagina: 'login' }));

@@ -102,7 +102,11 @@ include_once "funcoes.php";
         alert('CPF não encontrado: ' + res.mensagem);
       }
     })
-    .catch(err => getElementById('error').innerHTML = err);
+    .catch(err => {
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = err;
+        errorDiv.style.display = 'block';
+    });
   }
   </script>
   <script>

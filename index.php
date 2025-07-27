@@ -56,7 +56,7 @@ include_once "funcoes.php";
             <span class="input-group-text bg-white">
               <i class="bi bi-envelope"></i>
             </span>
-            <input type="number" name="documento" id="documento" class="form-control" placeholder="Digite seu CNPJ/CPF" required>
+           <input type="text" name="documento" id="documento" class="form-control" placeholder="Digite seu CNPJ/CPF" required inputmode="numeric" pattern="[0-9]*">
           </div>
         </div>
         <div class="mb-3">

@@ -101,7 +101,7 @@ include_once "funcoes.php";
         alert('CPF não encontrado: ' + res.mensagem);
       }
     })
-    .catch(err => alert('Erro ao buscar CPF: ' + err));
+    .catch(err => alert(err));
   }
   </script>
   <script>

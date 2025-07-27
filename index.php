@@ -80,16 +80,9 @@ include_once "funcoes.php";
   </div>
 
   <!-- Script de comunicação com WebView -->
+
   <script>
-   document.addEventListener("DOMContentLoaded", function () {
-    alert("✅ DOM carregado");
-    if (window.ReactNativeWebView) {
-      alert("📱 App detectado");
-      window.ReactNativeWebView.postMessage(JSON.stringify({ tipo: 'pagina', pagina: 'login' }));
-    } else {
-      alert("🌐 Navegador detectado");
-    }
-  function receberTokenDoApp(token) {
+    function receberTokenDoApp(token) {
     alert("📥 Token recebido do app: " + token);
 
     fetch('buscar-cpf.php', {
@@ -110,6 +103,16 @@ include_once "funcoes.php";
     })
     .catch(err => alert('Erro ao buscar CPF: ' + err));
   }
+  </script>
+  <script>
+   document.addEventListener("DOMContentLoaded", function () {
+    alert("✅ DOM carregado");
+    if (window.ReactNativeWebView) {
+      alert("📱 App detectado");
+      window.ReactNativeWebView.postMessage(JSON.stringify({ tipo: 'pagina', pagina: 'login' }));
+    } else {
+      alert("🌐 Navegador detectado");
+    }
 });
 </script>
 

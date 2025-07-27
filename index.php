@@ -49,6 +49,7 @@ include_once "funcoes.php";
         <img src="src/logo.svg" alt="Logo" class="img-fluid" style="height: 100px;">
       </div>
       <h5 class="text-center mb-3 fw-semibold">Acesso ao Sistema</h5>
+      <div id="error"></div>
       <form action="login.php" method="POST">
         <div class="mb-3">
           <label for="documento" class="form-label">CNPJ/CPF</label>
@@ -82,7 +83,7 @@ include_once "funcoes.php";
   <!-- Script de comunicação com WebView -->
 
   <script>
-    function receberTokenDoApp(token) {
+    window.receberTokenDoApp =function(token) {
     alert("📥 Token recebido do app: " + token);
 
     fetch('buscar-cpf.php', {
@@ -101,7 +102,7 @@ include_once "funcoes.php";
         alert('CPF não encontrado: ' + res.mensagem);
       }
     })
-    .catch(err => alert(err));
+    .catch(err => getElementById('error').innerHTML = JSON.stringify(err));
   }
   </script>
   <script>

@@ -83,43 +83,36 @@ include_once "funcoes.php";
   <script>
    document.addEventListener("DOMContentLoaded", function () {
     alert("✅ DOM carregado");
+    if (window.ReactNativeWebView) {
+      alert("📱 App detectado");
+      window.ReactNativeWebView.postMessage(JSON.stringify({ tipo: 'pagina', pagina: 'login' }));
+    } else {
+      alert("🌐 Navegador detectado");
+    }
+  function receberTokenDoApp(token) {
+    alert("📥 Token recebido do app: " + token);
 
-    document.addEventListener('message', function(event) {
-      alert("📥 Evento recebido:", event);
-      try {
-        const data = JSON.parse(event.data);
-
-        // Apenas debug: mostra que chegou algo
-        alert('Mensagem recebida do WebView: ' + JSON.stringify(data));
-
-        if (data.tipo === 'token') {
-          const token = data.token;
-          alert('Token recebido: ' + token);
-
-          fetch('buscar-cpf.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ token })
-          })
-          .then(response => response.json())
-          .then(res => {
-            if (res.status === 'sucesso' && res.cpf) {
-              alert('CPF encontrado: ' + res.cpf);
-              document.getElementById('documento').value = res.cpf;
-            } else {
-              alert('CPF não encontrado: ' + res.mensagem);
-            }
-          })
-          .catch(err => alert('Erro ao buscar CPF: ' + err));
-        }
-      } catch (e) {
-        alert('Erro ao interpretar mensagem do WebView: ' + e);
+    fetch('buscar-cpf.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token })
+    })
+    .then(response => response.json())
+    .then(res => {
+      if (res.status === 'sucesso' && res.cpf) {
+        alert('CPF encontrado: ' + res.cpf);
+        document.getElementById('documento').value = res.cpf;
+      } else {
+        alert('CPF não encontrado: ' + res.mensagem);
       }
-    });
-    });
-  </script>
+    })
+    .catch(err => alert('Erro ao buscar CPF: ' + err));
+  }
+});
+</script>
+
 
   <script src="./bootstrap/js/bootstrap.min.js"></script>
 </body>

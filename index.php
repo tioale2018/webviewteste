@@ -1,5 +1,4 @@
 <?php
-// session_start();
 require __DIR__ . '/vendor/autoload.php';
 use Dotenv\Dotenv;
 
@@ -8,8 +7,7 @@ $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
 if ($server_name == 'webview.sophx.com.br') {
   $dotenv = Dotenv::createImmutable('/home/comsophxadm');
   $dotenv->load();
-} else  {
-  // Local development
+} else {
   $dotenv = Dotenv::createImmutable(__DIR__);
   $dotenv->load();
 }
@@ -23,35 +21,28 @@ if (strpos($ua, 'Desenvolve-Mobile') === false) {
 }
 */
 
+
 if (isset($_SESSION['loggedin'])) {
-  // header("Location: logado.php");
   echo "<script>location.href='./lista_editais.php';</script>";
   exit;
 }
 
 include_once "conexao.php";
 include_once "funcoes.php";
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Login - Sistema de Editais</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-
-  <!-- tela de login com bootstrap -->
-
   <div class="container-fluid vh-100 d-flex justify-content-center align-items-center bg-light">
     <div class="card shadow-sm p-4 w-100" style="max-width: 400px;">
       <div class="text-center mb-3">
@@ -88,59 +79,43 @@ include_once "funcoes.php";
     </div>
   </div>
 
+  <!-- Script de comunicação com WebView -->
   <script>
+    document.addEventListener('message', function(event) {
+      try {
+        const data = JSON.parse(event.data);
 
-//     console.log('Script do WebView carregado');
-// alert('Script carregado!');
+        // Apenas debug: mostra que chegou algo
+        alert('Mensagem recebida do WebView: ' + JSON.stringify(data));
 
+        if (data.tipo === 'token') {
+          const token = data.token;
+          alert('Token recebido: ' + token);
 
-    // if (navigator.userAgent.includes('Desenvolve-Mobile')) {
-   document.addEventListener('message', function(event) {
-        try {
-          const data = JSON.parse(event.data);
-          alert('Mensagem recebida:', data);
-          if (data.tipo === 'token') {
-            const token = data.token;
-            alert('Token recebido:', token);
-
-            fetch('buscar-cpf.php', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  token
-                })
-              })
-              .then(response => response.json())
-              .then(res => {
-                if (res.status === 'sucesso' && res.cpf) {
-                  alert('CPF encontrado:', res.cpf);
-                  document.getElementById('documento').value = res.cpf;
-                } else {
-                  alert('CPF não encontrado:', res.mensagem);
-                }
-              })
-              .catch(err => alert('Erro ao buscar CPF:', err));
-          }
-        } catch (e) {
-          alert('Erro ao interpretar mensagem:', e);
+          fetch('buscar-cpf.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token })
+          })
+          .then(response => response.json())
+          .then(res => {
+            if (res.status === 'sucesso' && res.cpf) {
+              alert('CPF encontrado: ' + res.cpf);
+              document.getElementById('documento').value = res.cpf;
+            } else {
+              alert('CPF não encontrado: ' + res.mensagem);
+            }
+          })
+          .catch(err => alert('Erro ao buscar CPF: ' + err));
         }
-      })
-    // };
+      } catch (e) {
+        alert('Erro ao interpretar mensagem do WebView: ' + e);
+      }
+    });
   </script>
-
 
   <script src="./bootstrap/js/bootstrap.min.js"></script>
-  <script>
-    // document.querySelector('.cadastrar').addEventListener('click', function(e) {
-    //     e.preventDefault();
-    //     location.href = 'logado.php';
-    // });
-  </script>
-
-
-
 </body>
-
 </html>

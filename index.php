@@ -90,8 +90,8 @@ include_once "funcoes.php";
 
   <script>
 
-    console.log('Script do WebView carregado');
-alert('Script carregado!');
+//     console.log('Script do WebView carregado');
+// alert('Script carregado!');
 
 
     // if (navigator.userAgent.includes('Desenvolve-Mobile')) {

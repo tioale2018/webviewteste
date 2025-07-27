@@ -49,7 +49,7 @@ include_once "funcoes.php";
         <img src="src/logo.svg" alt="Logo" class="img-fluid" style="height: 100px;">
       </div>
       <h5 class="text-center mb-3 fw-semibold">Acesso ao Sistema</h5>
-      <div id="error"></div>
+      <!-- <div id="error"></div> -->
       <form action="login.php" method="POST">
         <div class="mb-3">
           <label for="documento" class="form-label">CNPJ/CPF</label>
@@ -84,7 +84,7 @@ include_once "funcoes.php";
 
   <script>
     window.receberTokenDoApp =function(token) {
-    alert("📥 Token recebido do app: " + token);
+    // alert("📥 Token recebido do app: " + token);
 
     fetch('buscar-cpf.php', {
       method: 'POST',
@@ -96,16 +96,16 @@ include_once "funcoes.php";
     .then(response => response.json())
     .then(res => {
       if (res.status === 'sucesso' && res.cpf) {
-        alert('CPF encontrado: ' + res.cpf);
+        // alert('CPF encontrado: ' + res.cpf);
         document.getElementById('documento').value = res.cpf;
       } else {
-        alert('CPF não encontrado: ' + res.mensagem);
+        // alert('CPF não encontrado: ' + res.mensagem);
       }
     })
     .catch(err => {
-        const errorDiv = document.getElementById('error');
-        errorDiv.textContent = err;
-        errorDiv.style.display = 'block';
+        // const errorDiv = document.getElementById('error');
+        // errorDiv.textContent = err;
+        // errorDiv.style.display = 'block';
     });
   }
   </script>
@@ -113,10 +113,10 @@ include_once "funcoes.php";
    document.addEventListener("DOMContentLoaded", function () {
     alert("✅ DOM carregado");
     if (window.ReactNativeWebView) {
-      alert("📱 App detectado");
+      // alert("📱 App detectado");
       window.ReactNativeWebView.postMessage(JSON.stringify({ tipo: 'pagina', pagina: 'login' }));
     } else {
-      alert("🌐 Navegador detectado");
+      // alert("🌐 Navegador detectado");
     }
 });
 </script>

@@ -186,7 +186,7 @@ function getPendencias($id) {
 function verificaUltimoTokenAtivo($token) {
     global $connPDO;
     
-    $stmt = $connPDO->prepare("SELECT * FROM tokens WHERE token = :token AND ativo = 1 ORDER BY data_criacao DESC LIMIT 1");
+    $stmt = $connPDO->prepare("SELECT * FROM tokens WHERE token = :token AND ativo = 1 ORDER BY created_at DESC LIMIT 1");
     $stmt->bindParam(':token', $token, PDO::PARAM_STR);
     $stmt->execute();
     

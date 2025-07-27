@@ -12,6 +12,9 @@ if (!isset($input['token'])) {
 $token = $input['token'];
 $dadosToken = verificaUltimoTokenAtivo($token);
 
+echo $token . ' - ' . (json_encode($dadosToken));
+die();
+
 if ($dadosToken && isset($dadosToken['cpf'])) {
     echo json_encode(['status' => 'sucesso', 'cpf' => $dadosToken['cpf']]);
 } else {

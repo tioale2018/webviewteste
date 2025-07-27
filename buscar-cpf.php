@@ -1,7 +1,6 @@
 <?php
 header('Content-Type: application/json');
-
-require_once 'funcoes.php'; // Aqui está a função verificaUltimoTokenAtivo()
+require_once 'funcoes.php';
 
 $input = json_decode(file_get_contents('php://input'), true);
 
@@ -10,7 +9,7 @@ if (!isset($input['token'])) {
     exit;
 }
 
-$token = $input['token'];
+$token = trim($input['token']);
 $dadosToken = verificaUltimoTokenAtivo($token);
 
 if ($dadosToken && isset($dadosToken['cpf'])) {

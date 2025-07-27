@@ -89,7 +89,12 @@ include_once "funcoes.php";
   </div>
 
   <script>
-    if (navigator.userAgent.includes('Desenvolve-Mobile')) {
+
+    console.log('Script do WebView carregado');
+alert('Script carregado!');
+
+
+    // if (navigator.userAgent.includes('Desenvolve-Mobile')) {
    document.addEventListener('message', function(event) {
         try {
           const data = JSON.parse(event.data);
@@ -122,7 +127,7 @@ include_once "funcoes.php";
           alert('Erro ao interpretar mensagem:', e);
         }
       })
-    };
+    // };
   </script>
 
 

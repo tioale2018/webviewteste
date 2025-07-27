@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 $cpf = $_SESSION['cpf'] ?? null;
 ?>
 <!DOCTYPE html>
@@ -54,86 +54,6 @@ $cpf = $_SESSION['cpf'] ?? null;
   ?> o link abaixo fica na LINHA 33 entre o fechamento da div e abaixo do small class="text-muted"
      <a href="info_edital.php?id=' . $edital['id'] . '" class="btn btn-sm btn-primary">Mais detalhes</a>
 
-  ?> 
-
-  <!-- Main Content -->
-  <main class="container-fluid py-3">
-    <h1 class="h5 fw-bold mb-3">Oportunidades</h1>
-    
-    <div class="list-group">
-      <!-- Opportunity Item -->
-      <div class="list-group-item d-flex flex-column align-items-start">
-        <div class="mb-2">
-          <span class="fw-semibold">Produção Literária e Projetos Artísticos</span>
-        </div>
-        <b><small class="text-success mb-1">Inscrições abertas</small></b>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">24/06/2025 - 25/07/2025</small>
-          <a href="#" class="btn btn-sm btn-primary">Mais detalhes</a>
-        </div>
-      </div>
-      <!-- More items below -->
-      <div class="list-group-item d-flex flex-column align-items-start">
-        <div class="mb-2">
-          <span class="fw-semibold">Feiras Literárias e Projetos de Formação</span>
-        </div>
-        <b><small class="text-success mb-1">Inscrições abertas</small></b>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">24/06/2025 - 25/07/2025</small>
-          <a href="#" class="btn btn-sm btn-primary">Mais detalhes</a>
-        </div>
-      </div>
-      <div class="list-group-item d-flex flex-column align-items-start">
-        <div class="mb-2">
-          <span class="fw-semibold">Manutenção de Espaços Literários</span>
-        </div>
-        <b><small class="text-success mb-1">Inscrições abertas</small></b>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">24/06/2025 - 25/07/2025</small>
-          <a href="#" class="btn btn-sm btn-primary">Mais detalhes</a>
-        </div>
-      </div>
-      <div class="list-group-item d-flex flex-column align-items-start">
-        <div class="mb-2">
-          <span class="fw-semibold">Contação de Histórias</span>
-        </div>
-        <b><small class="text-success mb-1">Inscrições abertas</small></b>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">24/06/2025 - 25/07/2025</small>
-          <a href="#" class="btn btn-sm btn-primary">Mais detalhes</a>
-        </div>
-      </div>
-      <div class="list-group-item d-flex flex-column align-items-start">
-        <div class="mb-2">
-          <span class="fw-semibold">Eleição Assentos Conselho Estadual</span>
-        </div>
-        <b><small class="text-success mb-1">Inscrições abertas</small></b>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">14/03/2025 - 25/06/2028</small>
-          <a href="#" class="btn btn-sm btn-primary">Mais detalhes</a>
-        </div>
-      </div>
-      <div class="list-group-item d-flex flex-column align-items-start">
-        <div class="mb-2">
-          <span class="fw-semibold">Lei Incentivo à Cultura</span>
-        </div>
-        <b><small class="text-success mb-1">Inscrições abertas</small></b>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">01/03/2025 - 01/12/2025</small>
-          <a href="#" class="btn btn-sm btn-primary">Mais detalhes</a>
-        </div>
-      </div>
-      <div class="list-group-item d-flex flex-column align-items-start">
-        <div class="mb-2">
-          <span class="fw-semibold">Mapeamento Cultura Viva RJ</span>
-        </div>
-        <b><small class="text-success mb-1">Inscrições abertas</small></b>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">18/06/2024 - 09/04/2027</small>
-          <a href="#" class="btn btn-sm btn-primary">Mais detalhes</a>
-        </div>
-      </div>
-    </div>
 <?php */ ?>
   </main>
 

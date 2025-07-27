@@ -9,11 +9,11 @@ if (!isset($input['token'])) {
     exit;
 }
 
-$token = $input['token'];
+$token = trim($input['token']);
 $dadosToken = verificaUltimoTokenAtivo($token);
 
-echo $token . ' - ' . (json_encode($dadosToken));
-die();
+// echo $token . ' - ' . (json_encode($dadosToken));
+// die();
 
 if ($dadosToken && isset($dadosToken['cpf'])) {
     echo json_encode(['status' => 'sucesso', 'cpf' => $dadosToken['cpf']]);

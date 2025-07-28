@@ -36,7 +36,7 @@
       </div>
     <?php endif; ?>
     
-    <h1 class="h5 fw-bold mb-3">Editar Dados</h1>
+    <h1 class="h5 fw-bold mb-3">Meus Dados</h1>
 
     <form action="./forms/meu_cadastro.php" method="POST">
       <input type="hidden" name="id_user" value="<?= $id ?>">

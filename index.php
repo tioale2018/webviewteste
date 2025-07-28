@@ -51,8 +51,8 @@ include_once "funcoes.php";
         <img src="src/logo.svg" alt="Logo" class="img-fluid" style="height: 100px;">
       </div>
       <h5 class="text-center mb-3 fw-semibold">Acesso ao Sistema</h5>
-      <div id="error" class="text-center text-danger" style="display: none;"></div>
-     <div id="success" class="text-center text-success" style="display: none;"></div>
+      <div id="error" class="text-center alert alert-danger" role="alert" style="display: none;"></div>
+     <div id="success" class="text-center alert alert-success" role="alert" style="display: none;"></div>
        <input type="text" id="token"  hidden>
       <form action="login.php" method="POST">
         <div class="mb-3">
@@ -163,6 +163,7 @@ include_once "funcoes.php";
           const successDiv = document.getElementById('success');
           successDiv.textContent = res.mensagem;
           successDiv.style.display = 'block';
+          document.getElementById('documento').value = '';
       } else {
         const errorDiv = document.getElementById('error');
         errorDiv.textContent = res.mensagem;

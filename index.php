@@ -51,7 +51,8 @@ include_once "funcoes.php";
         <img src="src/logo.svg" alt="Logo" class="img-fluid" style="height: 100px;">
       </div>
       <h5 class="text-center mb-3 fw-semibold">Acesso ao Sistema</h5>
-      <!-- <div id="error"></div> -->
+      <div id="error" class="text-center text-danger" style="display: none;"></div>
+     <div id="success" class="text-center text-success" style="display: none;"></div>
        <input type="text" id="token"  hidden>
       <form action="login.php" method="POST">
         <div class="mb-3">
@@ -146,9 +147,41 @@ include_once "funcoes.php";
     $("#desvincular").click(function() {
       var documento = $("#documento").val();
       var token = $("#token").val();
-      desvincularToken(token, documento);
+      fetch('desvincular-cpf.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          token: token,
+          cpf: documento
+        })
+      })
+      .then(response => response.json())
+      .then(res => {
+        if (res.status === 'sucesso') {
+          const successDiv = document.getElementById('success');
+          successDiv.textContent = res.mensagem;
+          successDiv.style.display = 'block';
+      } else {
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = res.mensagem;
+        errorDiv.style.display = 'block';
+      }
+    })
+      .catch(err => {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = err;
+            errorDiv.style.display = 'block';
+      });
+
+      // Fechar o modal após desvincular
+      var myModalEl = document.getElementById('staticBackdrop');
+      var modal = bootstrap.Modal.getInstance(myModalEl);
+      modal.hide();
     });
   </script>
+  
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       // alert("✅ DOM carregado");

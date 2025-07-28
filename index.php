@@ -144,9 +144,9 @@ include_once "funcoes.php";
   </script>
 
   <script>
-    $("#desvincular").click(function() {
-      var documento = $("#documento").val();
-      var token = $("#token").val();
+    document.getElementById("desvincular").addEventListener("click", function() {
+      var documento = document.getElementById("documento").value;
+      var token = document.getElementById("token").value;
       fetch('desvincular-cpf.php', {
         method: 'POST',
         headers: {
@@ -181,7 +181,7 @@ include_once "funcoes.php";
       modal.hide();
     });
   </script>
-  
+
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       // alert("✅ DOM carregado");

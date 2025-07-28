@@ -208,30 +208,6 @@ function verificaUltimoTokenAtivo($token)
     }
 }
 
-function desvincularToken($token, $cpf)
-{
-    global $connPDO;
-
-    if ($token && $cpf) {
-        try {
-            $stmt = $connPDO->prepare("UPDATE tokens SET ativo = 0 WHERE token = :token AND cpf = :cpf");
-            $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-            $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
-            $stmt->execute();
-            return ['success' => true, 'message' => 'Token desvinculado com sucesso.'];
-        } catch (PDOException $e) {
-            http_response_code(500);
-            return [
-                'success' => false,
-                'message' => 'Erro ao desvincular.',
-                'error' => $e->getMessage()
-            ];
-        }
-    } else {
-        http_response_code(400);
-        return ['success' => false, 'message' => 'Token ou CPF ausente.'];
-    }
-}
 
 function getTokensAtivos()
 {
@@ -268,5 +244,31 @@ function salvarToken($cpf, $token)
     } else {
         http_response_code(400);
         return ['success' => false, 'message' => 'CPF ou token ausente.'];
+    }
+}
+
+
+function desvincularTokenCPF($token, $cpf)
+{
+    global $connPDO;
+
+    if ($token && $cpf) {
+        try {
+            $stmt = $connPDO->prepare("UPDATE tokens SET ativo = 0 WHERE token = :token AND cpf = :cpf");
+            $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+            $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
+            $stmt->execute();
+            return ['success' => true, 'message' => 'Token desvinculado com sucesso.'];
+        } catch (PDOException $e) {
+            http_response_code(500);
+            return [
+                'success' => false,
+                'message' => 'Erro ao desvincular.',
+                'error' => $e->getMessage()
+            ];
+        }
+    } else {
+        http_response_code(400);
+        return ['success' => false, 'message' => 'Token ou CPF ausente.'];
     }
 }

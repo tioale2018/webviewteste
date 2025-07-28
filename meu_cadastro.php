@@ -47,7 +47,7 @@
 
       <div class="mb-3">
         <label for="nomeFantasia" class="form-label"><?= $pessoa_juridica ? "Nome Fantasia (caso haja)" : "Nome Artístico (caso haja)" ?></label>
-        <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="<?= $result['nomefantasia'] ?? '' ?>">
+        <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="<?= $result['nomefantasia'] ?? '' ?>" readonly>
       </div>
 
 
@@ -61,7 +61,7 @@
       <?php if ($pessoa_juridica) { ?>
         <div class="mb-3">
           <div class="form-check mt-4">
-            <input class="form-check-input" type="checkbox" id="mei" name="mei" <?= isset($result['cpfmei']) && $result['cpfmei'] ? 'checked' : '' ?>>
+            <input class="form-check-input" type="checkbox" id="mei" name="mei" <?= isset($result['cpfmei']) && $result['cpfmei'] ? 'checked' : '' ?> readonly>
             <label class="form-check-label" for="mei">
               MEI?
             </label>
@@ -70,13 +70,13 @@
 
         <div class="mb-3" id="cpfmeidiv" style="display:none;">
           <label for="cpfmei">CPF do Responsável</label>
-          <input type="text" class="form-control" name="cpfmei" id="cpfmei" placeholder="CPF Responsável pelo MEI" value="<?= htmlspecialchars($result['cpfmei'] ?? '') ?>">
+          <input type="text" class="form-control" name="cpfmei" id="cpfmei" placeholder="CPF Responsável pelo MEI" value="<?= htmlspecialchars($result['cpfmei'] ?? '') ?>" readonly>
         </div>
 
       <?php } else { ?>
         <div class="mb-3">
           <label for="nascimento" class="form-label">Data de Nascimento</label>
-          <input type="date" class="form-control" id="nascimento" name="nascimento" value="<?= htmlspecialchars($result['nascimento'] ?? '') ?>">
+          <input type="date" class="form-control" id="nascimento" name="nascimento" value="<?= htmlspecialchars($result['nascimento'] ?? '') ?>" readonly>
         </div>
       <?php } ?>
 
@@ -84,42 +84,42 @@
 
       <div class="mb-3">
         <label for="rg" class="form-label"><?= $pessoa_juridica ? "Inscrição Estadual" : "RG" ?></label>
-        <input type="text" class="form-control" id="rg" name="rg" value="<?= htmlspecialchars($result['rg'] ?? '') ?>">
+        <input type="text" class="form-control" id="rg" name="rg" value="<?= htmlspecialchars($result['rg'] ?? '') ?>" readonly>
       </div>
 
       <div class="mb-3">
         <label for="orgao" class="form-label"><?= $pessoa_juridica ? "Inscrição Municipal" : "Órgão" ?></label>
-        <input type="text" class="form-control" id="orgao" name="orgao" value="<?= htmlspecialchars($result['orgao'] ?? '') ?>">
+        <input type="text" class="form-control" id="orgao" name="orgao" value="<?= htmlspecialchars($result['orgao'] ?? '') ?>" readonly>
       </div>
 
       <div class="mb-3">
         <label for="email" class="form-label">E-mail</label>
-        <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($result['email'] ?? '') ?>">
+        <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($result['email'] ?? '') ?>" readonly>
       </div>
 
       <div class="mb-3">
         <label for="emailAlt" class="form-label">E-mail Alternativo</label>
-        <input type="email" class="form-control" id="emailAlt" name="emailAlt" value="<?= $result['email_alternativo'] ?? '' ?>">
+        <input type="email" class="form-control" id="emailAlt" name="emailAlt" value="<?= $result['email_alternativo'] ?? '' ?>" readonly>
       </div>
 
       <div class="mb-3">
         <label for="telefone" class="form-label">Telefone</label>
-        <input type="tel" class="form-control" id="telefone" name="telefone" value="<?= $result['telefone'] ?? '' ?>">
+        <input type="tel" class="form-control" id="telefone" name="telefone" value="<?= $result['telefone'] ?? '' ?>" readonly>
       </div>
 
       <div class="mb-3">
         <label for="celular" class="form-label">Celular</label>
-        <input type="tel" class="form-control" id="celular" name="celular" value="<?= $result['celular'] ?? '' ?>">
+        <input type="tel" class="form-control" id="celular" name="celular" value="<?= $result['celular'] ?? '' ?>" readonly>
       </div>
 
       <div class="mb-3">
         <label for="cep" class="form-label">CEP</label>
-        <input type="text" class="form-control" id="cep" name="cep" value="<?= $result['cep'] ?? '' ?>">
+        <input type="text" class="form-control" id="cep" name="cep" value="<?= $result['cep'] ?? '' ?>" readonly>
       </div>
 
       <div class="mb-3">
         <label for="endereco" class="form-label">Endereço</label>
-        <input type="text" class="form-control" id="endereco" name="endereco" value="<?= $result['endereco'] ?? '' ?>">
+        <input type="text" class="form-control" id="endereco" name="endereco" value="<?= $result['endereco'] ?? '' ?>" readonly>
         <?php if (isset($_SESSION['erro_endereco'])): ?>
           <span class="text-danger"><?= $_SESSION['erro_endereco'] ?></span>
         <?php endif; ?>
@@ -127,31 +127,33 @@
 
       <div class="mb-3">
         <label for="numero" class="form-label">Número</label>
-        <input type="text" class="form-control" id="numero" name="numero" value="<?= $result['numero'] ?? '' ?>">
+        <input type="text" class="form-control" id="numero" name="numero" value="<?= $result['numero'] ?? '' ?>" readonly>
 
       </div>
 
       <div class="mb-3">
         <label for="complemento" class="form-label">Complemento</label>
-        <input type="text" class="form-control" id="complemento" name="complemento" value="<?= $result['complemento'] ?? '' ?>">
+        <input type="text" class="form-control" id="complemento" name="complemento" value="<?= $result['complemento'] ?? '' ?>" readonly>
       </div>
 
       <div class="mb-3">
         <label for="bairro" class="form-label">Bairro</label>
-        <input type="text" class="form-control" id="bairro" name="bairro" value="<?= $result['bairro'] ?? '' ?>">
+        <input type="text" class="form-control" id="bairro" name="bairro" value="<?= $result['bairro'] ?? '' ?>" readonly>
 
       </div>
 
       <div class="mb-3">
         <label for="municipio" class="form-label">Município</label>
-        <input type="text" class="form-control" id="municipio" name="municipio" value="<?= $result['municipio'] ?? '' ?>">
+        <input type="text" class="form-control" id="municipio" name="municipio" value="<?= $result['municipio'] ?? '' ?>" readonly>
       </div>
 
       <div class="mb-3">
         <label for="uf" class="form-label">UF</label>
-        <input type="text" class="form-control" id="uf" name="uf" value="<?= $result['uf'] ?? '' ?>">
+        <input type="text" class="form-control" id="uf" name="uf" value="<?= $result['uf'] ?? '' ?>" readonly>
       </div>
+      <?php /*
       <button type="submit" class="btn btn-primary w-100">Atualizar e fechar</button>
+      */ ?>
     </form>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

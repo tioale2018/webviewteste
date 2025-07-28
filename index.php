@@ -183,48 +183,6 @@ include_once "funcoes.php";
     });
   </script>
 
-  <style>
-    #loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    #loader > div {
-      width: 50px;
-      height: 50px;
-      border: 10px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 10px solid #3498db;
-      -webkit-animation: spin 2s linear infinite;
-      animation: spin 2s linear infinite;
-    }
-    @keyframes spin {
-      0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-      }
-      100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-    }
-  </style>
-  <div id="loader">
-    <div></div>
-  </div>
-  <script>
-    window.addEventListener("load", function() {
-      document.getElementById("loader").style.display = "none";
-    });
-  </script>
-
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       // alert("✅ DOM carregado");

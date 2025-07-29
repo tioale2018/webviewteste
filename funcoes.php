@@ -240,7 +240,7 @@ function salvarToken($cpf, $token)
                 $stmt = $connPDO->prepare("UPDATE tokens SET ativo = 1 WHERE cpf = :cpf AND token = :token");
                 $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
                 $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-                $stmt->execute();
+                $stmt->execute([$cpf, $token]);
                 return ['success' => true, 'message' => 'Token já vinculado ao CPF.'];
             } else {
             $stmt = $connPDO->prepare("INSERT IGNORE INTO tokens (cpf, token) VALUES (?, ?)");

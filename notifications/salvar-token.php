@@ -11,7 +11,6 @@ $token = $data['token'] ?? null;
 
 file_put_contents('log.txt', json_encode($data));
 
-$salvarToken = salvarToken($cpf, $token);
 
 if ($cpf && $token) {
     try {

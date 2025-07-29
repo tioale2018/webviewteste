@@ -15,22 +15,24 @@ $salvarToken = salvarToken($cpf, $token);
 
 if ($cpf && $token) {
     try {
-         $stmt = $connPDO->prepare("SELECT * FROM tokens WHERE cpf = :cpf AND token = :token AND ativo = 0");
+        $stmt = $connPDO->prepare("SELECT * FROM tokens WHERE cpf = :cpf AND token = :token AND ativo = 0");
+        $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
+        $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $stmt = $connPDO->prepare("UPDATE tokens SET ativo = 1 WHERE cpf = :cpf AND token = :token");
             $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
             $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-            $stmt->execute([$cpf, $token]);
-            if ($stmt->rowCount() > 0) {
-                // Se o token estiver vinculado ao CPF, atualiza o status para ativo
-                $stmt = $connPDO->prepare("UPDATE tokens SET ativo = 1 WHERE cpf = :cpf AND token = :token");
-                $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
-                $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-                $stmt->execute([$cpf, $token]);
-                return ['success' => true, 'message' => 'Token já vinculado ao CPF.'];
-            } else {
+            $stmt->execute();
+
+            return ['success' => true, 'message' => 'Token já vinculado ao CPF.'];
+        } else {
             $stmt = $connPDO->prepare("INSERT IGNORE INTO tokens (cpf, token) VALUES (?, ?)");
             $stmt->execute([$cpf, $token]);
+
             return ['success' => true, 'message' => 'Token vinculado ao CPF com sucesso.'];
-            }
+        }
     } catch (PDOException $e) {
         http_response_code(500);
         echo json_encode([

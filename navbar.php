@@ -28,21 +28,25 @@
     <div class="offcanvas-body">
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
+          <!-- <a href="lista_editais_api.php" class="nav-link active text-primary"> -->
           <a href="lista_editais.php" class="nav-link active text-primary">
             <i class="bi bi-house-door me-2"></i> Inscrições
           </a>
         </li>
         <li class="nav-item mb-2">
+          <!-- <a href="lista_projetos_api.php" class="nav-link text-dark"> -->
           <a href="lista_projetos.php" class="nav-link text-dark">
             <i class="bi bi-journal-text me-2"></i> Meus Projetos
           </a>
         </li>
         <li class="nav-item mb-2">
+          <!-- <a href="lista_editais_encerrados_api.php" class="nav-link text-dark"> -->
           <a href="lista_editais_encerrados.php" class="nav-link text-dark">
             <i class="bi bi-archive-fill me-2"></i> Editais Encerrados
           </a>
         </li>
         <li class="nav-item  mb-2">
+          <!-- <a href="meu_cadastro_api.php" class="nav-link text-dark"> -->
           <a href="meu_cadastro.php" class="nav-link text-dark">
             <i class="bi bi-person me-2"></i> Meu Cadastro
           </a>

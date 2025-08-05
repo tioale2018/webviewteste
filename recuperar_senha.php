@@ -13,8 +13,6 @@ if ($server_name == 'webview.sophx.com.br') {
   $dotenv->load();
 }
 
-isset($_GET['documento']) ? $documento = $_GET['documento'] : $documento = '';
-
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
 /*
@@ -25,10 +23,6 @@ if (strpos($ua, 'Desenvolve-Mobile') === false) {
 */
 
 
-if (isset($_SESSION['loggedin'])) {
-  echo "<script>location.href='./lista_editais.php';</script>";
-  exit;
-}
 
 include_once "conexao.php";
 include_once "funcoes.php";
@@ -52,27 +46,17 @@ include_once "funcoes.php";
       <div class="text-center mb-3">
         <img src="src/logo.svg" alt="Logo" class="img-fluid" style="height: 100px;">
       </div>
-      <h5 class="text-center mb-3 fw-semibold">Acesso ao Sistema</h5>
+      <h5 class="text-center mb-3 fw-semibold">Recuperar Senha</h5>
       <div id="error" class="text-center alert alert-danger" role="alert" style="display: none;"></div>
      <div id="success" class="text-center alert alert-success" role="alert" style="display: none;"></div>
        <input type="text" id="token"  hidden>
-      <form action="login.php" method="POST">
         <div class="mb-3">
           <label for="documento" class="form-label">CNPJ/CPF</label>
           <div class="input-group">
             <span class="input-group-text bg-white">
               <i class="bi bi-envelope"></i>
             </span>
-            <input type="text" name="documento" id="documento" class="form-control" placeholder="Digite seu CNPJ/CPF" required inputmode="numeric" pattern="[0-9]*" value="<?php echo $documento; ?>">
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="senha" class="form-label">Senha</label>
-          <div class="input-group">
-            <span class="input-group-text bg-white">
-              <i class="bi bi-lock"></i>
-            </span>
-            <input type="password" name="senha" id="senha" class="form-control" placeholder="Digite sua senha" required>
+            <input type="text" name="documento" id="documento" class="form-control" placeholder="Digite seu CNPJ/CPF" required inputmode="numeric" pattern="[0-9]*">
           </div>
         </div>
         <?php if (isset($_GET['error']) && $_GET['error'] == 1): ?>
@@ -81,43 +65,14 @@ include_once "funcoes.php";
           </div>
         <?php endif; ?>
         <input type="hidden" name="login" value="1">
-        <button type="submit" class="btn btn-primary w-100">Entrar</button>
-      </form>
-      <a href="./recuperar_senha.php" class="d-block text-center mt-3 text-decoration-none"> Esqueceu sua senha?</a>
-      <?php /*
-      <button type="button" class="btn text-danger w-100 mt-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-      Desvincular CNPJ/CPF do aplicativo
-      <i class="bi bi-question-circle"></i>
-    </button>
-      */ ?>
-    </div>
-  </div>
-
-
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Ao confirmar esta operação você deixará de receber notificações do sistema de editais referente ao ultimo CNPJ/CPF vinculado.</p>
-        </div>
-        <div class="modal-footer d-flex justify-content-between">
-          
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="button" id="desvincular" class="btn btn-primary">Confirmar</button>
-        
-        </div>
-      </div>
+        <button id="recuperar-senha" class="btn btn-primary w-100">Enviar nova senha</button>
     </div>
   </div>
 
   <!-- Script de comunicação com WebView -->
 
   <script>
+    
     window.receberTokenDoApp = function(token) {
       // alert("📥 Token recebido do app: " + token);
 
@@ -135,7 +90,7 @@ include_once "funcoes.php";
           if (res.status === 'sucesso' && res.cpf) {
             // alert('CPF encontrado: ' + res.cpf);
             document.getElementById('documento').value = res.cpf;
-            document.getElementById('token').value = token;
+            // document.getElementById('token').value = token;
           } else {
             // alert('CPF não encontrado: ' + res.mensagem);
           }
@@ -149,27 +104,23 @@ include_once "funcoes.php";
   </script>
 
   <script>
-    document.getElementById("desvincular").addEventListener("click", function() {
+    document.getElementById("recuperar-senha").addEventListener("click", function() {
       var documento = document.getElementById("documento").value;
       var token = document.getElementById("token").value;
       if (!documento || !token) {
         const errorDiv = document.getElementById('error');
-        errorDiv.textContent = 'Por favor, preencha o CNPJ/CPF antes de desvincular.';
+        errorDiv.textContent = 'Por favor, preencha o CNPJ/CPF.';
         errorDiv.style.display = 'block';
-         // Fechar o modal após desvincular
-        var myModalEl = document.getElementById('staticBackdrop');
-        var modal = bootstrap.Modal.getInstance(myModalEl);
-        modal.hide();
         return; 
       }
-      fetch('desvincular-cpf.php', {
+      fetch('http://192.168.2.15/desenvolve-cultura/api/recupera-senha.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           token: token,
-          cpf: documento
+          documento: documento
         })
       })
       .then(response => response.json())
@@ -191,10 +142,6 @@ include_once "funcoes.php";
             errorDiv.style.display = 'block';
       });
 
-      // Fechar o modal após desvincular
-      var myModalEl = document.getElementById('staticBackdrop');
-      var modal = bootstrap.Modal.getInstance(myModalEl);
-      modal.hide();
     });
   </script>
 

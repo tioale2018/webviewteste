@@ -66,12 +66,13 @@
                   <span class="badge bg-danger rounded-pill mb-2">Inscrição Encerrada</span>
                 <?php elseif (getProjetoSubmetidoEdital($projeto_nao_submetido['idedital'])): ?>
                   <span class="badge bg-warning rounded-pill mb-2">Outro projeto já foi submetido neste edital</span>
-                <?php else: /*?>
+                <?php else: ?>
                   <a href="info_projeto.php?id=<?= $projeto_nao_submetido['id_project'] ?>" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a>
-                <?php */ endif; ?>
+                <?php endif; ?>
               </div>
             </div>
           <?php endforeach; ?>
+        </div>
         </div>
 <?php /*
         <div class="list-group">
@@ -129,32 +130,33 @@
       <!-- Other tabs can have placeholder content -->
       <div class="tab-pane fade" id="pane-submetidos" role="tabpanel">
         <div class="list-group">
-          <?php if (empty($submetidos)): ?>
+          <?php if (!empty($submetidos)): ?>
+            <?php foreach ($submetidos as $projeto): ?>
+              <div class="list-group-item rounded-3 shadow-sm mb-3">
+                <div class="mb-2">
+                  <small class="text-muted">Código:</small>
+                  <span class="fw-semibold"><?= htmlspecialchars($projeto['id_project']) ?></span>
+                </div>
+                <div class="mb-2">
+                  <small class="text-muted">Projeto:</small>
+                  <div class="fw-semibold"><?= htmlspecialchars($projeto['titulo']) ?></div>
+                </div>
+                <div class="mb-2">
+                  <small class="text-muted">Oportunidade:</small>
+                  <div><?= htmlspecialchars($projeto['titulo_edital']) ?></div>
+                </div>
+                <div class="mt-2">
+                  <a href="info_projeto.php?id=<?= $projeto['id_project'] ?>" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          <?php else: ?>
             <div class="list-group-item rounded-3 shadow-sm mb-3">
               <div class="mb-2">
                 <p class="text-center text-muted">Nenhum projeto submetido.</p>
               </div>
             </div>
           <?php endif; ?>
-          <?php foreach ($submetidos as $projeto): ?>
-            <div class="list-group-item rounded-3 shadow-sm mb-3">
-              <div class="mb-2">
-                <small class="text-muted">Código:</small>
-                <span class="fw-semibold"><?= htmlspecialchars($projeto['id_project']) ?></span>
-              </div>
-              <div class="mb-2">
-                <small class="text-muted">Projeto:</small>
-                <div class="fw-semibold"><?= htmlspecialchars($projeto['titulo']) ?></div>
-              </div>
-              <div class="mb-2">
-                <small class="text-muted">Oportunidade:</small>
-                <div><?= htmlspecialchars($projeto['titulo_edital']) ?></div>
-              </div>
-              <div class="mt-2">
-               <?php /* <a href="info_projeto.php?id=<?= $projeto['id_project'] ?>" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a> */ ?>
-              </div>
-            </div>
-          <?php endforeach; ?>
         </div>
       </div>
   </main>

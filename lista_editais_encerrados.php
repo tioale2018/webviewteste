@@ -30,7 +30,7 @@
             <span class="badge bg-' . $status . ' rounded-pill  my-2">'. $statusText . '</span>
               <div class="d-flex w-100 justify-content-between">
                 <small class="text-muted">' .   date('d/m/Y', $edital['datacria']) . ' - ' . date('d/m/Y', $edital['datafecha']) . '</small>
-               
+                <a href="info_edital.php?id=' . $edital['id'] . '" class="btn btn-sm btn-primary">Mais detalhes</a>
               </div>
             </div>';
     }
@@ -39,7 +39,7 @@
 
   /*
    o link abaixo fica na LINHA 33 entre o fechamento da div e abaixo do small class="text-muted"
-     <a href="info_edital.php?id=' . $edital['id'] . '" class="btn btn-sm btn-primary">Mais detalhes</a>
+    
   ?> 
 <?php */ ?>
   </main>

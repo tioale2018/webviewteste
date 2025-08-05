@@ -1,7 +1,7 @@
 <?php
-include_once "conexao.php";
-include_once "funcoes.php";
-session_start();
+include_once "../conexao.php";
+include_once "../funcoes.php";
+// session_start();
 header('Content-Type: application/json');
 $cpf = $_SESSION['cpf'] ?? null;
 $submetidos = getProjetosSubmetidosUsuario($cpf);

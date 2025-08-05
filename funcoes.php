@@ -3,7 +3,61 @@
 include_once "conexao.php";
 include_once "login.php";
 
+function getDadosProjeto($id)
+{
+    global $connPDO;
 
+    $stmt = $connPDO->prepare("SELECT * FROM projetos WHERE projetos.id_project = :id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    if ($stmt->rowCount() == 0) {
+        return null; // Nenhum projeto encontrado
+    }
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function getDadosInfoProjeto($id)
+{
+    global $connPDO;
+
+    $stmt = $connPDO->prepare("SELECT 
+                                tbinfoprojetos.*,
+                                cat_acultural.textocategoria AS nome_acultural,
+                                cat_categoria.textocategoria AS nome_categoria,
+                                cat_concorrencia.textocategoria AS nome_concorrencia
+                                FROM tbinfoprojetos
+                                LEFT JOIN tbcategorias AS cat_acultural ON tbinfoprojetos.acultural = cat_acultural.id
+                                LEFT JOIN tbcategorias AS cat_categoria ON tbinfoprojetos.categoria = cat_categoria.id
+                                LEFT JOIN tbcategorias AS cat_concorrencia ON tbinfoprojetos.concorrencia = cat_concorrencia.id
+                                WHERE tbinfoprojetos.idprojeto = :id;");
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    if ($stmt->rowCount() == 0) {
+        return null; // Nenhum projeto encontrado
+    }
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function getDatasEdital($id)
+{
+    global $connPDO;
+
+    $stmt = $connPDO->prepare("SELECT * FROM tbconfiguracoes WHERE idedital = :id AND ativo = 1");
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        http_response_code(404);
+        return ['success' => false, 'message' => 'Nenhuma configuração encontrada.'];}
+}
 
 function getEditaisAtivos()
 {
@@ -209,6 +263,22 @@ function verificaUltimoTokenAtivo($token)
 }
 
 
+function carregarVinculados($token)
+{
+    global $connPDO;
+
+    $stmt = $connPDO->prepare("SELECT cpf FROM tokens WHERE token = :token AND ativo = 1");
+    $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os CPFs vinculados ao token
+    } else {
+        return []; // Nenhum CPF encontrado
+    }
+}
+
+
 function getTokensAtivos()
 {
     global $connPDO;
@@ -285,4 +355,67 @@ function desvincularTokenCPF($token, $cpf)
         http_response_code(400);
         return ['success' => false, 'message' => 'Token ou CPF ausente.'];
     }
+}
+
+
+// Autenticação do usuario para consumir a API
+
+function base64url_encode($data) {
+    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
+function base64url_decode($data) {
+    return base64_decode(strtr($data, '-_', '+/'));
+}
+
+function generate_jwt($payload, $secret) {
+    // Header
+    $header = [
+        'alg' => 'HS256',
+        'typ' => 'JWT'
+    ];
+    $encoded_header = base64url_encode(json_encode($header));
+
+    // Payload
+    // You can add 'exp' (expiration time) here for example:
+    $payload['exp'] = time() + 3600; // Token expires in 1 hour
+    $encoded_payload = base64url_encode(json_encode($payload));
+
+    // Signature
+    $signature_input = "$encoded_header.$encoded_payload";
+    $signature = hash_hmac('sha256', $signature_input, $secret, true);
+    $encoded_signature = base64url_encode($signature);
+
+    // Combine to form the JWT
+    return "$encoded_header.$encoded_payload.$encoded_signature";
+}
+
+function validate_jwt($jwt, $secret) {
+    list($encoded_header, $encoded_payload, $encoded_signature) = explode('.', $jwt);
+
+    // Decode header and payload (for inspection, not for validation)
+    $header = json_decode(base64url_decode($encoded_header), true);
+    $payload = json_decode(base64url_decode($encoded_payload), true);
+
+    // Re-calculate signature
+    $signature_input = "$encoded_header.$encoded_payload";
+    $expected_signature = hash_hmac('sha256', $signature_input, $secret, true);
+    $encoded_expected_signature = base64url_encode($expected_signature);
+
+    // Compare signatures
+    if ($encoded_signature !== $encoded_expected_signature) {
+        return false; // Invalid signature
+    }
+
+    // Optional: Check expiration time
+    if (isset($payload['exp']) && $payload['exp'] < time()) {
+        return false; // Token expired
+    }
+
+    return $payload; // Return decoded payload if valid
+}
+
+
+function getJwtSecret() {
+    return 'qANyiZNu1zDgwfVYJCaLKEFmweJjfFQt2Ygj2nW0KLef7OR9UvL0HbNQpx97Naa8';
 }

@@ -5,6 +5,8 @@ if (isset($_POST['login'])) {
     // Get the form data 
     $documento = $_POST['documento'];
     $password = $_POST['senha'];
+    $token = $_POST['token'];
+
 
     // die($documento . ' ' . $password);
 
@@ -42,6 +44,8 @@ if (isset($_POST['login'])) {
             $_SESSION['nome'] = $row['nome'];
             $_SESSION['id_user'] = $row['id_user'];
             $_SESSION['tipo_doc'] = $row['tipo_doc'];
+            $_SESSION['token'] = $token;
+
             error_log('Login OK, redirecionando...');
 
             // Redirect to the user's dashboard 

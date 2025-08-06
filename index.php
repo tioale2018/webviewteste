@@ -130,6 +130,18 @@ include_once "funcoes.php";
       font-size: 0.92rem;
       color: #6b7280 !important;
     }
+
+    #listaNotificacoes .border {
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem;
+      font-size: 0.9rem;
+      transition: box-shadow 0.2s ease;
+    }
+
+    #listaNotificacoes .border:hover {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
   </style>
 </head>
 
@@ -166,7 +178,6 @@ include_once "funcoes.php";
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="listaNotificacoes">
-          <div class="text-center text-muted">Nenhuma notificação.</div>
         </div>
       </div>
     </div>
@@ -217,7 +228,7 @@ include_once "funcoes.php";
   <script>
     // Token recebido do app
     // const token = "fTa0cCK3QK-9OjPlD21dZK:APA91bFPWM8lX4VsAZd0NcnIu2J0LkStdvst6e5T814g-hoqmxdTJsYJf06ea1LhQs3NlF2_JGhKqMJvT5YROZlWM04Ab7k8HGpdricBifEx06Zm4KqCuig";
-    
+
     window.receberTokenDoApp = function(token) {
       document.getElementById('token').value = token;
       carregarVinculados(token);
@@ -294,7 +305,20 @@ include_once "funcoes.php";
         });
     });
 
-    function carregarNotificacoes() {
+
+
+
+
+
+
+
+
+    // Carregar notificações e abrir modal
+    document.getElementById('btnNotificacoes').addEventListener('click', function() {
+      carregarNotificacoes(true);
+    });
+
+    function carregarNotificacoes(abrirModal = false) {
       fetch('buscar-notificacoes.php', {
           method: 'POST',
           headers: {
@@ -306,53 +330,93 @@ include_once "funcoes.php";
         })
         .then(r => r.json())
         .then(res => {
-          if (res.status === 'sucesso' && Array.isArray(res.notificacoes) && res.notificacoes.length) {
-            const badge = document.getElementById('badgeNotificacoes');
-            badge.textContent = res.notificacoes.length;
-            badge.style.display = 'inline-block';
-            const lista = document.getElementById('listaNotificacoes');
-            lista.innerHTML = '';
-            res.notificacoes.forEach((item, idx) => {
+          const badge = document.getElementById('badgeNotificacoes');
+          const lista = document.getElementById('listaNotificacoes');
+          let naoLidas = 0;
+          lista.innerHTML = '';
+
+          const notificacoes = Array.isArray(res.notificacoes) ? res.notificacoes : res.mensagem;
+
+          if (res.status === 'sucesso' && Array.isArray(notificacoes) && notificacoes.length) {
+            notificacoes.forEach((item) => {
+              const lida = parseInt(item.lido ?? item.lida ?? 0);
+              if (lida === 1) naoLidas++;
+
+              const dataFormatada = formatarDataBrasileira(item.enviado_em);
+
               const div = document.createElement('div');
-              div.className = 'border rounded p-2 mb-2';
-              div.innerHTML = `  
-  <div class="d-flex align-items-center justify-content-between">
+              div.className = 'border rounded p-3 mb-2 shadow-sm';
+              div.innerHTML = `
+  <div class="d-flex justify-content-between align-items-start">
     <div class="flex-grow-1">
-      <div class="fw-semibold">${item.titulo}</div>
-      <div class="text-muted">${item.descricao}</div>
+      <div class="fw-semibold mb-1">${formatarDocumento(item.cpf)}</div>
+      <div class="text-muted small">Projeto: <strong>${item.projeto}</strong></div>
+      <div class="text-muted small">Mensagem: ${item.mensagem}</div>
     </div>
-    <div>${item.data_hora}</div>
+  </div>
+  <div class="d-flex justify-content-between align-items-center mt-2">
+    <div class="text-muted" style="font-size: 0.65rem;">${dataFormatada}</div>
+    <button class="btn btn-sm p-1 px-2 style="border: none; outline: none;"" title="Marcar como lida" onclick="marcarComoLida('${item.id}')">
+      <i class="bi bi-trash-fill text-danger"></i>
+    </button>
   </div>`;
+
               lista.appendChild(div);
             });
+
+            badge.textContent = naoLidas;
+            badge.style.display = naoLidas > 0 ? 'inline-block' : 'none';
           } else {
-            const badge = document.getElementById('badgeNotificacoes');
+            lista.innerHTML = '<div class="text-center text-muted">Nenhuma mensagem.</div>';
             badge.textContent = 0;
             badge.style.display = 'none';
+          }
+
+          if (abrirModal) {
+            var modal = new bootstrap.Modal(document.getElementById('modalNotificacoes'));
+            modal.show();
           }
         })
         .catch(() => {
           const badge = document.getElementById('badgeNotificacoes');
           badge.textContent = 0;
           badge.style.display = 'none';
+          document.getElementById('listaNotificacoes').innerHTML = '<div class="text-center text-danger">Erro ao carregar notificações.</div>';
         });
     }
 
-    // Notificações (mockup)
-    document.getElementById('btnNotificacoes').addEventListener('click', function() {
-      var modal = new bootstrap.Modal(document.getElementById('modalNotificacoes'));
-      modal.show();
-    });
 
-    // Exemplo: atualizar badge de notificações (mockup)
-    function atualizarBadgeNotificacoes(qtd) {
-      const badge = document.getElementById('badgeNotificacoes');
-      badge.textContent = qtd;
-      badge.style.display = qtd > 0 ? 'inline-block' : 'none';
+    function marcarComoLida(id) {
+      fetch('marcar-notificacao.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id,
+            token
+          })
+        })
+        .then(r => r.json())
+        .then(res => {
+          if (res.status === 'sucesso') {
+            carregarNotificacoes();
+          }
+        });
     }
-    atualizarBadgeNotificacoes(2); // Exemplo: 2 notificações
 
-    // Comunicação com WebView
+
+
+
+
+
+
+
+
+
+
+
+    // Comunicação com WebView e inicialização
     document.addEventListener("DOMContentLoaded", function() {
       if (window.ReactNativeWebView) {
         window.ReactNativeWebView.postMessage(JSON.stringify({
@@ -360,9 +424,10 @@ include_once "funcoes.php";
           pagina: 'login'
         }));
       }
-      // Se já tem token salvo, carregar vinculados
-      const token = document.getElementById('token').value;
-      if (token) carregarVinculados(token);
+      if (token) {
+        carregarVinculados(token);
+        carregarNotificacoes(false);
+      }
     });
   </script>
   <script>
@@ -379,6 +444,18 @@ include_once "funcoes.php";
       }
 
       return documento; // Return as is if length doesn't match CPF or CNPJ
+    }
+  </script>
+
+  <script>
+    function formatarDataBrasileira(dataISO) {
+      const data = new Date(dataISO);
+      const dia = String(data.getDate()).padStart(2, '0');
+      const mes = String(data.getMonth() + 1).padStart(2, '0');
+      const ano = data.getFullYear();
+      const horas = String(data.getHours()).padStart(2, '0');
+      const minutos = String(data.getMinutes()).padStart(2, '0');
+      return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
     }
   </script>
 

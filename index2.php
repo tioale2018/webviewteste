@@ -55,8 +55,8 @@ include_once "funcoes.php";
       <h5 class="text-center mb-3 fw-semibold">Acesso ao Sistema</h5>
       <div id="error" class="text-center alert alert-danger" role="alert" style="display: none;"></div>
      <div id="success" class="text-center alert alert-success" role="alert" style="display: none;"></div>
-       <input type="text" id="token"  hidden>
       <form action="login.php" method="POST">
+        <input type="text" id="token"  hidden>
         <div class="mb-3">
           <label for="documento" class="form-label">CNPJ/CPF</label>
           <div class="input-group">

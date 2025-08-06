@@ -147,20 +147,15 @@ include_once "funcoes.php";
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="src/logo.svg" alt="Logo" style="height: 40px;">
-      <span class="ms-2 fw-bold small">Desenvolve Cultura Mobile</span>
-    </a>
-
-    <button class="btn position-relative ms-auto" id="btnNotificacoes" type="button">
-      <i class="bi bi-bell fs-4 small"></i>
-      <span id="badgeNotificacoes" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">0</span>
-    </button>
-  </div>
-</nav>
-
+  <nav class="navbar navbar-light bg-white shadow-sm mb-4">
+    <div class="container-fluid justify-content-between">
+      <span class="navbar-brand mb-0 h1"><img src="src/logo.svg" alt="Logo" style="height:40px;"> <span class="fw-bold">Desenvolve Cultura Mobile</span></span>
+      <button id="btnNotificacoes" class="btn position-relative" type="button">
+        <i class="bi bi-bell fs-4"></i>
+        <span id="badgeNotificacoes" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">0</span>
+      </button>
+    </div>
+  </nav>
 
   <div class="container-fluid d-flex flex-column align-items-center justify-content-center" style="min-height:80vh;">
     <input type="text" id="token" hidden>

@@ -278,6 +278,36 @@ function carregarVinculados($token)
     }
 }
 
+function carregarMensagensToken($token)
+{
+    global $connPDO;
+
+    $stmt = $connPDO->prepare("SELECT tokens.cpf, tbnotificacoes.* FROM tokens INNER JOIN tbnotificacoes ON tokens.cpf = tbnotificacoes.cpf WHERE token = :token AND tbnotificacoes.ativo = 0 AND tbnotificacoes.lido = 1 ORDER BY tbnotificacoes.enviado_em DESC");
+    $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos as mensagens vinculadas ao token
+    } else {
+        return []; // Nenhum CPF encontrado
+    }
+}
+
+function carregarMensagensCPF($cpf)
+{
+    global $connPDO;
+
+    $stmt = $connPDO->prepare("SELECT tokens.cpf, tbnotificacoes.* FROM tokens INNER JOIN tbnotificacoes ON tokens.cpf = tbnotificacoes.cpf WHERE tbnotificacoes.cpf  = :cpf AND tbnotificacoes.ativo = 0 AND tbnotificacoes.lido = 1 ORDER BY tbnotificacoes.enviado_em DESC");
+    $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos as mensagens vinculadas ao cpf
+    } else {
+        return []; // Nenhum CPF encontrado
+    }
+}
+
 
 function getTokensAtivos()
 {

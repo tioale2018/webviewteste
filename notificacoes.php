@@ -17,7 +17,6 @@
   <main class="container py-3"> 
   <h1 class="h5 fw-bold mb-3">Notificações</h1>
   <div class="list-group">
-    <div id="teste"></div>
     <div id="listaNotificacoes"></div>
   </div> <!-- fechamento correto -->
 
@@ -30,9 +29,6 @@
     let contador = 0;
 // const token = "fTa0cCK3QK-9OjPlD21dZK:APA91bFPWM8lX4VsAZd0NcnIu2J0LkStdvst6e5T814g-hoqmxdTJsYJf06ea1LhQs3NlF2_JGhKqMJvT5YROZlWM04Ab7k8HGpdricBifEx06Zm4KqCuig";
     function carregarNotificacoes() {
-      contador++;
-      document.getElementById('teste').innerHTML = `${contador} - Carregando notificações...`;
-
       const lista = document.getElementById('listaNotificacoes');
       fetch('buscar-notificacoes-cpf.php', {
         method: 'POST',

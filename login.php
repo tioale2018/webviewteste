@@ -1,12 +1,13 @@
 <?php
 include_once 'conexao.php';
+include_once 'funcoes.php';
+
 session_start();
 if (isset($_POST['login'])) {
     // Get the form data 
     $documento = $_POST['documento'];
     $password = $_POST['senha'];
     $token = $_POST['token'];
-
 
     // die($documento . ' ' . $password);
 
@@ -45,6 +46,9 @@ if (isset($_POST['login'])) {
             $_SESSION['id_user'] = $row['id_user'];
             $_SESSION['tipo_doc'] = $row['tipo_doc'];
             $_SESSION['token'] = $token;
+
+
+            salvarToken($_SESSION['cpf'], $_SESSION['token']);
 
             error_log('Login OK, redirecionando...');
 

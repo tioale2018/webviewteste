@@ -245,17 +245,12 @@ include_once "funcoes.php";
     // Carregar lista de CNPJs/CPFs vinculados
     function carregarVinculados(token) {
       // const token = document.getElementById('token').value;
-      fetch('buscar-cpf-vinculados.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            token
-          })
-        })
-        .then(r => r.json())
-        .then(res => {
+      $.ajax({
+        url: 'buscar-cpf-vinculados.php',
+        type: 'POST',
+        dataType: 'json',
+        data: { token },
+        success: function(res) {
           const lista = document.getElementById('listaVinculados');
           lista.innerHTML = '';
           if (res.status === 'sucesso' && Array.isArray(res.cpfs) && res.cpfs.length) {
@@ -274,14 +269,14 @@ include_once "funcoes.php";
           } else {
             lista.innerHTML = '<div class="text-center text-muted">Nenhum CNPJ/CPF vinculado.</div>';
           }
-        })
-        .catch((err) => {
-          alert(err);
-          document.getElementById('listaVinculados').innerHTML = `${err}`;
+        },
+        error: function(err) {
+          alert(err.responseText);
+          document.getElementById('listaVinculados').innerHTML = `${err.responseText}`;
           // document.getElementById('listaVinculados').innerHTML = `<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">`;
-        });
+        }
+      });
     }
-
     // Abrir modal de desvincular
     let cpfParaDesvincular = '';
 

@@ -243,48 +243,47 @@ include_once "funcoes.php";
 
 
     // Carregar lista de CNPJs/CPFs vinculados
-    function carregarVinculados(token) {
-      // const token = document.getElementById('token').value;
-      fetch('buscar-cpf-vinculados.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            token
-          })
-        })
-        .then(r => r.text())
-        .then(resText => {
-          document.getElementById('listaVinculados').innerHTML = resText;
-        })
-        .then(resText.parseJSON())
-        .then(res => {
-          const lista = document.getElementById('listaVinculados');
-          lista.innerHTML = '';
-          if (res.status === 'sucesso' && Array.isArray(res.cpfs) && res.cpfs.length) {
-            res.cpfs.forEach((item, idx) => {
-              const div = document.createElement('div');
-              div.className = 'd-flex align-items-center justify-content-between border rounded p-2 mb-2 bg-white';
-              div.innerHTML = `
-  <a href="index2.php?documento=${encodeURIComponent(item.cpf)}" class="text-decoration-none text-dark fw-semibold flex-grow-1">
-    ${formatarDocumento(item.cpf)}
-  </a>
-  <button class="btn btn-sm btn-outline-danger ms-2" style="border: none; outline: none;" title="Desvincular" onclick="abrirModalDesvincular('${item.cpf}')">
-    <i class="bi bi-trash"></i>
-  </button>`;
-              lista.appendChild(div);
-            });
-          } else {
-            lista.innerHTML = '<div class="text-center text-muted">Nenhum CNPJ/CPF vinculado.</div>';
-          }
-        })
-        .catch((err) => {
-          alert(err);
-          document.getElementById('listaVinculados').innerHTML = `${err}`;
-          // document.getElementById('listaVinculados').innerHTML = `<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">`;
-        });
+function carregarVinculados(token) {
+  const tokenFinal = typeof token === 'string' && token.length ? token : localStorage.getItem('token');
+
+  if (!tokenFinal) {
+    document.getElementById('listaVinculados').innerHTML = `<div class="text-danger text-center">Token não encontrado.</div>`;
+    return;
+  }
+
+  fetch('buscar-cpf-vinculados.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ token: tokenFinal })
+  })
+  .then(r => r.json())
+  .then(res => {
+    const lista = document.getElementById('listaVinculados');
+    lista.innerHTML = '';
+    if (res.status === 'sucesso' && Array.isArray(res.cpfs) && res.cpfs.length) {
+      res.cpfs.forEach((item) => {
+        const div = document.createElement('div');
+        div.className = 'd-flex align-items-center justify-content-between border rounded p-2 mb-2 bg-white';
+        div.innerHTML = `
+          <a href="index2.php?documento=${encodeURIComponent(item.cpf)}" class="text-decoration-none text-dark fw-semibold flex-grow-1">
+            ${formatarDocumento(item.cpf)}
+          </a>
+          <button class="btn btn-sm btn-outline-danger ms-2" style="border: none; outline: none;" title="Desvincular" onclick="abrirModalDesvincular('${item.cpf}')">
+            <i class="bi bi-trash"></i>
+          </button>`;
+        lista.appendChild(div);
+      });
+    } else {
+      lista.innerHTML = '<div class="text-center text-muted">Nenhum CNPJ/CPF vinculado.</div>';
     }
+  })
+  .catch((err) => {
+    document.getElementById('listaVinculados').innerHTML = `<div class="text-danger text-center">Erro ao carregar dados.</div>`;
+  });
+}
+
 
     // Abrir modal de desvincular
     let cpfParaDesvincular = '';

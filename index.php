@@ -227,14 +227,20 @@ include_once "funcoes.php";
 
   <script>
     // Token recebido do app
-    // const token = "fTa0cCK3QK-9OjPlD21dZK:APA91bFPWM8lX4VsAZd0NcnIu2J0LkStdvst6e5T814g-hoqmxdTJsYJf06ea1LhQs3NlF2_JGhKqMJvT5YROZlWM04Ab7k8HGpdricBifEx06Zm4KqCuig";
-
     window.receberTokenDoApp = function(token) {
-      alert("📥 Token recebido do app: " + token);
       document.getElementById('token').value = token;
       localStorage.setItem('token', token);
       carregarVinculados(token);
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        document.getElementById('token').value = token;
+        carregarVinculados(token);
+      }
+    });
+
 
     // Carregar lista de CNPJs/CPFs vinculados
     function carregarVinculados(token) {

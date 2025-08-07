@@ -313,7 +313,7 @@ function carregarVinculados(token) {
         .then(res => {
           if (res.status === 'sucesso') {
             carregarVinculados(token);
-            carregarNotificacoes();
+            carregarNotificacoes(true);
           }
           var modal = bootstrap.Modal.getInstance(document.getElementById('modalDesvincular'));
           modal.hide();

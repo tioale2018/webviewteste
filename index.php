@@ -232,6 +232,7 @@ include_once "funcoes.php";
     window.receberTokenDoApp = function(token) {
       alert("📥 Token recebido do app: " + token);
       document.getElementById('token').value = token;
+      localStorage.setItem('token', token);
       carregarVinculados(token);
     }
 

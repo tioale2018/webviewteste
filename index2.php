@@ -118,10 +118,13 @@ include_once "funcoes.php";
   <!-- Script de comunicação com WebView -->
 
   <script>
-    window.receberTokenDoApp = function(token) {
-      alert("📥 Token recebido do app: " + token);
 
-      document.getElementById('token').value = token;
+    var token = localStorage.getItem('token');
+    document.getElementById('token').value = token;
+    
+    // window.receberTokenDoApp = function(token) {
+      // document.getElementById('token').value = token;
+     
 
       /*
       fetch('buscar-cpf.php', {
@@ -148,7 +151,7 @@ include_once "funcoes.php";
           // errorDiv.textContent = err;
           // errorDiv.style.display = 'block';
         }); */
-    }
+    // }
   </script>
 
   <script>

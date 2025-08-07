@@ -324,11 +324,11 @@ include_once "funcoes.php";
 
     // Carregar notificações e abrir modal
     document.getElementById('btnNotificacoes').addEventListener('click', function() {
-      alert('Teste');
       carregarNotificacoes(true);
     });
 
     function carregarNotificacoes(abrirModal = false) {
+      const token = document.getElementById('token').value;
       fetch('buscar-notificacoes.php', {
           method: 'POST',
           headers: {

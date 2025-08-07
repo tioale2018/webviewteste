@@ -2,23 +2,11 @@
 header('Content-Type: application/json');
 require_once 'funcoes.php';
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!isset($input['token'])) {
     echo json_encode(['status' => 'erro', 'mensagem' => 'Token não recebido']);
-    exit;
-}
-
-
-if (!isset($input['token']) || !is_string($input['token'])) {
-    echo json_encode([
-        'status' => 'erro',
-        'mensagem' => 'Token inválido',
-        'token_recebido' => $input['token'] // mostra o conteúdo recebido
-    ]);
     exit;
 }
 

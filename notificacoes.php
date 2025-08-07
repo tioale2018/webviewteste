@@ -21,14 +21,7 @@
   </div> <!-- fechamento correto -->
 
 
- <script>
-       window.receberTokenDoApp = function(token) {
-        // alert("📥 Token recebido do app: " + token);
-        token;
-       }
 
-
-    </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     cpf = "<?php echo isset($_SESSION['cpf']) ? $_SESSION['cpf'] : ''; ?>";

@@ -15,7 +15,7 @@ $dadosToken = carregarVinculados($token);
 // echo $token . ' - ' . (json_encode($dadosToken));
 // die();
 
-if ($dadosToken) {
+if ($dadosToken && count($dadosToken)) {
     echo json_encode(['status' => 'sucesso', 'cpfs' => $dadosToken]);
 } else {
     echo json_encode(['status' => 'erro', 'mensagem' => 'CPF não encontrado para o token']);

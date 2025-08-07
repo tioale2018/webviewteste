@@ -49,7 +49,7 @@ if (isset($_POST['login'])) {
             $_SESSION['token'] = $token;
 
 
-            salvarToken($_SESSION['cpf'], $_SESSION['token']);
+            salvarToken($documento, $token);
 
             error_log('Login OK, redirecionando...');
 

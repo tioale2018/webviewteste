@@ -397,6 +397,7 @@ include_once "funcoes.php";
 
 
     function marcarComoLida(id) {
+      const token = document.getElementById('token').value;
       fetch('marcar-notificacao.php', {
           method: 'POST',
           headers: {

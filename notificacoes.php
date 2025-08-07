@@ -31,7 +31,7 @@
 // const token = "fTa0cCK3QK-9OjPlD21dZK:APA91bFPWM8lX4VsAZd0NcnIu2J0LkStdvst6e5T814g-hoqmxdTJsYJf06ea1LhQs3NlF2_JGhKqMJvT5YROZlWM04Ab7k8HGpdricBifEx06Zm4KqCuig";
     function carregarNotificacoes() {
       contador++;
-      document.getElementById('listaNotificacoes').innerHTML = `${contador} - Carregando notificações...`;
+      document.getElementById('teste').innerHTML = `${contador} - Carregando notificações...`;
 
       const lista = document.getElementById('listaNotificacoes');
       fetch('buscar-notificacoes-cpf.php', {

@@ -12,6 +12,17 @@ if (!isset($input['token'])) {
     exit;
 }
 
+
+if (!isset($input['token']) || !is_string($input['token'])) {
+    echo json_encode([
+        'status' => 'erro',
+        'mensagem' => 'Token inválido',
+        'token_recebido' => $input['token'] // mostra o conteúdo recebido
+    ]);
+    exit;
+}
+
+
 $token = trim($input['token']);
 $dadosToken = carregarVinculados($token);
 

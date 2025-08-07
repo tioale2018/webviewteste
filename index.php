@@ -247,7 +247,7 @@ function carregarVinculados(token) {
   const tokenFinal = typeof token === 'string' && token.length ? token : localStorage.getItem('token');
 
   if (!tokenFinal) {
-    document.getElementById('listaVinculados').innerHTML = `<div class="text-danger text-center">Token não encontrado.</div>`;
+    document.getElementById('listaVinculados').innerHTML = `<div class="text-danger text-center">Erro ao carregar dados.</div>`;
     return;
   }
 

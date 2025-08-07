@@ -276,7 +276,7 @@ include_once "funcoes.php";
         })
         .catch((err) => {
 
-          document.getElementById('listaVinculados').innerHTML = `<div class="text-center text-danger">Erro ao carregar vinculados.${err}</div>`;
+          document.getElementById('listaVinculados').innerHTML = `<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">`;
         });
     }
 

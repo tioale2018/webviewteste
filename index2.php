@@ -119,8 +119,11 @@ include_once "funcoes.php";
 
   <script>
     window.receberTokenDoApp = function(token) {
-      // alert("📥 Token recebido do app: " + token);
+      alert("📥 Token recebido do app: " + token);
 
+      document.getElementById('token').value = token;
+
+      /*
       fetch('buscar-cpf.php', {
           method: 'POST',
           headers: {
@@ -144,7 +147,7 @@ include_once "funcoes.php";
           // const errorDiv = document.getElementById('error');
           // errorDiv.textContent = err;
           // errorDiv.style.display = 'block';
-        });
+        }); */
     }
   </script>
 

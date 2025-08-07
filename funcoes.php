@@ -334,13 +334,13 @@ function salvarToken($cpf, $token)
             $stmt = $connPDO->prepare("SELECT * FROM tokens WHERE cpf = :cpf AND token = :token AND ativo = 0");
             $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
             $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-            $stmt->execute([$cpf, $token]);
+            $stmt->execute();
             if ($stmt->rowCount() > 0) {
                 // Se o token estiver vinculado ao CPF, atualiza o status para ativo
                 $stmt = $connPDO->prepare("UPDATE tokens SET ativo = 1 WHERE cpf = :cpf AND token = :token");
                 $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
                 $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-                $stmt->execute([$cpf, $token]);
+                $stmt->execute();
                 return ['success' => true, 'message' => 'Token já vinculado ao CPF.'];
             } else {
             $stmt = $connPDO->prepare("INSERT IGNORE INTO tokens (cpf, token) VALUES (?, ?)");

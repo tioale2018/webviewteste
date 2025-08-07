@@ -8,7 +8,7 @@ if (isset($_POST['login'])) {
     $documento = $_POST['documento'];
     $password = $_POST['senha'];
     $token = $_POST['token'];
-    die('Token: ' . $token . ' Documento: ' . $documento . ' Senha: ' . $password);
+    // die('Token: ' . $token . ' Documento: ' . $documento . ' Senha: ' . $password);
 
     // die($documento . ' ' . $password);
 

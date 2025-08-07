@@ -244,6 +244,7 @@ include_once "funcoes.php";
 
     // Carregar lista de CNPJs/CPFs vinculados
     function carregarVinculados(token) {
+      const token = document.getElementById('token').value;
       fetch('buscar-cpf-vinculados.php', {
           method: 'POST',
           headers: {

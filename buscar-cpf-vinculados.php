@@ -2,6 +2,9 @@
 header('Content-Type: application/json');
 require_once 'funcoes.php';
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!isset($input['token'])) {

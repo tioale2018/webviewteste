@@ -266,8 +266,9 @@ include_once "funcoes.php";
             lista.innerHTML = '<div class="text-center text-muted">Nenhum CNPJ/CPF vinculado.</div>';
           }
         })
-        .catch(() => {
-          document.getElementById('listaVinculados').innerHTML = '<div class="text-center text-danger">Erro ao carregar vinculados.</div>';
+        .catch((err) => {
+
+          document.getElementById('listaVinculados').innerHTML = `<div class="text-center text-danger">Erro ao carregar vinculados.${err}</div>`;
         });
     }
 

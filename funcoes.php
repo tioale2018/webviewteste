@@ -297,7 +297,8 @@ function carregarMensagensCPF($cpf)
 {
     global $connPDO;
 
-    $stmt = $connPDO->prepare("SELECT tokens.cpf, tbnotificacoes.* FROM tokens INNER JOIN tbnotificacoes ON tokens.cpf = tbnotificacoes.cpf WHERE tbnotificacoes.cpf  = :cpf AND tbnotificacoes.ativo = 0 AND tbnotificacoes.lido = 1 ORDER BY tbnotificacoes.enviado_em DESC");
+    $stmt = $connPDO->prepare("SELECT * FROM tbnotificacoes WHERE cpf = :cpf AND ativo = 0 AND lido = 1 ORDER BY enviado_em DESC
+");
     $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
     $stmt->execute();
 

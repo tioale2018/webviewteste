@@ -277,6 +277,7 @@ include_once "funcoes.php";
         })
         .catch((err) => {
           alert(err);
+          document.getElementById('listaVinculados').innerHTML = `${err}`;
           document.getElementById('listaVinculados').innerHTML = `<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">`;
         });
     }

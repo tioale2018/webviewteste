@@ -282,7 +282,7 @@ function carregarMensagensToken($token)
 {
     global $connPDO;
 
-    $stmt = $connPDO->prepare("SELECT tokens.cpf, tbnotificacoes.* FROM tokens INNER JOIN tbnotificacoes ON tokens.cpf = tbnotificacoes.cpf WHERE token = :token AND tbnotificacoes.ativo = 0 AND tbnotificacoes.lido = 1 ORDER BY tbnotificacoes.enviado_em DESC");
+    $stmt = $connPDO->prepare("SELECT tokens.cpf, tbnotificacoes.* FROM tokens INNER JOIN tbnotificacoes ON tokens.cpf = tbnotificacoes.cpf WHERE token = :token AND tbnotificacoes.ativo = 0 AND tbnotificacoes.lido = 1 AND tokens.ativo = 1 ORDER BY tbnotificacoes.enviado_em DESC");
     $stmt->bindParam(':token', $token, PDO::PARAM_STR);
     $stmt->execute();
 

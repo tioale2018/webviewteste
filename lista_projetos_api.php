@@ -113,10 +113,10 @@ $token = generate_jwt($payload, $secret);
                     $('#projetos-submetidos-list').html(htmlSubmetidos);
                 },
                 error: function(err) {
-                    const htmlErro = '<div class="alert alert-danger" role="alert">Erro ao carregar os projetos. Tente novamente mais tarde.</div>';
+                    const htmlErro = `<div class="alert alert-danger" role="alert">${err}Erro ao carregar os projetos. Tente novamente mais tarde.</div>`;
                     $('#projetos-submetidos-list').html(htmlErro);
                     $('#projetos-abertos-list').html(htmlErro);
-                    console.error('Erro na requisição:', err);
+                    
                 }
             });
         });

@@ -50,7 +50,8 @@ $token = generate_jwt($payload, $secret);
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + jwtToken 
+                    // 'Authorization': 'Bearer ' + jwtToken 
+                    'cpf': '<?= $cpf ?>',
                 },
                 beforeSend: function() {
                    $('#editais-encerrados-list').html(`Aqui ${jwtToken}`);

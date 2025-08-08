@@ -67,7 +67,8 @@ $token = generate_jwt($payload, $secret);
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + jwtToken 
                 },
-                beforeSend: function() {                    
+                beforeSend: function() {
+                    $('#projetos-submetidos-list').html(jwtToken);                    
                     $('#projetos-abertos-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div></div>');
                     $('#projetos-submetidos-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div></div>');
                 },

@@ -52,9 +52,10 @@ $token = generate_jwt($payload, $secret);
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + jwtToken 
                 },
-                // beforeSend: function() {
-                //     $('#editais-encerrados-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
-                // },
+                beforeSend: function() {
+                   $('#editais-encerrados-list').html(`Aqui ${jwtToken}`);
+                    $('#editais-encerrados-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
+                },
                 success: function(editais) {
       if (!editais.length) {
         $('#editais-encerrados-list').html('<div class="alert alert-info" role="alert">Nenhum edital encerrado no momento.</div>');

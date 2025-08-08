@@ -54,7 +54,7 @@ $token = generate_jwt($payload, $secret);
                     'cpf': '<?= $cpf ?>',
                 },
                 beforeSend: function() {
-                   $('#editais-encerrados-list').html(`Aqui ${jwtToken}`);
+                  //  $('#editais-encerrados-list').html(`Aqui ${jwtToken}`);
                     // $('#editais-encerrados-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
                 },
                 success: function(editais) {

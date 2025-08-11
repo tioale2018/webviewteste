@@ -53,7 +53,7 @@ $token = generate_jwt($payload, $secret);
         return;
       }
             $.ajax({
-                url: 'http://192.168.2.15/desenvolve-cultura/api/info_edital.php?id='  + encodeURIComponent(id),
+                url: './proxy.php?endpoint=info_edital.php&id=' + encodeURIComponent(id),
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

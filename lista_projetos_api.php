@@ -61,7 +61,7 @@ $token = generate_jwt($payload, $secret);
     <script>
         $(function() {
             $.ajax({
-                url: 'http://192.168.2.15/desenvolve-cultura/api/projetos.php',
+                url: './proxy.php?endpoint=projetos.php',
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

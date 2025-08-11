@@ -54,6 +54,7 @@ $token = generate_jwt($payload, $secret);
                 },
                 beforeSend: function() {
                     $('#editais-encerrados-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
+                      $('#editais-encerrados-list').html(`<div class="d-flex justify-content-center">${jwtToken}</div>`);
                 },
                 success: function(editais) {
       if (!editais.length) {

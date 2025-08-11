@@ -113,7 +113,7 @@ include_once "funcoes.php";
         errorDiv.style.display = 'block';
         return; 
       }
-      fetch('http://cultura.rj.gov.br/desenvolve-cultura/api/recupera-senha.php', {
+      fetch('http://192.168.2.15/desenvolve-cultura/api/recupera-senha.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

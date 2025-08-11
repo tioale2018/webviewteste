@@ -38,7 +38,7 @@ $token = generate_jwt($payload, $secret);
     <h1 class="h5 fw-bold mb-3">Editais Encerrados</h1>
     <div id="editais-encerrados-list"></div>
   </main>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./js/jquery-3.7.1.min.js"></script>
   <script>
         const jwtToken = '<?= $token ?>';
     </script>

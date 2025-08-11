@@ -41,6 +41,7 @@ $token = generate_jwt($payload, $secret);
   <script src="./js/jquery-3.7.1.min.js"></script>
   <script>
         const jwtToken = '<?= $token ?>';
+        alert(jwtToken);
     </script>
     <script>
         $(function() {

@@ -41,7 +41,6 @@ $token = generate_jwt($payload, $secret);
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
         const jwtToken = '<?= $token ?>';
-        // const jwtToken = 'blabla';
     </script>
     <script>
         $(function() {
@@ -50,12 +49,10 @@ $token = generate_jwt($payload, $secret);
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'Authorization': 'Bearer ' + jwtToken 
-                    'cpf': '<?= $cpf ?>',
+                    'Authorization': 'Bearer ' + jwtToken 
                 },
                 beforeSend: function() {
-                  //  $('#editais-encerrados-list').html(`Aqui ${jwtToken}`);
-                    // $('#editais-encerrados-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
+                    $('#editais-encerrados-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
                 },
                 success: function(editais) {
       if (!editais.length) {

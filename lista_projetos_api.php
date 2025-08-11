@@ -61,14 +61,13 @@ $token = generate_jwt($payload, $secret);
     <script>
         $(function() {
             $.ajax({
-                url: 'http://cultura.rj.gov.br/desenvolve-cultura/api/projetos.php',
+                url: 'http://192.168.2.15/desenvolve-cultura/api/projetos.php',
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + jwtToken 
                 },
-                beforeSend: function() {
-                    $('#projetos-submetidos-list').html(jwtToken);                    
+                beforeSend: function() {                    
                     $('#projetos-abertos-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div></div>');
                     $('#projetos-submetidos-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div></div>');
                 },
@@ -114,10 +113,10 @@ $token = generate_jwt($payload, $secret);
                     $('#projetos-submetidos-list').html(htmlSubmetidos);
                 },
                 error: function(err) {
-                    const htmlErro = `<div class="alert alert-danger" role="alert">${err}Erro ao carregar os projetos. Tente novamente mais tarde.</div>`;
+                    const htmlErro = '<div class="alert alert-danger" role="alert">Erro ao carregar os projetos. Tente novamente mais tarde.</div>';
                     $('#projetos-submetidos-list').html(htmlErro);
                     $('#projetos-abertos-list').html(htmlErro);
-                    
+                    console.error('Erro na requisição:', err);
                 }
             });
         });

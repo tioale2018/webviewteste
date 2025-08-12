@@ -58,12 +58,12 @@ if (isset($_POST['login'])) {
             exit;
         } else {
             error_log('Senha incorreta!');            
-            header("Location: index.php?error=1");
+            header("Location: index2.php?error=1");
             exit;
         }
     } else {
         error_log('Usuário não encontrado!');
-        header("Location: index.php?error=1");
+        header("Location: index2.php?error=1");
         exit;
     }
 } else {

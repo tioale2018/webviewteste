@@ -48,7 +48,7 @@
                 <div class="flex-grow-1">
                   <div class="fw-semibold mb-1">Projeto:${mensagem.projeto}</div>
                   <div class="text-muted small"></div>
-                  <div class="text-muted small">Mensagem: ${mensagem.mensagem}</div>
+                  <div class="text-muted small">${mensagem.mensagem}</div>
                 </div>
               </div>
               <div class="d-flex justify-content-between align-items-center mt-2">

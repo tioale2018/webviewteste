@@ -61,7 +61,10 @@
             lista.appendChild(div);
           });
         } else {
-          lista.innerHTML = '<div class="text-center text-muted">Nenhuma mensagem.</div>';
+          lista.innerHTML = `<div class="list-group-item rounded-3 shadow-sm mb-3">
+              <div class="mb-2">' <p class="text-center text-muted">Nenhuma notificação.</p>
+              </div>
+            </div>`;
         }
       })
       .catch((err) => {

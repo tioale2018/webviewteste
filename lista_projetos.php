@@ -67,7 +67,7 @@
                 <?php elseif (getProjetoSubmetidoEdital($projeto_nao_submetido['idedital'])): ?>
                   <span class="badge bg-warning rounded-pill mb-2">Outro projeto já foi submetido neste edital</span>
                 <?php else: ?>
-                  <a href="info_projeto.php?id=<?= $projeto_nao_submetido['id_project'] ?>" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a>
+                  <!-- <a href="info_projeto.php?id=<?= $projeto_nao_submetido['id_project'] ?>" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a> -->
                 <?php endif; ?>
               </div>
             </div>
@@ -146,7 +146,7 @@
                   <div><?= htmlspecialchars($projeto['titulo_edital']) ?></div>
                 </div>
                 <div class="mt-2">
-                  <a href="info_projeto.php?id=<?= $projeto['id_project'] ?>" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a>
+                  <!-- <a href="info_projeto.php?id=<?= $projeto['id_project'] ?>" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a> -->
                 </div>
               </div>
             <?php endforeach; ?>

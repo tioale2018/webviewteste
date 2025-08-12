@@ -62,7 +62,8 @@
           });
         } else {
           lista.innerHTML = `<div class="list-group-item rounded-3 shadow-sm mb-3">
-              <div class="mb-2"><p class="text-center text-muted">Nenhuma notificação.</p>
+              <div class="mb-2"><br>
+              <p class="text-center text-muted">Nenhuma notificação.</p>
               </div>
             </div>`;
         }

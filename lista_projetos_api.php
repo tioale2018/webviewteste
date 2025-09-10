@@ -194,13 +194,14 @@ $token = generate_jwt($payload, $secret);
                 htmlSubmetidos += '</div>';
                 $('#projetos-submetidos-list').html(htmlSubmetidos);
             },
-            error: function(err) {
-                const mensagem = err.responseJSON?.error || 'Erro ao carregar os projetos. Tente novamente mais tarde.';
-                const htmlErro = `<div class="alert alert-danger" role="alert">${mensagem}</div>`;
-                $('#projetos-submetidos-list').html(htmlErro);
-                $('#projetos-abertos-list').html(htmlErro);
-                console.error('Erro na requisição:', err);
-            }
+           error: function(err) {
+    const mensagem = err.responseJSON?.error || 'Erro desconhecido';
+    const htmlErro = `<div class="alert alert-danger" role="alert">${mensagem}</div>`;
+    $('#projetos-submetidos-list').html(htmlErro);
+    $('#projetos-abertos-list').html(htmlErro);
+    console.error('Erro na requisição:', err);
+}
+
         });
     });
 </script>

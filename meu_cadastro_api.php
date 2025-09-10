@@ -37,7 +37,7 @@ $token = generate_jwt($payload, $secret);
   </script>
   <script>
   $.ajax({
-                url: './proxy.php?endpoint=usuario.php',
+                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/usuario.php',
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

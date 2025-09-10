@@ -58,7 +58,7 @@ $token = generate_jwt($payload, $secret);
     <script>
         const jwtToken = '<?= $token ?>';
     </script>
-    <script>
+    <!-- <script>
         $(function() {
             $.ajax({
                 url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/projetos.php',
@@ -120,7 +120,91 @@ $token = generate_jwt($payload, $secret);
                 }
             });
         });
-    </script>
+    </script> -->
+    <script>
+    $(function() {
+        $.ajax({
+            url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/projetos.php',
+            type: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + jwtToken
+            },
+            data: JSON.stringify({}), // corpo vazio para evitar erro com Content-Type
+            contentType: 'application/json', // define corretamente o tipo de conteúdo
+            beforeSend: function() {
+                const loading = `
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>`;
+                $('#projetos-abertos-list').html(loading);
+                $('#projetos-submetidos-list').html(loading);
+            },
+            success: function(data) {
+                let abertos = data.nao_submetidos;
+                let htmlAbertos = '<div class="list-group">';
+                if (!abertos.length) {
+                    htmlAbertos += `
+                        <div class="list-group-item rounded-3 shadow-sm mb-3">
+                            <div class="mb-2">
+                                <p class="text-center text-muted">Nenhum projeto aberto para inscrição.</p>
+                            </div>
+                        </div>`;
+                } else {
+                    abertos.forEach(function(proj) {
+                        htmlAbertos += `
+                            <div class="list-group-item rounded-3 shadow-sm mb-3">
+                                <div class="mb-2"><small class="text-muted">Código:</small> <span class="fw-semibold">${proj.id_project}</span></div>
+                                <div class="mb-2"><small class="text-muted">Projeto:</small> <div class="fw-semibold">${proj.titulo}</div></div>
+                                <div class="mb-2"><small class="text-muted">Oportunidade:</small> <div>${proj.titulo_edital}</div></div>
+                                <div class="mt-2">`;
+                        if (proj.totalinscritos == 0) {
+                            htmlAbertos += '<span class="badge bg-danger rounded-pill mb-2">Inscrição Encerrada</span>';
+                        } else if (proj.submetido) {
+                            htmlAbertos += '<span class="badge bg-warning rounded-pill mb-2">Outro projeto já foi submetido neste edital</span>';
+                        } else {
+                            htmlAbertos += `<a href="info_projeto.php?id=${proj.id_project}" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a>`;
+                        }
+                        htmlAbertos += `</div></div>`;
+                    });
+                }
+                htmlAbertos += '</div>';
+                $('#projetos-abertos-list').html(htmlAbertos);
+
+                let submetidos = data.submetidos;
+                let htmlSubmetidos = '<div class="list-group">';
+                if (!submetidos.length) {
+                    htmlSubmetidos += `
+                        <div class="list-group-item rounded-3 shadow-sm mb-3">
+                            <div class="mb-2">
+                                <p class="text-center text-muted">Nenhum projeto submetido.</p>
+                            </div>
+                        </div>`;
+                } else {
+                    submetidos.forEach(function(proj) {
+                        htmlSubmetidos += `
+                            <div class="list-group-item rounded-3 shadow-sm mb-3">
+                                <div class="mb-2"><small class="text-muted">Código:</small> <span class="fw-semibold">${proj.id_project}</span></div>
+                                <div class="mb-2"><small class="text-muted">Projeto:</small> <div class="fw-semibold">${proj.titulo}</div></div>
+                                <div class="mb-2"><small class="text-muted">Oportunidade:</small> <div>${proj.titulo_edital}</div></div>
+                            </div>`;
+                    });
+                }
+                htmlSubmetidos += '</div>';
+                $('#projetos-submetidos-list').html(htmlSubmetidos);
+            },
+            error: function(err) {
+                const mensagem = err.responseJSON?.error || 'Erro ao carregar os projetos. Tente novamente mais tarde.';
+                const htmlErro = `<div class="alert alert-danger" role="alert">${mensagem}</div>`;
+                $('#projetos-submetidos-list').html(htmlErro);
+                $('#projetos-abertos-list').html(htmlErro);
+                console.error('Erro na requisição:', err);
+            }
+        });
+    });
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

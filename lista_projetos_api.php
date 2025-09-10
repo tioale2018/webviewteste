@@ -61,7 +61,7 @@ $token = generate_jwt($payload, $secret);
     <script>
         $(function() {
             $.ajax({
-                url: './proxy.php?endpoint=projetos.php',
+                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/projetos.php',
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

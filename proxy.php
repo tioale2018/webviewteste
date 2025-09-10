@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Configurações do proxy
-$api_base_url = 'http://cultura.rj.gov.br/desenvolve-cultura/api/';
+$api_base_url = 'https://cultura.rj.gov.br/desenvolve-cultura/api/';
 
 // Pega o endpoint da query string
 $endpoint = $_GET['endpoint'] ?? '';

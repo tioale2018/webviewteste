@@ -1,6 +1,6 @@
 <?php
 $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
-$is_production = ($server_name === 'webview.sophx.com.br' || $server_name === 'homologa.sophx.com.br');
+$is_production = ($server_name === 'webview.sophx.com.br' );
 
 $base_path = $is_production ? '/home/comsophxadm/webview.sophx.com.br' : __DIR__;
 $autoload_path = $base_path . '/vendor/autoload.php';
@@ -13,8 +13,8 @@ require $autoload_path;
 
 use Dotenv\Dotenv;
 
-$env_path = $is_production ? '/home/comsophxadm' : __DIR__;
-// $env_path = '/home/comsophxadm';
+// $env_path = $is_production ? '/home/comsophxadm' : __DIR__;
+$env_path = '/home/comsophxadm';
 
 if (!file_exists($env_path . '/.env')) {
     die("Erro: O arquivo .env não foi encontrado em: $env_path");

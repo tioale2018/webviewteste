@@ -57,20 +57,17 @@ $token = generate_jwt($payload, $secret);
      <script src="./js/jquery-3.7.1.min.js"></script>
     <script>
         const jwtToken = '<?= $token ?>';
-        const cpf = '<?= $cpf ?>';
+        // const cpf = '<?= $cpf ?>';
     </script>
     <script>
         $(function() {
             $.ajax({
-                // url: 'http://localhost/apk_dc/webviewteste/api/api_projetos.php',
-                url: 'https://desenvolvecultura.com.br/api/api_projetos.php',
+                url: 'http://localhost/desenvolve-cultura/api/projetos.php',
+                // url: 'https://desenvolvecultura.com.br/api/api_projetos.php',
                 type: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + jwtToken 
-                },
-                data: {
-                    'cpf': cpf
                 },
                 beforeSend: function() {                    
                     $('#projetos-abertos-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div></div>');

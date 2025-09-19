@@ -13,7 +13,8 @@ require $autoload_path;
 
 use Dotenv\Dotenv;
 
-$env_path = $is_production ? '/home/comsophxadm' : __DIR__;
+// $env_path = $is_production ? '/home/comsophxadm' : __DIR__;
+$env_path = '/home/comsophxadm';
 
 if (!file_exists($env_path . '/.env')) {
     die("Erro: O arquivo .env não foi encontrado em: $env_path");

@@ -8,12 +8,13 @@ $password    = "";
 // $database    = "bdwebview";
 $database    = "inscricao-editais";
 
-if ($server_name == 'webview.sophx.com.br') {
+if ($server_name == 'webview.sophx.com.br' || $server_name == 'homologa.sophx.com.br') {
   $username = $_ENV['DB_USERNAME'] ?? '';
   $password = $_ENV['DB_PASSWORD'] ?? '';
   $database = $_ENV['DB_DATABASE'] ?? '';
 
-} 
+}
+
 
 date_default_timezone_set('America/Sao_Paulo');
 setlocale(LC_TIME, 'pt_BR.UTF-8', 'portuguese', 'pt_BR.utf8');

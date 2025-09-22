@@ -57,7 +57,6 @@ $token = generate_jwt($payload, $secret);
      <script src="./js/jquery-3.7.1.min.js"></script>
     <script>
         const jwtToken = '<?= $token ?>';
-        // const cpf = '<?= $cpf ?>';
     </script>
     <script>
         $(function() {
@@ -74,6 +73,7 @@ $token = generate_jwt($payload, $secret);
                     $('#projetos-submetidos-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div></div>');
                 },
                 success: function(data) {
+                    console.log(data);
                     let abertos = data.nao_submetidos;
                     let htmlAbertos = '<div class="list-group">';
                     if (!abertos.length) {

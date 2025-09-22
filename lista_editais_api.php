@@ -55,8 +55,9 @@ $token = generate_jwt($payload, $secret);
                 beforeSend: function() {
                     $('#editais-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
                 },
-                success: function(editais) {
-      if (!editais.length) {
+                success: function(data) {
+      let editais = data;
+      if (!data.editais.length) {
         $('#editais-list').html('<div class="alert alert-info" role="alert">Nenhum edital ativo no momento.</div>');
         return;
       }

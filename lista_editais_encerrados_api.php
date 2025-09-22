@@ -19,7 +19,7 @@ $token = generate_jwt($payload, $secret);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Editais Encerrados - Desenvolve Cultura</title>
+  <title>Oportunidades - Desenvolve Cultura</title>
   <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
@@ -35,29 +35,30 @@ $token = generate_jwt($payload, $secret);
   <?php endif; ?>
   <?php include_once "navbar.php"; ?>
   <main class="container-fluid py-3">
-    <h1 class="h5 fw-bold mb-3">Editais Encerrados</h1>
-    <div id="editais-encerrados-list"></div>
+    <h1 class="h5 fw-bold mb-3">Oportunidades</h1>
+    <div id="editais-list"></div>
   </main>
-  <script src="./js/jquery-3.7.1.min.js"></script>
+   <script src="./js/jquery-3.7.1.min.js"></script>
   <script>
         const jwtToken = '<?= $token ?>';
     </script>
     <script>
         $(function() {
             $.ajax({
-                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/editais_encerrados.php',
-                // url: 'http://localhost/desenvolve-cultura/api/editais_encerrados.php',
-                type: 'GET',
+                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/editais_abertos.php',
+                // url: 'http://localhost/desenvolve-cultura/api/editais_abertos.php',
+                type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + jwtToken, 
+                    'Authorization': 'Bearer ' + jwtToken 
                 },
-                // beforeSend: function() {
-                //     $('#editais-encerrados-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
-                // },
-                success: function(editais) {
+                beforeSend: function() {
+                    $('#editais-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
+                },
+                success: function(data) {
+      let editais = data.editais;
       if (!editais.length) {
-        $('#editais-encerrados-list').html('<div class="alert alert-info" role="alert">Nenhum edital encerrado no momento.</div>');
+        $('#editais-list').html('<div class="alert alert-info" role="alert">Nenhum edital ativo no momento.</div>');
         return;
       }
       let html = '<div class="list-group">';
@@ -77,10 +78,11 @@ $token = generate_jwt($payload, $secret);
             <small class="text-muted">${dataCriacaoStr} - ${dataFechamentoStr}</small>
           </div>
         </div>`;
+        
       });
       html += '</div>';
-      $('#editais-encerrados-list').html(html);
-                }, error: function(err) {
+      $('#editais-list').html(html);
+    }, error: function(err) {
                     const htmlErro = '<div class="alert alert-danger" role="alert">Erro ao carregar os dados. Tente novamente mais tarde.</div>';
                     $('#cadastro-card').html(htmlErro);
                     console.error('Erro na requisição:', err);

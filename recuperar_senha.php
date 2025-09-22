@@ -26,6 +26,49 @@ if (strpos($ua, 'Desenvolve-Mobile') === false) {
 
 include_once "conexao.php";
 include_once "funcoes.php";
+
+
+// Verifica se é uma requisição AJAX para gerar token
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+    header('Content-Type: application/json');
+    
+    // Pega o conteúdo JSON enviado
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+    
+    if (!isset($data['documento'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Documento não fornecido']);
+        exit;
+    }
+    
+    $documento = preg_replace('/[^\d]/', '', $data['documento']);
+    
+    if (empty($documento)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Documento inválido']);
+        exit;
+    }
+    
+    try {
+        $payload = [
+            'documento' => $documento,
+            'timestamp' => time()
+        ];
+        
+        $secret = getJwtSecret();
+        $token = generate_jwt($payload, $secret);
+        
+        echo json_encode(['token' => $token]);
+        exit;
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Erro ao gerar token']);
+        exit;
+    }
+}
+
+$secret = getJwtSecret();
 ?>
 
 <!DOCTYPE html>
@@ -71,78 +114,80 @@ include_once "funcoes.php";
 
   <!-- Script de comunicação com WebView -->
 
+ <script src="./js/jquery-3.7.1.min.js"></script>
   <script>
-    
-    window.receberTokenDoApp = function(token) {
-      // alert("📥 Token recebido do app: " + token);
-
-      fetch('buscar-cpf.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            token
-          })
-        })
-        .then(response => response.json())
-        .then(res => {
-          if (res.status === 'sucesso' && res.cpf) {
-            // alert('CPF encontrado: ' + res.cpf);
-            document.getElementById('documento').value = res.cpf;
-            // document.getElementById('token').value = token;
-          } else {
-            // alert('CPF não encontrado: ' + res.mensagem);
-          }
-        })
-        .catch(err => {
-          // const errorDiv = document.getElementById('error');
-          // errorDiv.textContent = err;
-          // errorDiv.style.display = 'block';
-        });
-    }
-  </script>
-
-  <script>
-    document.getElementById("recuperar-senha").addEventListener("click", function() {
-      var documento = document.getElementById("documento").value;
-      var token = document.getElementById("token").value;
-      if (!documento || !token) {
-        const errorDiv = document.getElementById('error');
-        errorDiv.textContent = 'Por favor, preencha o CNPJ/CPF.';
-        errorDiv.style.display = 'block';
-        return; 
-      }
-      fetch('https:cultura.rj.gov.br/desenvolve-cultura/api/recupera-senha.php', {
+    // Função para gerar o token JWT
+    async function generateToken(documento) {
+      const response = await fetch(window.location.href, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify({
-          token: token,
-          documento: documento
-        })
-      })
-      .then(response => response.json())
-      .then(res => {
-        if (res.status === 'sucesso') {
-          const successDiv = document.getElementById('success');
-          successDiv.textContent = res.mensagem;
-          successDiv.style.display = 'block';
-          document.getElementById('documento').value = '';
-      } else {
-        const errorDiv = document.getElementById('error');
-        errorDiv.textContent = res.mensagem;
-        errorDiv.style.display = 'block';
-      }
-    })
-      .catch(err => {
-            const errorDiv = document.getElementById('error');
-            errorDiv.textContent = err;
-            errorDiv.style.display = 'block';
+        body: JSON.stringify({ documento: documento })
       });
+      const data = await response.json();
+      return data.token;
+    }
 
+    // Função para limpar mensagens
+    function clearMessages() {
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('success').style.display = 'none';
+    }
+
+    // Função para mostrar erro
+    function showError(message) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
+
+    // Função para mostrar sucesso
+    function showSuccess(message) {
+      const successDiv = document.getElementById('success');
+      successDiv.textContent = message;
+      successDiv.style.display = 'block';
+    }
+
+    document.getElementById("recuperar-senha").addEventListener("click", async function() {
+      clearMessages();
+      
+      const documento = document.getElementById("documento").value.replace(/[^\d]/g, '');
+      
+      if (!documento) {
+        showError('Por favor, preencha o CNPJ/CPF.');
+        return;
+      }
+
+      try {
+        const token = await generateToken(documento);
+        
+        const response = await fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/recupera-senha.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+         },
+          body: JSON.stringify({
+            documento: documento
+          })
+        });
+
+        const res = await response.json();
+        
+        if (res.status === 'sucesso') {
+          showSuccess(res.mensagem);
+          document.getElementById('documento').value = '';
+        } else {
+          showError(res.mensagem || 'Erro ao recuperar senha');
+        }
+      } catch (err) {
+        showError('Erro ao processar sua solicitação. Tente novamente.');
+        console.error(err);
+      }
     });
+
   </script>
 
   <script>

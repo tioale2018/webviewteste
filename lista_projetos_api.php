@@ -90,6 +90,7 @@ $token = generate_jwt($payload, $secret);
                             } else if (proj.submetido) {
                                 htmlAbertos += '<span class="badge bg-warning rounded-pill mb-2">Outro projeto já foi submetido neste edital</span>';
                             } else {
+                                htmlAbertos += '<span class="badge bg-success rounded-pill mb-2">Inscrição Aberta</span>';
                                 // htmlAbertos += `<a href="info_projeto.php?id=${proj.id_project}" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a>`;
                             }
                             htmlAbertos += `</div></div>`;

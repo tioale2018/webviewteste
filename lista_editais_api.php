@@ -76,7 +76,6 @@ $token = generate_jwt($payload, $secret);
           <span class="badge bg-${status} rounded-pill my-2">${statusText}</span>
           <div class="d-flex w-100 justify-content-between">
             <small class="text-muted">${dataCriacaoStr} - ${dataFechamentoStr}</small>
-            <a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary">Mais detalhes</a>
           </div>
         </div>`;
         
@@ -94,3 +93,6 @@ $token = generate_jwt($payload, $secret);
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<?php
+// <a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary">Mais detalhes</a>

@@ -169,9 +169,6 @@ $secret = getJwtSecret();
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
          },
-          body: JSON.stringify({
-            documento: documento
-          })
         });
 
         const res = await response.json();

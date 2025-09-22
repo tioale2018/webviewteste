@@ -5,7 +5,7 @@ use Dotenv\Dotenv;
 
 $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
 
-if ($server_name == 'webview.sophx.com.br') {
+if ($server_name == 'webview.sophx.com.br' || $server_name == 'homologa.sophx.com.br') {
   $dotenv = Dotenv::createImmutable('/home/comsophxadm');
   $dotenv->load();
 } else {

@@ -37,8 +37,9 @@ $token = generate_jwt($payload, $secret);
   </script>
   <script>
   $.ajax({
-                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/usuario.php',
-                type: 'POST',
+                // url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/usuario.php',
+                url: 'http://localhost/desenvolve-cultura/api/usuario.php',
+                type: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + jwtToken 

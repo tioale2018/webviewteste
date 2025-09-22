@@ -41,21 +41,19 @@ $token = generate_jwt($payload, $secret);
   <script src="./js/jquery-3.7.1.min.js"></script>
   <script>
         const jwtToken = '<?= $token ?>';
-        alert(jwtToken);
     </script>
     <script>
         $(function() {
             $.ajax({
                 url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/editais_encerrados.php',
-                type: 'POST',
+                // url: 'http://localhost/desenvolve-cultura/api/editais_encerrados.php',
+                type: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + jwtToken, 
-                    'cpf': '<?= $cpf ?>'
                 },
                 beforeSend: function() {
                     $('#editais-encerrados-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
-                      $('#editais-encerrados-list').html(`<div class="d-flex justify-content-center">${jwtToken}</div>`);
                 },
                 success: function(editais) {
       if (!editais.length) {

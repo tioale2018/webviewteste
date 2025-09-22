@@ -45,7 +45,7 @@ $token = generate_jwt($payload, $secret);
     <script>
         $(function() {
             $.ajax({
-                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/editais_abertos.php',
+                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/editais_encerrados.php',
                 // url: 'http://localhost/desenvolve-cultura/api/editais_abertos.php',
                 type: 'POST',
                 headers: {

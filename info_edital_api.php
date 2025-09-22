@@ -54,14 +54,15 @@ $token = generate_jwt($payload, $secret);
       }
             $.ajax({
                 url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/info_edital.php?id=' + encodeURIComponent(id),
-                type: 'POST',
+                type: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + jwtToken 
                 },
                 beforeSend: function() {
                     $('#editais-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
-                },        success: function(data) {
+                },
+                success: function(data) {
         $('#titulo-edital').text(data.dados.titulo || 'Oportunidade');
         // Tabs
         let tabs = `

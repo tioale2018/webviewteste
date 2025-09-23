@@ -38,6 +38,19 @@ $token = generate_jwt($payload, $secret);
     const jwtToken = '<?= $token ?>';
   </script>
   <script>
+    function formatDate(dateString) {
+ 
+        const parts = dateString.split('-');
+        const year = parts[0];
+        const month = parts[1];
+        const day = parts[2];
+
+  
+      return `${day}/${month}/${year}`;
+    }
+
+  </script>
+  <script>
     $.ajax({
       url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/usuario.php',
       // url: 'http://localhost/desenvolve-cultura/api/usuario.php',
@@ -69,7 +82,7 @@ $token = generate_jwt($payload, $secret);
           html += renderField('MEI?', usuario.cpfmei ? 'Sim' : 'Não');
           html += renderField('CPF do Responsável', usuario.cpfmei);
         } else {
-          html += renderField('Data de Nascimento', usuario.nascimento);
+          html += renderField('Data de Nascimento', formatDate(usuario.nascimento));
         }
 
         html += renderField(pessoa_juridica ? 'Inscrição Estadual' : 'RG', usuario.rg);

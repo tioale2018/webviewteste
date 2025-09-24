@@ -67,10 +67,13 @@ $token = generate_jwt($payload, $secret);
         <div class="mb-4">
           <label for="senha-nova" class="form-label">Nova Senha</label>
           <div class="input-group">
-            <input type="password" class="form-control" id="senha-nova" required>
+            <input type="password" class="form-control" id="senha-nova" minlength="8" required>
             <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('senha-nova')">
               <i class="bi bi-eye"></i>
             </button>
+          </div>
+          <div id="senha-nova-error" class="invalid-feedback" style="display: none;">
+            A senha deve ter no mínimo 8 caracteres
           </div>
         </div>
 
@@ -124,14 +127,33 @@ $token = generate_jwt($payload, $secret);
       return true;
     }
 
+    function validateSenhaNova() {
+      const senhaNova = $('#senha-nova').val();
+      const errorDiv = $('#senha-nova-error');
+      
+      if (senhaNova && senhaNova.length < 8) {
+        errorDiv.show();
+        return false;
+      }
+      
+      errorDiv.hide();
+      return true;
+    }
+
     // Adiciona validação em tempo real
     $('#confirma-senha-atual').on('input', validateSenhaAtual);
+    $('#senha-nova').on('input', validateSenhaNova);
 
     $('#senha-form').on('submit', function(e) {
       e.preventDefault();
       
       if (!validateSenhaAtual()) {
         showMessage('As senhas atuais não coincidem', 'danger');
+        return;
+      }
+
+      if (!validateSenhaNova()) {
+        showMessage('A senha deve ter no mínimo 8 caracteres', 'danger');
         return;
       }
 

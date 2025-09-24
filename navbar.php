@@ -53,6 +53,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
       </li>
       <li class="nav-item  mb-2">
         <!-- <a href="meu_cadastro_api.php" class="nav-link text-dark"> -->
+        <a href="alterar_senha.php" class="nav-link text-dark">
+          <i class="bi bi-key me-2"></i> Alterar Senha
+        </a>
+      </li>
+      <li class="nav-item  mb-2">
+        <!-- <a href="meu_cadastro_api.php" class="nav-link text-dark"> -->
         <a href="notificacoes.php" class="nav-link text-dark d-flex align-items-center">
           <i class="bi bi-bell  me-2"></i>
   <span class="">Notificações</span>

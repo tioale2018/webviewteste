@@ -155,8 +155,13 @@ $token = generate_jwt($payload, $secret);
           senha_nova: senhaNova
         }),
         success: function(response) {
+          if(response.success === false) {
+            showMessage(response.mensage || 'Erro ao alterar senha', 'danger');
+            return;
+          } else {
           showMessage('Senha alterada com sucesso!', 'success');
           $('#senha-form')[0].reset();
+          }
         },
         error: function(err) {
           let mensagem = 'Erro ao alterar senha. ';

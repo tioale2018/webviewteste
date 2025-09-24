@@ -169,7 +169,7 @@ $token = generate_jwt($payload, $secret);
         url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/alterar-senha.php',
         type: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
           'Authorization': 'Bearer ' + jwtToken
         },
         data: JSON.stringify({

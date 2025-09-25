@@ -163,7 +163,7 @@ include_once "funcoes.php";
       <h5 class="text-center mb-3 fw-semibold">Contas vinculadas</h5>
       <div id="listaVinculados" class="mb-3 overflow-auto" style="max-height: 300px;">
       </div>
-      <a class="btn btn-outline-primary w-100 mb-2" href="index2.php">
+      <a class="btn btn-outline-primary w-100 mb-2" href="index2_api.php">
         <i class="bi bi-plus-circle"></i> Adicionar conta
       </a>
     </div>
@@ -267,7 +267,7 @@ function carregarVinculados(token) {
         const div = document.createElement('div');
         div.className = 'd-flex align-items-center justify-content-between border rounded p-2 mb-2 bg-white';
         div.innerHTML = `
-          <a href="index2.php?documento=${encodeURIComponent(item.cpf)}" class="text-decoration-none text-dark fw-semibold flex-grow-1">
+          <a href="index2_api.php?documento=${encodeURIComponent(item.cpf)}" class="text-decoration-none text-dark fw-semibold flex-grow-1">
             ${formatarDocumento(item.cpf)}
           </a>
           <button class="btn btn-sm btn-outline-danger ms-2" style="border: none; outline: none;" title="Desvincular" onclick="abrirModalDesvincular('${item.cpf}')">

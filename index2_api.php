@@ -251,7 +251,7 @@ $secret = getJwtSecret();
           
           if (sessaoResult.success) {
             showSuccess('Login realizado com sucesso!');
-            window.location.href = 'lista_editais.php';
+            window.location.href = 'lista_editais_api.php';
           } else {
             showError('Erro ao salvar sessão. Tente novamente.');
           }

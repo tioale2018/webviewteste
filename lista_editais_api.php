@@ -69,18 +69,16 @@ $token = generate_jwt($payload, $secret);
         let dataFechamento = new Date(edital.datafecha * 1000);
         let dataCriacaoStr = dataCriacao.toLocaleDateString('pt-BR');
         let dataFechamentoStr = dataFechamento.toLocaleDateString('pt-BR');
-        html += `<div class="list-group-item rounded-3 shadow-sm mb-3">
+        html += `<div class="list-group-item d-flex flex-column align-items-start">
           <div class="mb-2">
-            <small class="text-muted">Título:</small>
-            <div class="fw-semibold">${edital.titulo}</div>
+            <span class="fw-semibold">${edital.titulo}</span>
           </div>
-          <div class="mb-2">
-            <small class="text-muted">Período:</small>
-            <div>${dataCriacaoStr} - ${dataFechamentoStr}</div>
+          <span class="badge bg-${status} rounded-pill my-2">${statusText}</span>
+          <div class="d-flex w-100 justify-content-between">
+            <small class="text-muted">${dataCriacaoStr} - ${dataFechamentoStr}</small>
           </div>
           <div class="mt-2">
-            <span class="badge bg-${status} rounded-pill mb-2">${statusText}</span>
-            <a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary w-100 mb-1">Mais detalhes</a>
+            <a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary w-100">Mais detalhes</a>
           </div>
         </div>`;
       });

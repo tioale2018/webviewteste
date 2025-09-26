@@ -61,7 +61,7 @@ $token = generate_jwt($payload, $secret);
         $('#editais-list').html('<div class="alert alert-info" role="alert">Nenhum edital ativo no momento.</div>');
         return;
       }
-      let html = '<div class="list-group">';
+      let html = '<div class="list-group gap-3">';
       editais.forEach(function(edital) {
         let status = edital.totalinscritos == '1000' ? 'success' : 'danger';
         let statusText = edital.totalinscritos == '1000' ? 'Inscrições abertas' : 'Inscrições encerradas';
@@ -69,19 +69,23 @@ $token = generate_jwt($payload, $secret);
         let dataFechamento = new Date(edital.datafecha * 1000);
         let dataCriacaoStr = dataCriacao.toLocaleDateString('pt-BR');
         let dataFechamentoStr = dataFechamento.toLocaleDateString('pt-BR');
-        html += `<div class="list-group-item d-flex flex-column align-items-start">
-          <div class="mb-2">
-            <span class="fw-semibold">${edital.titulo}</span>
+        
+        html += `
+          <div class="list-group-item">
+            <div class="d-flex flex-column">
+              <div class="mb-2">
+                <span class="fw-semibold">${edital.titulo}</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-${status} rounded-pill">${statusText}</span>
+                <small class="text-muted">${dataCriacaoStr} - ${dataFechamentoStr}</small>
+              </div>
+              <div>
+                <a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary w-100">Mais detalhes</a>
+              </div>
+            </div>
           </div>
-          <span class="badge bg-${status} rounded-pill my-2">${statusText}</span>
-          <div class="d-flex w-100 justify-content-between">
-            <small class="text-muted">${dataCriacaoStr} - ${dataFechamentoStr}</small>
-          </div>
-          </div>`;
-       html += `<div class="mt-2">
-       <a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary w-100 mb-1>Mais detalhes</a>
-       </div>
-        </div>`;
+        `;
       });
       html += '</div>';
       $('#editais-list').html(html);

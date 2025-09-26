@@ -76,9 +76,7 @@ $token = generate_jwt($payload, $secret);
           <span class="badge bg-${status} rounded-pill my-2">${statusText}</span>
           <div class="d-flex w-100 justify-content-between">
             <small class="text-muted">${dataCriacaoStr} - ${dataFechamentoStr}</small>
-          </div>
-        </div>`;
-
+          </div>`;
        html += `<div class="mt-2">
        <a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary w-100 mb-1>Mais detalhes</a>
        </div>`;

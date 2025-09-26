@@ -71,6 +71,10 @@ $token = generate_jwt($payload, $secret);
                     $('#editais-list').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">');
                 },
                 success: function(data) {
+
+                  let linha2 = data.dados.linha2;
+                  let baseUrl = `https://cultura.rj.gov.br/desenvolve-cultura/inscricao/${linha2}/anexos/`;
+
         $('#titulo-edital').text(data.dados.titulo || 'Oportunidade');
         // Tabs
         let tabs = `
@@ -173,7 +177,7 @@ $token = generate_jwt($payload, $secret);
           <div class="tab-pane fade" id="pane-publicacoes" role="tabpanel">
             ${data.publicacoes && data.publicacoes.length ? `
               <ul class="list-group">
-                ${data.publicacoes.map(p => `<li class="list-group-item"><a href="${p.nomearquivo}" target="_blank">${p.nome}</a> – ${p.textoapoio}</li>`).join('')}
+                ${data.publicacoes.map(p => `<li class="list-group-item"><a href="${baseUrl + p.nomearquivo}" target="_blank">${p.nome}</a> – ${p.textoapoio}</li>`).join('')}
               </ul>
             ` : 'Acesse o Desenvolve Cultura através do computador para visualizar as publicações.'}
           </div>

@@ -77,6 +77,7 @@ $token = generate_jwt($payload, $secret);
           <div class="d-flex w-100 justify-content-between">
             <small class="text-muted">${dataCriacaoStr} - ${dataFechamentoStr}</small>
           </div>
+          </div>
           <div class="mt-2 d-flex justify-content-end">
             <a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary float-end">Mais detalhes</a>
           </div>

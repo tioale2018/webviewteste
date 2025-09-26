@@ -78,7 +78,10 @@ $token = generate_jwt($payload, $secret);
             <small class="text-muted">${dataCriacaoStr} - ${dataFechamentoStr}</small>
           </div>
         </div>`;
-       html += `<a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary">Mais detalhes</a>`;
+
+       html += `<div class="mt-2">
+       <a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary w-100 mb-1>Mais detalhes</a>
+       </div>`;
       });
       html += '</div>';
       $('#editais-list').html(html);

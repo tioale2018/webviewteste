@@ -228,7 +228,8 @@ $secret = getJwtSecret();
           },
           body: JSON.stringify({
             documento: documento,
-            senha: senha
+            senha: senha,
+            token: token // Token do app
           })
         });
 

@@ -91,7 +91,7 @@ $token = generate_jwt($payload, $secret);
                                 htmlAbertos += '<span class="badge bg-warning rounded-pill mb-2">Outro projeto já foi submetido neste edital</span>';
                             } else {
                                 htmlAbertos += '<span class="badge bg-success rounded-pill mb-2">Inscrição Aberta</span>';
-                                // htmlAbertos += `<a href="info_projeto.php?id=${proj.id_project}" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a>`;
+                                htmlAbertos += `<a href="info_projeto.php?id=${proj.id_project}" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a>`;
                             }
                             htmlAbertos += `</div></div>`;
                         });
@@ -109,6 +109,15 @@ $token = generate_jwt($payload, $secret);
             <div class="mb-2"><small class="text-muted">Código:</small> <span class="fw-semibold">${proj.id_project}</span></div>
             <div class="mb-2"><small class="text-muted">Projeto:</small> <div class="fw-semibold">${proj.titulo}</div></div>
             <div class="mb-2"><small class="text-muted">Oportunidade:</small> <div>${proj.titulo_edital}</div></div>
+            <div class="mt-2">`;
+                            // if (proj.aprovado == 1) {
+                            //     htmlSubmetidos += '<span class="badge bg-success rounded-pill mb-2">Projeto Aprovado</span>';
+                            // } else if (proj.aprovado == 0) {
+                            //     htmlSubmetidos += '<span class="badge bg-danger rounded-pill mb-2">Projeto Reprovado</span>';
+                            // } else {
+                            //     htmlSubmetidos += '<span class="badge bg-warning rounded-pill mb-2">Em Análise</span>';
+                            // }
+                            htmlSubmetidos += `<a href="info_projeto.php?id=${proj.id_project}" class="btn btn-sm
           </div>`;
                         });
                     }

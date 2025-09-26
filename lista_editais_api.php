@@ -12,7 +12,7 @@ $payload = [
 $secret = getJwtSecret();
 $token = generate_jwt($payload, $secret);
 
-//    <a href="info_edital.php?id=${edital.id}" class="btn btn-sm btn-primary">Mais detalhes</a>
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -78,7 +78,7 @@ $token = generate_jwt($payload, $secret);
             <small class="text-muted">${dataCriacaoStr} - ${dataFechamentoStr}</small>
           </div>
         </div>`;
-        
+       html += `<a href="info_edital_api.php?id=${edital.id}" class="btn btn-sm btn-primary">Mais detalhes</a>`;
       });
       html += '</div>';
       $('#editais-list').html(html);

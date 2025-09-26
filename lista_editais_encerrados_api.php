@@ -69,7 +69,7 @@ $token = generate_jwt($payload, $secret);
         let dataFechamento = new Date(edital.datafecha * 1000);
         let dataCriacaoStr = dataCriacao.toLocaleDateString('pt-BR');
         let dataFechamentoStr = dataFechamento.toLocaleDateString('pt-BR');
-        html += `<div class="list-group-item d-flex flex-column align-items-start">
+        html += `<div class="list-group-item rounded-3 shadow-sm mb-3">
           <div class="mb-2">
             <span class="fw-semibold">${edital.titulo}</span>
           </div>

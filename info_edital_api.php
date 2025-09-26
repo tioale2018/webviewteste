@@ -4,6 +4,14 @@ include_once "funcoes.php";
 $cpf = $_SESSION['cpf'] ?? null;
 $id = $_SESSION['id_user'] ?? null;
 
+
+$id = $_GET['id'] ?? null;
+if (!$id) {
+    echo "ID do edital não informado.";
+    exit;
+}
+
+
 $payload = [
     'cpf' => $cpf,
     'id_user' => $id

@@ -152,7 +152,9 @@ $token = generate_jwt($payload, $secret);
         success: function(data) {
           currentData = data.usuario;
           let usuario = data.usuario;
-          let pessoa_juridica = usuario.cpf && usuario.cpf.length > 11;
+          if (usuario.tipo_doc == 2){
+          let pessoa_juridica = true;
+          }
           let html = `<div class="card shadow-sm p-3 mb-4 rounded-4">
                       ${isEditing ? '<form id="update-form">' : ''}`;
 

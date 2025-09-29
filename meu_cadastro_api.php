@@ -152,6 +152,7 @@ $token = generate_jwt($payload, $secret);
         success: function(data) {
           currentData = data.usuario;
           let usuario = data.usuario;
+          let pessoa_juridica = false;
           if (usuario.tipo_doc == 2){
           let pessoa_juridica = true;
           }

@@ -80,7 +80,7 @@ $token = generate_jwt($payload, $secret);
                     html += `<div class="card">
                         <div class="section-title">Andamento do processo</div>
                         <div class="card-body">
-                            <p>Seu projeto <strong>${data.titulo_projeto}</strong> foi submetido para análise em <strong>${new Date(data.data_submissao * 1000).toLocaleDateString('pt-BR')}</strong> sob o número <strong>${data.id_projeto}</strong>.</p>
+                            <p>Seu projeto <strong>${data.titulo}</strong> foi submetido para análise em <strong>${new Date(data.datasubmete).toLocaleDateString('pt-BR')}</strong> sob o número <strong>${data.id_project}</strong>.</p>
                             <p>Fase atual: <strong class="text-primary">${data.fase_atual}</strong></p>
                         </div>
                     </div>`;

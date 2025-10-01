@@ -68,15 +68,15 @@ $token = generate_jwt($payload, $secret);
                     let html = '';
                     
                     // Título do Edital
-                    html += `<h1 class="h5 fw-bold mb-3">Inscrição de proposta de projeto para edital ${dados.titulo_edital}</h1>`;
+                    html += `<h1 class="h5 fw-bold mb-3">Inscrição de proposta de projeto para ${dados.titulo_edital}</h1>`;
                     
                     // Card de Email para Dúvidas
                     html += `<div class="card">
                         <div class="card-body">
-                            <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1}">${dados.linha1}</a></p>
+                            <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}</a></p>
                         </div>
                     </div>`;
-
+                    
                     // Card de Andamento do Processo
                     html += `<div class="card">
                         <div class="section-title">Andamento do processo</div>

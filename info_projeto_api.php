@@ -51,7 +51,7 @@ $token = generate_jwt($payload, $secret);
 
         $(function() {
             $.ajax({
-                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/info_projeto.php?id=' + encodeURIComponent(projectId),
+                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/info_projeto.php?id=' + projectId,
                 type: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

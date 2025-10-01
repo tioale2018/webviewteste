@@ -5,15 +5,10 @@ $cpf = $_SESSION['cpf'] ?? null;
 $id = $_SESSION['id_user'] ?? null;
 $project_id = $_GET['id'] ?? null;
 
-if (!$project_id) {
-    echo "ID do projeto não informado.";
-    exit;
-}
 
 $payload = [
     'cpf' => $cpf,
-    'id_user' => $id,
-    'project_id' => $project_id
+    'id_user' => $id
 ];
 
 $secret = getJwtSecret();
@@ -56,8 +51,8 @@ $token = generate_jwt($payload, $secret);
 
         $(function() {
             $.ajax({
-                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/info_projeto.php',
-                type: 'POST',
+                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/info_projeto.php?id=' + encodeURIComponent(id),
+                type: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + jwtToken

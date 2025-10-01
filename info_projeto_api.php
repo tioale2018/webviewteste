@@ -64,6 +64,7 @@ $token = generate_jwt($payload, $secret);
                     $('#project-info').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div></div>');
                 },
                 success: function(data) {
+                    let dados = data.dados;
                     let html = '';
                     
                     // Título do Edital
@@ -80,8 +81,8 @@ $token = generate_jwt($payload, $secret);
                     html += `<div class="card">
                         <div class="section-title">Andamento do processo</div>
                         <div class="card-body">
-                            <p>Seu projeto <strong>${data.titulo}</strong> foi submetido para análise em <strong>${new Date(data.datasubmete).toLocaleDateString('pt-BR')}</strong> sob o número <strong>${data.id_project}</strong>.</p>
-                            <p>Fase atual: <strong class="text-primary">${data.fase_atual}</strong></p>
+                            <p>Seu projeto <strong>${dados.titulo}</strong> foi submetido para análise em <strong>${new Date(dados.datasubmete).toLocaleDateString('pt-BR')}</strong> sob o número <strong>${dados.id_project}</strong>.</p>
+                            <p>Fase atual: <strong class="text-primary">${dados.fase}</strong></p>
                         </div>
                     </div>`;
 

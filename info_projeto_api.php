@@ -5,9 +5,15 @@ $cpf = $_SESSION['cpf'] ?? null;
 $id = $_SESSION['id_user'] ?? null;
 $project_id = $_GET['id'] ?? null;
 
+if (!$project_id) {
+    echo "ID do projeto não informado.";
+    exit;
+}
+
 $payload = [
     'cpf' => $cpf,
-    'id_user' => $id
+    'id_user' => $id,
+    'project_id' => $project_id
 ];
 
 $secret = getJwtSecret();

@@ -110,7 +110,7 @@ $token = generate_jwt($payload, $secret);
             <div class="mb-2"><small class="text-muted">Projeto:</small> <div class="fw-semibold">${proj.titulo}</div></div>
             <div class="mb-2"><small class="text-muted">Oportunidade:</small> <div>${proj.titulo_edital}</div></div>
             <div class="mt-2">
-            <a href="info_projeto_api.php?id=${proj.id_project}" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a>
+            
             </div>
           </div>`;
                         });
@@ -131,3 +131,5 @@ $token = generate_jwt($payload, $secret);
 </body>
 
 </html>
+<?php
+//<a href="info_projeto_api.php?id=${proj.id_project}" class="btn btn-sm btn-primary w-100 mb-1">Acompanhe seu projeto</a> Inserir na div mt-2 atual linha 113

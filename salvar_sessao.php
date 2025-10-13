@@ -17,7 +17,7 @@ if ($data && isset($data['user'])) {
     // Salva o token do dispositivo
     salvarToken($data['user']['cpf'], $token);
     
-    echo json_encode(['success' => true]);
+    echo json_encode(['success' => true, 'token' => $token]);
 } else {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => 'Dados inválidos']);

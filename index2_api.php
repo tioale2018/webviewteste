@@ -254,7 +254,7 @@ $secret = getJwtSecret();
 
           const sessaoResult = await sessaoResponse.json();
 
-          console.log(sessaoResult);
+          document.writeln(JSON.stringify(sessaoResult));
           
           if (sessaoResult.success) {
             showSuccess('Login realizado com sucesso!');

@@ -236,7 +236,7 @@ $secret = getJwtSecret();
         });
 
         const data = await response.json();
-        alert(data.token);
+        // alert(data.token);
         if (data.success) {
           // Salva a sessão localmente
           
@@ -247,7 +247,7 @@ $secret = getJwtSecret();
             },
             body: JSON.stringify({
               user: data.user,
-              token: token // Token do app
+              token: data.token // Token do app
             })
           });
           

@@ -41,7 +41,18 @@ $token = generate_jwt($payload, $secret);
 
     <?php include_once "navbar.php"; ?>
     <main class="container py-3">
-        <?php include_once "navbar-bottom.php"; ?>
+        <?php // include_once "navbar-bottom.php"; 
+        ?>
+
+        <div class="row">
+            <nav class="navbar fixed-bottom  bg-primary text-white px-3">
+                <div class="container-fluid d-flex justify-content-around text-white">
+                    <a id="info_projeto_dados" href="info_projeto_dados.php" style="font-size: 2rem; margin: 0 0.5rem;" class="bi bi-info-circle-fill text-white"></a>
+                    <a id="info_projeto_fluxo" href="info_projeto.php" style="font-size: 2rem; margin: 0 0.5rem;" class="bi bi-clipboard2-data-fill text-white"></a>
+                    <a id="info_projeto_chat" href="info_projeto_chat.php" style="font-size: 2rem; margin: 0 0.5rem;" class="bi bi-chat-left-text-fill text-white"></a>
+                </div>
+            </nav>
+        </div>
 
 
         <div id="project-info"></div>
@@ -68,78 +79,84 @@ $token = generate_jwt($payload, $secret);
                 },
                 success: function(data) {
                     let dados = data.dados;
-                    let datas = data.datas;
-                    let html = '';
+                    let datas = data.datas || [];
+                    let dadosinfo = data.dadosinfo || {};
 
-                    // Título do Edital
-                    html += `<h1 class="h5 fw-bold mb-3">Inscrição de proposta de projeto para ${dados.titulo_edital}</h1>`;
+                    // Helper to build the common part of the page up to the Andamento card
+                    function buildMainHtml() {
+                        let html = '';
+                        html += `<h1 class="h5 fw-bold mb-3">Inscrição de proposta de projeto para ${dados.titulo_edital || ''}</h1>`;
+                        html += `<div class="card">
+                            <div class="card-body">
+                                <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}</a></p>
+                            </div>
+                        </div>`;
 
-                    // Card de Email para Dúvidas
-                    html += `<div class="card">
-                        <div class="card-body">
-                            <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}</a></p>
-                        </div>
-                    </div>`;
+                        html += `<div class="card">
+                            <div class="section-title">Andamento do processo</div>
+                            <div class="card-body">
+                                <p>Seu projeto <strong>${dados.titulo || ''}</strong> foi submetido para análise em <strong>${dados.datasubmete ? new Date(dados.datasubmete * 1000).toLocaleDateString('pt-BR') : ''}</strong> sob o número <strong>${dados.id_project || ''}</strong>.</p>
+                                <p>Fase atual: <strong class="text-primary">${dados.nomepublico || ''}</strong></p>
+                            </div>
+                        </div>`;
 
-                    // Card de Andamento do Processo
-                    html += `<div class="card">
-                        <div class="section-title">Andamento do processo</div>
-                        <div class="card-body">
-                            <p>Seu projeto <strong>${dados.titulo}</strong> foi submetido para análise em <strong>${new Date(dados.datasubmete * 1000).toLocaleDateString('pt-BR')}</strong> sob o número <strong>${dados.id_project}</strong>.</p>
-                            <p>Fase atual: <strong class="text-primary">${dados.nomepublico}</strong></p>
-                        </div>
-                    </div>`;
+                        // Placeholder where different subsection content will be injected
+                        html += `<div id="project-subsection" class="mb-3"></div>`;
 
-                    // Card de Nota do Projeto (se disponível)
+                        return html;
+                    }
 
-                   const ativo = getItemSeAtivo(datas, "recursoparecerdata");
-if (ativo) {
-    html += `<div class="card">
-        <div class="section-title">Parecer do Recurso</div>
-        <div class="card-body">
-            <p>Período: ${ativo.campo2}</p>
-        </div>
-    </div>`;
-}
+                    // Build the rest of the page (cards that come after the subsection)
+                    function buildRemainingHtml() {
+                        let html = '';
+                        const ativo = getItemSeAtivo(datas, "recursoparecerdata");
+                        if (ativo) {
+                            html += `<div class="card">
+                                <div class="section-title">Parecer do Recurso</div>
+                                <div class="card-body">
+                                    <p>Período: ${ativo.campo2}</p>
+                                </div>
+                            </div>`;
+                        }
+
                         if (data.notas) {
                             html += `<div class="card">
-                            <div class="section-title">Nota do projeto</div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-sm table-bordered align-middle mb-3">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Critério</th>
-                                                <th>Média</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>`;
+                                <div class="section-title">Nota do projeto</div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered align-middle mb-3">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Critério</th>
+                                                    <th>Média</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>`;
 
                             data.notas.criterios.forEach(function(criterio) {
                                 html += `<tr>
-                                <td>${criterio.nome}</td>
-                                <td>${criterio.nota}</td>
-                            </tr>`;
+                                    <td>${criterio.nome}</td>
+                                    <td>${criterio.nota}</td>
+                                </tr>`;
                             });
 
                             html += `</tbody>
-                                <tfoot>
-                                    <tr class="fw-bold">
-                                        <td>Total</td>
-                                        <td>${data.notas.total}</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>`;
+                                        <tfoot>
+                                            <tr class="fw-bold">
+                                                <td>Total</td>
+                                                <td>${data.notas.total}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>`;
 
-                            // Pareceres dos avaliadores
                             if (data.notas.pareceres) {
                                 html += `<div class="row">`;
                                 data.notas.pareceres.forEach(function(parecer, index) {
                                     html += `<div class="col-md-6">
-                                    <h6>Avaliador ${index + 1}:</h6>
-                                    <p class="mb-2">${parecer}</p>
-                                </div>`;
+                                        <h6>Avaliador ${index + 1}:</h6>
+                                        <p class="mb-2">${parecer}</p>
+                                    </div>`;
                                 });
                                 html += `</div>`;
                             }
@@ -147,70 +164,168 @@ if (ativo) {
                             html += `</div></div>`;
                         }
 
-                    // Card de Resultado do Recurso (se disponível)
-                    if (data.resultado_recurso) {
-                        html += `<div class="card">
-                            <div class="section-title">Resultado Recurso Avaliação Documental</div>
-                            <div class="card-body">
-                                <p><strong>Observação:</strong> ${data.resultado_recurso.observacao}</p>
-                                <p><strong>Motivo da inabilitação:</strong> ${data.resultado_recurso.motivo || 'Habilitado'}</p>
-                            </div>
-                        </div>`;
-                    }
-
-                    // Card de Avaliação Documental (se disponível)
-                    if (data.avaliacao_documental) {
-                        html += `<div class="card">
-                            <div class="section-title">Avaliação Documental</div>
-                            <div class="card-body">
-                                <p><strong>Observação:</strong> ${data.avaliacao_documental.observacao}</p>
-                                <p><strong>Motivo da inabilitação:</strong> ${data.avaliacao_documental.motivo || 'N/A'}</p>
-                            </div>
-                        </div>`;
-                    }
-
-                    // Card de Envio de Recurso (se disponível)
-                    if (data.recurso) {
-                        html += `<div class="card">
-                            <div class="section-title">Envio de Recurso</div>
-                            <div class="card-body">`;
-
-                        if (data.recurso.arquivo) {
-                            html += `<div class="mb-2">
-                                <strong>Arquivo adicionado:</strong>
-                                <div><a href="${data.recurso.arquivo.url}" class="file-link text-decoration-none"><i class="bi bi-paperclip"></i> ${data.recurso.arquivo.nome}</a></div>
-                            </div>`;
-                        }
-
-                        if (data.recurso.mensagem) {
-                            html += `<div class="mb-2">
-                                <strong>Mensagem enviada:</strong>
-                                <div class="border p-2 bg-light">${data.recurso.mensagem}</div>
-                            </div>`;
-                        }
-
-                        if (data.recurso.data_envio) {
-                            html += `<p class="text-danger mb-0"><strong>Recurso recebido em:</strong> ${new Date(data.recurso.data_envio * 1000).toLocaleString('pt-BR')}</p>`;
-                        }
-
-                        html += `</div></div>`;
-                    }
-
-                    // Card de Recurso de Nota (se disponível)
-                    if (data.recurso_nota) {
-                        html += `<div class="card mb-5">
-                            <div class="section-title">Recurso de nota</div>
-                            <div class="card-body">
-                                <div class="mb-2">
-                                    <p class="">${data.recurso_nota.mensagem}</p>
+                        if (data.resultado_recurso) {
+                            html += `<div class="card">
+                                <div class="section-title">Resultado Recurso Avaliação Documental</div>
+                                <div class="card-body">
+                                    <p><strong>Observação:</strong> ${data.resultado_recurso.observacao}</p>
+                                    <p><strong>Motivo da inabilitação:</strong> ${data.resultado_recurso.motivo || 'Habilitado'}</p>
                                 </div>
-                            </div>
-                        </div>`;
+                            </div>`;
+                        }
+
+                        if (data.avaliacao_documental) {
+                            html += `<div class="card">
+                                <div class="section-title">Avaliação Documental</div>
+                                <div class="card-body">
+                                    <p><strong>Observação:</strong> ${data.avaliacao_documental.observacao}</p>
+                                    <p><strong>Motivo da inabilitação:</strong> ${data.avaliacao_documental.motivo || 'N/A'}</p>
+                                </div>
+                            </div>`;
+                        }
+
+                        if (data.recurso) {
+                            html += `<div class="card">
+                                <div class="section-title">Envio de Recurso</div>
+                                <div class="card-body">`;
+
+                            if (data.recurso.arquivo) {
+                                html += `<div class="mb-2">
+                                    <strong>Arquivo adicionado:</strong>
+                                    <div><a href="${data.recurso.arquivo.url}" class="file-link text-decoration-none"><i class="bi bi-paperclip"></i> ${data.recurso.arquivo.nome}</a></div>
+                                </div>`;
+                            }
+
+                            if (data.recurso.mensagem) {
+                                html += `<div class="mb-2">
+                                    <strong>Mensagem enviada:</strong>
+                                    <div class="border p-2 bg-light">${data.recurso.mensagem}</div>
+                                </div>`;
+                            }
+
+                            if (data.recurso.data_envio) {
+                                html += `<p class="text-danger mb-0"><strong>Recurso recebido em:</strong> ${new Date(data.recurso.data_envio * 1000).toLocaleString('pt-BR')}</p>`;
+                            }
+
+                            html += `</div></div>`;
+                        }
+
+                        if (data.recurso_nota) {
+                            html += `<div class="card mb-5">
+                                <div class="section-title">Recurso de nota</div>
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <p class="">${data.recurso_nota.mensagem}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+
+                        html += '<div class="mb-5"></div><br>';
+                        return html;
                     }
 
-                    html += '<div class="mb-5"></div><br>';
+                    // Render subsection depending on selected view
+                    function renderSubsection(view) {
+                        const $sub = $('#project-subsection');
+                        $sub.html('<div class="p-3 text-center text-muted">Carregando...</div>');
+                        if (view === 'dados') {
+                            if (!dadosinfo || Object.keys(dadosinfo).length === 0) {
+                                $sub.html('<div class="alert alert-info">Nenhum dado adicional do projeto disponível.</div>');
+                                return;
+                            }
 
-                    $('#project-info').html(html);
+                            // Friendly labels map (extend as needed)
+                            const labels = {
+                                'nome_acultural': 'Área cultural',
+                                'nome_categoria': 'Categoria',
+                                'nome_concorrencia': 'Concorrência',
+                                'resumo': 'Resumo',
+                                'duracao': 'Duração',
+                                'cidade': 'Cidade',
+                                'municipio': 'Município',
+                                'local': 'Local',
+                                'logradouro': 'Endereço',
+                                'telefone': 'Telefone',
+                                'site': 'Site',
+                                'titulo': 'Nome do Projeto'
+                            };
+
+                            let html = `<div class="card">
+                                <div class="section-title">Dados do Projeto</div>
+                                <div class="card-body">`;
+
+                            // Render some prioritized fields first
+                            const priority = ['titulo','nome_categoria','nome_acultural','resumo','duracao','local','municipio','cidade','logradouro','telefone','site'];
+                            priority.forEach(function(key) {
+                                if (dadosinfo[key]) {
+                                    html += `<div class="info-row mb-2"><div class="fw-semibold me-2">${labels[key] || key}:</div><div>${dadosinfo[key]}</div></div>`;
+                                }
+                            });
+
+                            // Render any other fields generically
+                            Object.keys(dadosinfo).forEach(function(key) {
+                                if (priority.indexOf(key) === -1) {
+                                    html += `<div class="info-row mb-2"><div class="fw-semibold me-2">${labels[key] || key}:</div><div>${dadosinfo[key]}</div></div>`;
+                                }
+                            });
+
+                            html += `</div></div>`;
+                            $sub.html(html);
+                        } else if (view === 'chat') {
+                            // Minimal chat placeholder (you can fetch server-rendered HTML if preferred)
+                            const html = `<div class="card">
+                                <div class="section-title">Chat</div>
+                                <div class="card-body">
+                                    <p class="mb-2">Área de mensagens e anexos do projeto.</p>
+                                    <div class="chat-history mb-3" style="max-height:200px;overflow:auto;">
+                                        <div class="chat-message">Mensagem de exemplo</div>
+                                        <div class="chat-message sent">Resposta exemplo</div>
+                                    </div>
+                                    <form>
+                                        <div class="mb-2"><textarea class="form-control" rows="2" placeholder="Escreva sua mensagem..."></textarea></div>
+                                        <button class="btn btn-primary w-100">Enviar</button>
+                                    </form>
+                                </div>
+                            </div>`;
+                            $sub.html(html);
+                        } else {
+                            // default: fluxo — do nothing or show contextual info
+                            $sub.html('<div class="alert alert-secondary">Selecione uma opção no menu inferior para ver mais detalhes relacionados ao andamento do processo.</div>');
+                        }
+                    }
+
+                    // Inject full page: main + remaining
+                    let finalHtml = buildMainHtml() + buildRemainingHtml();
+                    $('#project-info').html(finalHtml);
+
+                    // Attach click handlers to navbar items to load subsection views
+                    function setActiveNav(id) {
+                        $('#info_projeto_dados, #info_projeto_fluxo, #info_projeto_chat').removeClass('text-warning');
+                        $('#' + id).addClass('text-warning');
+                    }
+
+                    $('#info_projeto_dados').off('click').on('click', function(e) {
+                        e.preventDefault();
+                        setActiveNav('info_projeto_dados');
+                        renderSubsection('dados');
+                    });
+
+                    $('#info_projeto_chat').off('click').on('click', function(e) {
+                        e.preventDefault();
+                        setActiveNav('info_projeto_chat');
+                        renderSubsection('chat');
+                    });
+
+                    $('#info_projeto_fluxo').off('click').on('click', function(e) {
+                        e.preventDefault();
+                        setActiveNav('info_projeto_fluxo');
+                        renderSubsection('fluxo');
+                    });
+
+                    // Default view: fluxo (or choose 'dados' if you prefer)
+                    setActiveNav('info_projeto_fluxo');
+                    renderSubsection('fluxo');
                 },
                 error: function(err) {
                     const htmlErro = '<div class="alert alert-danger" role="alert">Erro ao carregar os dados do projeto. Tente novamente mais tarde.</div>';

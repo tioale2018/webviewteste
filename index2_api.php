@@ -138,7 +138,7 @@ $secret = getJwtSecret();
 
     var token = localStorage.getItem('token');
     document.getElementById('token').value = token;
-    alert(token);
+    // alert(token);
     
     // window.receberTokenDoApp = function(token) {
       // document.getElementById('token').value = token;
@@ -236,7 +236,7 @@ $secret = getJwtSecret();
         });
 
         const data = await response.json();
-        
+        alert(data.token);
         if (data.success) {
           // Salva a sessão localmente
           const sessaoResponse = await fetch('salvar_sessao.php', {

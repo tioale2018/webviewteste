@@ -230,47 +230,84 @@ $token = generate_jwt($payload, $secret);
                         const $sub = $('#project-subsection');
                         $sub.html('<div class="p-3 text-center text-muted">Carregando...</div>');
                         if (view === 'dados') {
-                            if (!dadosinfo || Object.keys(dadosinfo).length === 0) {
-                                $sub.html('<div class="alert alert-info">Nenhum dado adicional do projeto disponível.</div>');
+                            if (!dados && !dadosinfo) {
+                                $sub.html('<div class="alert alert-info">Nenhum dado do projeto disponível.</div>');
                                 return;
                             }
 
-                            // Friendly labels map (extend as needed)
-                            const labels = {
-                                'nome_acultural': 'Área cultural',
-                                'nome_categoria': 'Categoria',
-                                'nome_concorrencia': 'Concorrência',
-                                'resumo': 'Resumo',
-                                'duracao': 'Duração',
-                                'cidade': 'Cidade',
-                                'municipio': 'Município',
-                                'local': 'Local',
-                                'logradouro': 'Endereço',
-                                'telefone': 'Telefone',
-                                'site': 'Site',
-                                'titulo': 'Nome do Projeto'
-                            };
+                            function safe(v) { return (v === null || v === undefined || v === '' || v === '0000-00-00') ? '' : v; }
 
-                            let html = `<div class="card">
-                                <div class="section-title">Dados do Projeto</div>
+                            // Build cards similar to info_projeto_dados.php
+                            let html = '';
+
+                            // Dados do Proponente
+                            html += `<div class="card mb-3">
+                                <div class="section-title">Dados do Proponente</div>
+                                <div class="card-body">
+                                    <div class="info-row"><div class="info-label">Nome Fantasia:</div><div class="info-value">${safe(dados.nomefantasia || dados.proponente)}</div></div>
+                                    <div class="info-row"><div class="info-label">CNPJ/CPF:</div><div class="info-value">${safe(dados.user_input || dados.cpf)}</div></div>
+                                    <div class="info-row"><div class="info-label">E-mail:</div><div class="info-value">${safe(dados.email)}</div></div>
+                                    <div class="info-row"><div class="info-label">Telefone:</div><div class="info-value">${safe(dados.telefone || dados.celular)}</div></div>
+                                </div>
+                            </div>`;
+
+                            // Informações Socioeconômicas (render only if any present)
+                            const socioKeys = ['perfil','democratizacao','receita_bruta'];
+                            const hasSocio = socioKeys.some(k => safe(dados[k]));
+                            if (hasSocio) {
+                                html += `<div class="card mb-3">
+                                    <div class="section-title">Informações Socioeconômicas</div>
+                                    <div class="card-body">`;
+                                socioKeys.forEach(function(k) {
+                                    if (safe(dados[k])) html += `<div class="info-row"><div class="info-label">${k.replace(/_/g,' ')}:</div><div class="info-value">${dados[k]}</div></div>`;
+                                });
+                                html += `</div></div>`;
+                            }
+
+                            // Dados da Proposta Cultural
+                            html += `<div class="card mb-3">
+                                <div class="section-title">Dados da Proposta Cultural</div>
                                 <div class="card-body">`;
 
-                            // Render some prioritized fields first
-                            const priority = ['titulo','nome_categoria','nome_acultural','resumo','duracao','local','municipio','cidade','logradouro','telefone','site'];
-                            priority.forEach(function(key) {
-                                if (dadosinfo[key]) {
-                                    html += `<div class="info-row mb-2"><div class="fw-semibold me-2">${labels[key] || key}:</div><div>${dadosinfo[key]}</div></div>`;
-                                }
-                            });
+                            // Categoria / Área cultural / Concorrência
+                            if (dadosinfo && (dadosinfo.nome_categoria || dadosinfo.nome_acultural || dadosinfo.nome_concorrencia)) {
+                                if (dadosinfo.nome_categoria) html += `<div class="info-row"><div class="info-label">Categoria:</div><div class="info-value">${dadosinfo.nome_categoria}</div></div>`;
+                                if (dadosinfo.nome_acultural) html += `<div class="info-row"><div class="info-label">Área Cultural:</div><div class="info-value">${dadosinfo.nome_acultural}</div></div>`;
+                                if (dadosinfo.nome_concorrencia) html += `<div class="info-row"><div class="info-label">Concorrência:</div><div class="info-value">${dadosinfo.nome_concorrencia}</div></div>`;
+                            }
 
-                            // Render any other fields generically
-                            Object.keys(dadosinfo).forEach(function(key) {
-                                if (priority.indexOf(key) === -1) {
-                                    html += `<div class="info-row mb-2"><div class="fw-semibold me-2">${labels[key] || key}:</div><div>${dadosinfo[key]}</div></div>`;
-                                }
-                            });
+                            // Título do Projeto e datas
+                            if (safe(dados.titulo)) html += `<div class="info-row"><div class="info-label">Nome do Projeto:</div><div class="info-value">${dados.titulo}</div></div>`;
+                            const inicio = safe(dados.dt_inicio_realiz) || safe(dados.dt_inicio_exec);
+                            const fim = safe(dados.dt_fim_realiz) || safe(dados.dt_fim_exec);
+                            if (inicio || fim) html += `<div class="info-row"><div class="info-label">Data de Realização:</div><div class="info-value">${inicio}${inicio && fim ? ' a ' + fim : ''}</div></div>`;
+
+                            // Local
+                            const localParts = [];
+                            if (safe(dados.endereco)) localParts.push(dados.endereco + (dados.numero ? ', ' + dados.numero : ''));
+                            if (safe(dados.bairro)) localParts.push(dados.bairro);
+                            if (safe(dados.municipio)) localParts.push(dados.municipio);
+                            if (safe(dados.uf)) localParts.push(dados.uf);
+                            if (localParts.length) html += `<div class="info-row"><div class="info-label">Local:</div><div class="info-value">${localParts.join(' - ')}</div></div>`;
 
                             html += `</div></div>`;
+
+                            // Equipe
+                            const equipeItems = [];
+                            if (safe(dados.nome_resp)) equipeItems.push({name: dados.nome_resp, role: 'Responsável'});
+                            if (safe(dados.nome_coord)) equipeItems.push({name: dados.nome_coord, role: 'Coordenador'});
+                            if (equipeItems.length) {
+                                html += `<div class="card mb-3"><div class="section-title">Equipe</div><div class="card-body"><ul class="list-group">`;
+                                equipeItems.forEach(function(p){ html += `<li class="list-group-item d-flex justify-content-between align-items-center"><span><i class="bi bi-person-fill me-1"></i> ${p.name}</span><small class="text-muted">${p.role}</small></li>`; });
+                                html += `</ul></div></div>`;
+                            }
+
+                            // Anexos (placeholder)
+                            html += `<div class="card mb-3"><div class="section-title">Anexos</div><div class="card-body"><ul class="list-group mb-0">`;
+                            html += `<li class="list-group-item"><i class="bi bi-paperclip me-1"></i> Contrato Social - <a href="#" class="text-decoration-none">Baixar</a></li>`;
+                            html += `<li class="list-group-item"><i class="bi bi-paperclip me-1"></i> Plano de Execução - <a href="#" class="text-decoration-none">Baixar</a></li>`;
+                            html += `</ul></div></div>`;
+
                             $sub.html(html);
                         } else if (view === 'chat') {
                             // Minimal chat placeholder (you can fetch server-rendered HTML if preferred)

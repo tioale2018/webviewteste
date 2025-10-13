@@ -239,6 +239,7 @@ $secret = getJwtSecret();
         alert(data.token);
         if (data.success) {
           // Salva a sessão localmente
+          
           const sessaoResponse = await fetch('salvar_sessao.php', {
             method: 'POST',
             headers: {
@@ -249,8 +250,11 @@ $secret = getJwtSecret();
               token: token // Token do app
             })
           });
+          
 
           const sessaoResult = await sessaoResponse.json();
+
+          console.log(sessaoResult);
           
           if (sessaoResult.success) {
             showSuccess('Login realizado com sucesso!');

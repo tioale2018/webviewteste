@@ -17,6 +17,7 @@ $token = generate_jwt($payload, $secret);
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,15 +28,17 @@ $token = generate_jwt($payload, $secret);
 </head>
 
 <body class="bg-light">
-    <?php // if ($cpf): ?>
-        <script>
-            // window.ReactNativeWebView?.postMessage(JSON.stringify({
-            //     tipo: 'autenticacao',
-            //     cpf: '<?= $cpf ?>'
-            // }));
-        </script>
-    <?php // endif; ?>
-    
+    <?php // if ($cpf): 
+    ?>
+    <script>
+        // window.ReactNativeWebView?.postMessage(JSON.stringify({
+        //     tipo: 'autenticacao',
+        //     cpf: '<?= $cpf ?>'
+        // }));
+    </script>
+    <?php // endif; 
+    ?>
+
     <?php include_once "navbar.php"; ?>
     <main class="container py-3">
         <?php include_once "navbar-bottom.php"; ?>
@@ -65,18 +68,19 @@ $token = generate_jwt($payload, $secret);
                 },
                 success: function(data) {
                     let dados = data.dados;
+                    let datas = data.datas;
                     let html = '';
-                    
+
                     // Título do Edital
                     html += `<h1 class="h5 fw-bold mb-3">Inscrição de proposta de projeto para ${dados.titulo_edital}</h1>`;
-                    
+
                     // Card de Email para Dúvidas
                     html += `<div class="card">
                         <div class="card-body">
                             <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}</a></p>
                         </div>
                     </div>`;
-                    
+
                     // Card de Andamento do Processo
                     html += `<div class="card">
                         <div class="section-title">Andamento do processo</div>
@@ -87,8 +91,18 @@ $token = generate_jwt($payload, $secret);
                     </div>`;
 
                     // Card de Nota do Projeto (se disponível)
-                    if (data.notas) {
-                        html += `<div class="card">
+
+                   const ativo = getItemSeAtivo(datas, "recursoparecerdata");
+if (ativo) {
+    html += `<div class="card">
+        <div class="section-title">Parecer do Recurso</div>
+        <div class="card-body">
+            <p>Período: ${ativo.campo2}</p>
+        </div>
+    </div>`;
+}
+                        if (data.notas) {
+                            html += `<div class="card">
                             <div class="section-title">Nota do projeto</div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -100,15 +114,15 @@ $token = generate_jwt($payload, $secret);
                                             </tr>
                                         </thead>
                                         <tbody>`;
-                                        
-                        data.notas.criterios.forEach(function(criterio) {
-                            html += `<tr>
+
+                            data.notas.criterios.forEach(function(criterio) {
+                                html += `<tr>
                                 <td>${criterio.nome}</td>
                                 <td>${criterio.nota}</td>
                             </tr>`;
-                        });
+                            });
 
-                        html += `</tbody>
+                            html += `</tbody>
                                 <tfoot>
                                     <tr class="fw-bold">
                                         <td>Total</td>
@@ -118,20 +132,20 @@ $token = generate_jwt($payload, $secret);
                             </table>
                         </div>`;
 
-                        // Pareceres dos avaliadores
-                        if (data.notas.pareceres) {
-                            html += `<div class="row">`;
-                            data.notas.pareceres.forEach(function(parecer, index) {
-                                html += `<div class="col-md-6">
+                            // Pareceres dos avaliadores
+                            if (data.notas.pareceres) {
+                                html += `<div class="row">`;
+                                data.notas.pareceres.forEach(function(parecer, index) {
+                                    html += `<div class="col-md-6">
                                     <h6>Avaliador ${index + 1}:</h6>
                                     <p class="mb-2">${parecer}</p>
                                 </div>`;
-                            });
-                            html += `</div>`;
+                                });
+                                html += `</div>`;
+                            }
+
+                            html += `</div></div>`;
                         }
-                        
-                        html += `</div></div>`;
-                    }
 
                     // Card de Resultado do Recurso (se disponível)
                     if (data.resultado_recurso) {
@@ -160,7 +174,7 @@ $token = generate_jwt($payload, $secret);
                         html += `<div class="card">
                             <div class="section-title">Envio de Recurso</div>
                             <div class="card-body">`;
-                        
+
                         if (data.recurso.arquivo) {
                             html += `<div class="mb-2">
                                 <strong>Arquivo adicionado:</strong>
@@ -195,7 +209,7 @@ $token = generate_jwt($payload, $secret);
                     }
 
                     html += '<div class="mb-5"></div><br>';
-                    
+
                     $('#project-info').html(html);
                 },
                 error: function(err) {
@@ -206,6 +220,22 @@ $token = generate_jwt($payload, $secret);
             });
         });
     </script>
+
+    <script>
+        function getItemSeAtivo(datas, chaveCampo1) {
+            const item = datas.find(d => d.campo1 === chaveCampo1);
+            if (!item || !item.campo2) return null;
+
+            const [inicioStr, fimStr] = item.campo2.split(',');
+            const inicio = new Date(inicioStr);
+            const fim = new Date(fimStr);
+            const agora = new Date();
+
+            return (agora >= inicio && agora <= fim) ? item : null;
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

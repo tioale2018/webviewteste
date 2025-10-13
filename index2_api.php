@@ -98,6 +98,7 @@ $secret = getJwtSecret();
       <div id="error" class="text-center alert alert-danger" role="alert" style="display: none;"></div>
      <div id="success" class="text-center alert alert-success" role="alert" style="display: none;"></div>
         <input type="text" id="token" name="token" value="<?php echo $token; ?>"  hidden>
+        <h2><?= $token; ?></h2>
         <div class="mb-3">
           <label for="documento" class="form-label">CNPJ/CPF</label>
           <div class="input-group">

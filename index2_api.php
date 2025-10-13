@@ -138,6 +138,7 @@ $secret = getJwtSecret();
 
     var token = localStorage.getItem('token');
     document.getElementById('token').value = token;
+    alert(token);
     
     // window.receberTokenDoApp = function(token) {
       // document.getElementById('token').value = token;

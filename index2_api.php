@@ -239,6 +239,7 @@ $secret = getJwtSecret();
         // alert(data.token);
         if (data.success) {
           // Salva a sessão localmente
+          let iToken = data.token;
           
           const sessaoResponse = await fetch('salvar_sessao.php', {
             method: 'POST',
@@ -247,7 +248,7 @@ $secret = getJwtSecret();
             },
             body: JSON.stringify({
               user: data.user,
-              token: data.token // Token do app
+              token: iToken
             })
           });
           

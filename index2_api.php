@@ -241,16 +241,16 @@ $secret = getJwtSecret();
           // Salva a sessão localmente
           let iToken = data.token;
           
-          // const sessaoResponse = await fetch('salvar_sessao.php', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json'
-          //   },
-          //   body: JSON.stringify({
-          //     user: data.user,
-          //     token: iToken
-          //   })
-          // });
+          const sessaoResponse = await fetch('salvar_sessao.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              user: data.user,
+              token: iToken
+            })
+          });
           
 
           const sessaoResult = await sessaoResponse.json();

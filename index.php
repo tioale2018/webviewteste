@@ -267,21 +267,10 @@ $secret = getJwtSecret();
   </div>
 
   <script>
-    window.receberTokenDoApp = function(token) {
-      document.getElementById('token').value = token;
-      localStorage.setItem('token', token);
-      carregarVinculados(token);
-    }
+    // Top-level holder for JWT used in Authorization headers
+    let tokenJwt = null;
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        document.getElementById('token').value = token;
-        carregarVinculados(token);
-      }
-    });
-
-    // Função para gerar o token JWT
+    // Função para gerar o token JWT (a própria página responde ao POST com o JWT)
     async function generateJWTToken(token) {
       const response = await fetch(window.location.href, {
         method: 'POST',
@@ -297,10 +286,35 @@ $secret = getJwtSecret();
       return data.token;
     }
 
-    // Gera o token JWT para autenticação com a API
-    const tokenJwt = await generateJWTToken(token);
+    // Recebe token do app (ex: via WebView) e inicializa fluxo
+    window.receberTokenDoApp = async function(token) {
+      document.getElementById('token').value = token;
+      localStorage.setItem('token', token);
+      try {
+        tokenJwt = await generateJWTToken(token);
+      } catch (e) {
+        console.error('Erro ao gerar JWT a partir do token do app:', e);
+        tokenJwt = null;
+      }
+      carregarVinculados(token);
+      carregarNotificacoes(false);
+    }
 
-
+    // Inicialização ao carregar a página: tenta recuperar token do localStorage
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        document.getElementById('token').value = token;
+        try {
+          tokenJwt = await generateJWTToken(token);
+        } catch (e) {
+          console.error('Erro ao gerar JWT no boot:', e);
+          tokenJwt = null;
+        }
+        carregarVinculados(token);
+        carregarNotificacoes(false);
+      }
+    });
 
 
     // Carregar lista de CNPJs/CPFs vinculados
@@ -312,16 +326,13 @@ $secret = getJwtSecret();
         return;
       }
 
+      const headers = { 'Content-Type': 'application/json' };
+      if (tokenJwt) headers['Authorization'] = 'Bearer ' + tokenJwt;
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-cpf-vinculados.php', {
         method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + tokenJwt
-          },
-          body: JSON.stringify({
-            token: tokenFinal
-          })
-        })
+        headers: headers,
+        body: JSON.stringify({ token: tokenFinal })
+      })
         .then(r => r.json())
         .then(res => {
           const lista = document.getElementById('listaVinculados');
@@ -363,16 +374,12 @@ $secret = getJwtSecret();
     document.getElementById('btnConfirmarDesvincular').addEventListener('click', function() {
       const token = document.getElementById('token').value;
       if (!cpfParaDesvincular || !token) return;
+      const headersDesv = { 'Content-Type': 'application/json' };
+      if (tokenJwt) headersDesv['Authorization'] = 'Bearer ' + tokenJwt;
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/desvincular-cpf.php', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + tokenJwt
-          },
-          body: JSON.stringify({
-            token,
-            cpf: cpfParaDesvincular
-          })
+          headers: headersDesv,
+          body: JSON.stringify({ token, cpf: cpfParaDesvincular })
         })
         .then(r => r.json())
         .then(res => {
@@ -400,15 +407,12 @@ $secret = getJwtSecret();
 
     function carregarNotificacoes(abrirModal = false) {
       const token = document.getElementById('token').value;
+      const headersNot = { 'Content-Type': 'application/json' };
+      if (tokenJwt) headersNot['Authorization'] = 'Bearer ' + tokenJwt;
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes.php', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + tokenJwt
-          },
-          body: JSON.stringify({
-            token
-          })
+          headers: headersNot,
+          body: JSON.stringify({ token })
         })
         .then(r => r.json())
         .then(res => {
@@ -470,16 +474,12 @@ $secret = getJwtSecret();
 
     function marcarComoLida(id) {
       const token = document.getElementById('token').value;
+      const headersMark = { 'Content-Type': 'application/json' };
+      if (tokenJwt) headersMark['Authorization'] = 'Bearer ' + tokenJwt;
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + tokenJwt
-          },
-          body: JSON.stringify({
-            id,
-            token
-          })
+         headers: headersMark,
+         body: JSON.stringify({ id, token })
         })
         .then(r => r.json())
         .then(res => {

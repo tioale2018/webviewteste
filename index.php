@@ -485,6 +485,8 @@ $secret = getJwtSecret();
         .then(res => {
           if (res.status === 'sucesso') {
             carregarNotificacoes();
+          } else {
+            alert('Erro ao marcar como lida: ' + res.mensagem);
           }
         });
     }

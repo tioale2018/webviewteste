@@ -33,42 +33,42 @@ include_once "funcoes.php";
 
 // Verifica se é uma requisição AJAX para gerar token
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-    header('Content-Type: application/json');
-    
-    // Pega o conteúdo JSON enviado
-    $json = file_get_contents('php://input');
-    $data = json_decode($json, true);
-    
-    if (!isset($data['documento'])) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Documento não fornecido']);
-        exit;
-    }
-    
-    $documento = preg_replace('/[^\d]/', '', $data['documento']);
-    
-    if (empty($documento)) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Documento inválido']);
-        exit;
-    }
-    
-    try {
-        $payload = [
-            'documento' => $documento,
-            'timestamp' => time()
-        ];
-        
-        $secret = getJwtSecret();
-        $tokenJwt = generate_jwt($payload, $secret);
-        
-        echo json_encode(['token' => $tokenJwt]);
-        exit;
-    } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => 'Erro ao gerar token']);
-        exit;
-    }
+  header('Content-Type: application/json');
+
+  // Pega o conteúdo JSON enviado
+  $json = file_get_contents('php://input');
+  $data = json_decode($json, true);
+
+  if (!isset($data['token'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Documento não fornecido']);
+    exit;
+  }
+
+  $documento = $data['token'];
+
+  if (empty($documento)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Documento inválido']);
+    exit;
+  }
+
+  try {
+    $payload = [
+      'documento' => $documento,
+      'timestamp' => time()
+    ];
+
+    $secret = getJwtSecret();
+    $tokenJwt = generate_jwt($payload, $secret);
+
+    echo json_encode(['token' => $tokenJwt]);
+    exit;
+  } catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Erro ao gerar token']);
+    exit;
+  }
 }
 
 $secret = getJwtSecret();
@@ -266,9 +266,7 @@ $secret = getJwtSecret();
     </div>
   </div>
 
-
   <script>
-    // Token recebido do app
     window.receberTokenDoApp = function(token) {
       document.getElementById('token').value = token;
       localStorage.setItem('token', token);
@@ -283,48 +281,72 @@ $secret = getJwtSecret();
       }
     });
 
+    // Função para gerar o token JWT
+    async function generateJWTToken(token) {
+      const response = await fetch(window.location.href, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          token: token
+        })
+      });
+      const data = await response.json();
+      return data.token;
+    }
+
+    // Gera o token JWT para autenticação com a API
+    const tokenJwt = await generateJWTToken(token);
+
+
+
 
     // Carregar lista de CNPJs/CPFs vinculados
-function carregarVinculados(token) {
-  const tokenFinal = typeof token === 'string' && token.length ? token : localStorage.getItem('token');
+    function carregarVinculados(token) {
+      const tokenFinal = typeof token === 'string' && token.length ? token : localStorage.getItem('token');
 
-  if (!tokenFinal) {
-    document.getElementById('listaVinculados').innerHTML = `<div class="text-danger text-center">Erro ao carregar dados.</div>`;
-    return;
-  }
+      if (!tokenFinal) {
+        document.getElementById('listaVinculados').innerHTML = `<div class="text-danger text-center">Erro ao carregar dados.</div>`;
+        return;
+      }
 
-  fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-cpf-vinculados.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ token: tokenFinal })
-  })
-  .then(r => r.json())
-  .then(res => {
-    const lista = document.getElementById('listaVinculados');
-    lista.innerHTML = '';
-      if (res.status === 'sucesso' && Array.isArray(res.cpfs) && res.cpfs.length) {
-      res.cpfs.forEach((item) => {
-        const div = document.createElement('div');
-        div.className = 'd-flex align-items-center justify-content-between border rounded p-2 mb-2 bg-white';
-        div.innerHTML = `
+      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-cpf-vinculados.php', {
+        method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + tokenJwt
+          },
+          body: JSON.stringify({
+            token: tokenFinal
+          })
+        })
+        .then(r => r.json())
+        .then(res => {
+          const lista = document.getElementById('listaVinculados');
+          lista.innerHTML = '';
+          if (res.status === 'sucesso' && Array.isArray(res.cpfs) && res.cpfs.length) {
+            res.cpfs.forEach((item) => {
+              const div = document.createElement('div');
+              div.className = 'd-flex align-items-center justify-content-between border rounded p-2 mb-2 bg-white';
+              div.innerHTML = `
           <a href="#" onclick="abrirLoginComToken('${item.cpf}')" class="text-decoration-none text-dark fw-semibold flex-grow-1">
             ${formatarDocumento(item.cpf)}
           </a>
           <button class="btn btn-sm btn-outline-danger ms-2" style="border: none; outline: none;" title="Desvincular" onclick="abrirModalDesvincular('${item.cpf}')">
             <i class="bi bi-trash"></i>
           </button>`;
-        lista.appendChild(div);
-      });
-    } else {
-      lista.innerHTML = '<div class="text-center text-muted">Nenhum CNPJ/CPF vinculado.</div>';
+              lista.appendChild(div);
+            });
+          } else {
+            lista.innerHTML = '<div class="text-center text-muted">Nenhum CNPJ/CPF vinculado.</div>';
+          }
+        })
+        .catch((err) => {
+          document.getElementById('listaVinculados').innerHTML = `<div class="text-danger text-center">Erro ao carregar dados.</div>`;
+        });
     }
-  })
-  .catch((err) => {
-    document.getElementById('listaVinculados').innerHTML = `<div class="text-danger text-center">Erro ao carregar dados.</div>`;
-  });
-}
 
 
     // Abrir modal de desvincular
@@ -344,7 +366,8 @@ function carregarVinculados(token) {
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/desvincular-cpf.php', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + tokenJwt
           },
           body: JSON.stringify({
             token,
@@ -380,7 +403,8 @@ function carregarVinculados(token) {
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes.php', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + tokenJwt
           },
           body: JSON.stringify({
             token
@@ -447,9 +471,10 @@ function carregarVinculados(token) {
     function marcarComoLida(id) {
       const token = document.getElementById('token').value;
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
-          method: 'POST',
+         method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + tokenJwt
           },
           body: JSON.stringify({
             id,
@@ -481,13 +506,12 @@ function carregarVinculados(token) {
         console.error('Erro ao iniciar login com token:', e);
       }
     }
-
   </script>
 
 
 
 
-<script>
+  <script>
     // Comunicação com WebView e inicialização
     document.addEventListener("DOMContentLoaded", function() {
       if (window.ReactNativeWebView) {

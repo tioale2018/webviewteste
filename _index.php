@@ -30,48 +30,6 @@ if (isset($_SESSION['loggedin'])) {
 
 include_once "conexao.php";
 include_once "funcoes.php";
-
-// Verifica se é uma requisição AJAX para gerar token
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-    header('Content-Type: application/json');
-    
-    // Pega o conteúdo JSON enviado
-    $json = file_get_contents('php://input');
-    $data = json_decode($json, true);
-    
-    if (!isset($data['documento'])) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Documento não fornecido']);
-        exit;
-    }
-    
-    $documento = preg_replace('/[^\d]/', '', $data['documento']);
-    
-    if (empty($documento)) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Documento inválido']);
-        exit;
-    }
-    
-    try {
-        $payload = [
-            'documento' => $documento,
-            'timestamp' => time()
-        ];
-        
-        $secret = getJwtSecret();
-        $tokenJwt = generate_jwt($payload, $secret);
-        
-        echo json_encode(['token' => $tokenJwt]);
-        exit;
-    } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => 'Erro ao gerar token']);
-        exit;
-    }
-}
-
-$secret = getJwtSecret();
 ?>
 
 <!DOCTYPE html>
@@ -293,7 +251,7 @@ function carregarVinculados(token) {
     return;
   }
 
-  fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-cpf-vinculados.php', {
+  fetch('buscar-cpf-vinculados.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -304,12 +262,12 @@ function carregarVinculados(token) {
   .then(res => {
     const lista = document.getElementById('listaVinculados');
     lista.innerHTML = '';
-      if (res.status === 'sucesso' && Array.isArray(res.cpfs) && res.cpfs.length) {
+    if (res.status === 'sucesso' && Array.isArray(res.cpfs) && res.cpfs.length) {
       res.cpfs.forEach((item) => {
         const div = document.createElement('div');
         div.className = 'd-flex align-items-center justify-content-between border rounded p-2 mb-2 bg-white';
         div.innerHTML = `
-          <a href="#" onclick="abrirLoginComToken('${item.cpf}')" class="text-decoration-none text-dark fw-semibold flex-grow-1">
+          <a href="index2_api.php?documento=${encodeURIComponent(item.cpf)}" class="text-decoration-none text-dark fw-semibold flex-grow-1">
             ${formatarDocumento(item.cpf)}
           </a>
           <button class="btn btn-sm btn-outline-danger ms-2" style="border: none; outline: none;" title="Desvincular" onclick="abrirModalDesvincular('${item.cpf}')">
@@ -341,7 +299,7 @@ function carregarVinculados(token) {
     document.getElementById('btnConfirmarDesvincular').addEventListener('click', function() {
       const token = document.getElementById('token').value;
       if (!cpfParaDesvincular || !token) return;
-      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/desvincular-cpf.php', {
+      fetch('desvincular-cpf.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -377,7 +335,7 @@ function carregarVinculados(token) {
 
     function carregarNotificacoes(abrirModal = false) {
       const token = document.getElementById('token').value;
-      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes.php', {
+      fetch('buscar-notificacoes.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -446,7 +404,7 @@ function carregarVinculados(token) {
 
     function marcarComoLida(id) {
       const token = document.getElementById('token').value;
-      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
+      fetch('marcar-notificacao.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -469,25 +427,12 @@ function carregarVinculados(token) {
 
 
 
-    // Helper: ao clicar em um CNPJ/CPF vinculado, salvar no localStorage e abrir a tela de login externa
-    function abrirLoginComToken(cpf) {
-      try {
-        localStorage.setItem('selected_cpf', cpf);
-        // manter token da app se existir
-        const token = localStorage.getItem('token');
-        // redireciona para index2_api.php (a página vai ler selected_cpf)
-        window.location.href = 'index2_api.php';
-      } catch (e) {
-        console.error('Erro ao iniciar login com token:', e);
-      }
-    }
-
-  </script>
 
 
 
 
-<script>
+
+
     // Comunicação com WebView e inicialização
     document.addEventListener("DOMContentLoaded", function() {
       if (window.ReactNativeWebView) {

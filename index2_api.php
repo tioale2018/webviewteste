@@ -138,6 +138,15 @@ $secret = getJwtSecret();
 
     var token = localStorage.getItem('token');
     document.getElementById('token').value = token;
+    // Prefill documento from previously selected CPF saved in localStorage
+    try {
+      const sel = localStorage.getItem('selected_cpf');
+      if (sel && !document.getElementById('documento').value) {
+        document.getElementById('documento').value = sel;
+      }
+    } catch (e) {
+      console.error('Erro ao preencher documento:', e);
+    }
     // alert(token);
     
     // window.receberTokenDoApp = function(token) {

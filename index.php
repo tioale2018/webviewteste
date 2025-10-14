@@ -200,7 +200,7 @@ $secret = getJwtSecret();
   </nav>
 
   <div class="container-fluid d-flex flex-column align-items-center justify-content-center" style="min-height:80vh;">
-    <input type="text" id="token" hidden>
+    <input type="text" value="fTa0cCK3QK-9OjPlD21dZK:APA91bFPWM8lX4VsAZd0NcnIu2J0LkStdvst6e5T814g-hoqmxdTJsYJf06ea1LhQs3NlF2_JGhKqMJvT5YROZlWM04Ab7k8HGpdricBifEx06Zm4KqCuig" id="token" hidden>
     <div class="card shadow-sm p-4 w-100 mb-4" style="max-width: 400px;">
       <h5 class="text-center mb-3 fw-semibold">Contas vinculadas</h5>
       <div id="listaVinculados" class="mb-3 overflow-auto" style="max-height: 300px;">

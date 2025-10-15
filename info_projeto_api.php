@@ -16,7 +16,7 @@
     <script>
         // window.ReactNativeWebView?.postMessage(JSON.stringify({
         //     tipo: 'autenticacao',
-        //     cpf: '<?= $cpf ?>'
+        //     cpf: 
         // }));
     </script>
     <?php // endif; 

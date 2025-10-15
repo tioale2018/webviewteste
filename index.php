@@ -342,7 +342,7 @@ $secret = getJwtSecret();
               const div = document.createElement('div');
               div.className = 'd-flex align-items-center justify-content-between border rounded p-2 mb-2 bg-white';
               div.innerHTML = `
-           <a href="index2_api.php?documento=${encodeURIComponent(item.cpf)}" class="text-decoration-none text-dark fw-semibold flex-grow-1">
+          <a href="#" onclick="abrirLoginComToken('${item.cpf}')" class="text-decoration-none text-dark fw-semibold flex-grow-1">
             ${formatarDocumento(item.cpf)}
           </a>
           <button class="btn btn-sm btn-outline-danger ms-2" style="border: none; outline: none;" title="Desvincular" onclick="abrirModalDesvincular('${item.cpf}')">

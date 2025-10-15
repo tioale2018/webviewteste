@@ -39,7 +39,7 @@ $token = generate_jwt($payload, $secret);
     <?php // endif; 
     ?>
 
-    <?php include_once "navbar.php"; ?>
+    <?php // include_once "navbar.php"; ?>
     <main class="container py-3">
         <?php // include_once "navbar-bottom.php"; 
         ?>

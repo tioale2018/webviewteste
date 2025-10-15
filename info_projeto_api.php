@@ -54,7 +54,7 @@ $token = generate_jwt($payload, $secret);
             </nav>
         </div>
 
-
+        <h2><?= $token ?></h2>
         <div id="project-info"></div>
     </main>
 

@@ -1,20 +1,3 @@
-<?php
-// include_once "funcoes.php";
-
-$cpf = $_SESSION['cpf'] ?? null;
-$id = $_SESSION['id_user'] ?? null;
-$project_id = $_GET['id'] ?? null;
-
-
-$payload = [
-    'cpf' => $cpf,
-    'id_user' => $id
-];
-
-$secret = getJwtSecret();
-$token = generate_jwt($payload, $secret);
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -40,6 +23,22 @@ $token = generate_jwt($payload, $secret);
     ?>
 
     <?php include_once "navbar.php"; ?>
+    <?php
+// include_once "funcoes.php";
+
+$cpf = $_SESSION['cpf'] ?? null;
+$id = $_SESSION['id_user'] ?? null;
+$project_id = $_GET['id'] ?? null;
+
+
+$payload = [
+    'cpf' => $cpf,
+    'id_user' => $id
+];
+
+$secret = getJwtSecret();
+$token = generate_jwt($payload, $secret);
+?>
     <main class="container py-3">
         <?php // include_once "navbar-bottom.php"; 
         ?>
@@ -54,7 +53,7 @@ $token = generate_jwt($payload, $secret);
             </nav>
         </div>
 
-        <h2><?= $token ?></h2>
+        
         <div id="project-info"></div>
     </main>
 

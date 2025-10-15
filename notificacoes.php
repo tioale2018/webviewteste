@@ -99,11 +99,13 @@ $token = generate_jwt($payload, $secret);
 
     function marcarComoLida(id) {
       const token = "<?php echo isset($_SESSION['token']) ? $_SESSION['token'] : ''; ?>";
+      const headersMark = { 'Content-Type': 'application/json' };
+      if (jwtToken) headersMark['Authorization'] = 'Bearer ' + jwtToken;
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, token })
-      })
+         method: 'POST',
+         headers: headersMark,
+         body: JSON.stringify({ id, token })
+        })
       .then(r => r.json())
       .then(res => {
         if (res.status === 'sucesso') {

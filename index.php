@@ -486,7 +486,7 @@ $secret = getJwtSecret();
           if (res.status === 'sucesso') {
             carregarNotificacoes();
           } else {
-            alert('Erro ao marcar como lida: ' + res.mensagem + 'Lista Tokens:' + res.lista);
+            alert('Erro ao marcar como lida: ' + res.mensagem + 'token=' + token + ' id=' + id);
           }
         });
     }

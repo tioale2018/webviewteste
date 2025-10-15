@@ -83,7 +83,7 @@ $token = generate_jwt($payload, $secret);
     </ul>
   </div>
 </div>
-<h2><?= $token ?></h2>
+
  <script>
         const jwtToken = '<?= $token ?>';
  </script>

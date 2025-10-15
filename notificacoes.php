@@ -97,18 +97,23 @@ $token = generate_jwt($payload, $secret);
       });
     }
 
-    function marcarComoLida(id) {
+   function marcarComoLida(id) {
+      const token = <?= $token_celular ?>;
+      const headersMark = { 'Content-Type': 'application/json' };
+      if (tokenJwt) headersMark['Authorization'] = 'Bearer ' + tokenJwt;
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, token })
-      })
-      .then(r => r.json())
-      .then(res => {
-        if (res.status === 'sucesso') {
-          carregarNotificacoes();
-        }
-      });
+         method: 'POST',
+         headers: headersMark,
+         body: JSON.stringify({ id, token })
+        })
+        .then(r => r.json())
+        .then(res => {
+          if (res.status === 'sucesso') {
+            carregarNotificacoes();
+          } else {
+            // alert('Erro ao marcar como lida: ' + res.mensagem);
+          }
+        });
     }
 
     document.addEventListener('DOMContentLoaded', carregarNotificacoes);

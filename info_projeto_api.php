@@ -1,6 +1,10 @@
 <?php
 include_once "funcoes.php";
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ob_start();
+
 $cpf = $_SESSION['cpf'] ?? null;
 $id = $_SESSION['id_user'] ?? null;
 $project_id = $_GET['id'] ?? null;

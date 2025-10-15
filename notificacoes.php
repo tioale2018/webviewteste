@@ -98,6 +98,7 @@ $token = generate_jwt($payload, $secret);
     }
 
     function marcarComoLida(id) {
+      const token = "<?php echo isset($_SESSION['token']) ? $_SESSION['token'] : ''; ?>";
       fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

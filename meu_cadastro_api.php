@@ -42,7 +42,9 @@ $token = generate_jwt($payload, $secret);
   </main>
   <script src="./js/jquery-3.7.1.min.js"></script>
   <script>
-    const jwtToken = '<?= $token ?>';
+  if (typeof jwtToken === 'undefined') {
+             const jwtToken = '<?= $token ?>';
+        }
     let isEditing = false;
     let currentData = null;
 

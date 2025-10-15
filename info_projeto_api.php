@@ -1,5 +1,5 @@
 <?php
-include_once "funcoes.php";
+// include_once "funcoes.php";
 
 $cpf = $_SESSION['cpf'] ?? null;
 $id = $_SESSION['id_user'] ?? null;

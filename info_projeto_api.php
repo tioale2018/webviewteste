@@ -59,7 +59,7 @@ $token = generate_jwt($payload, $secret);
 
     <script src="./js/jquery-3.7.1.min.js"></script>
     <script>
-        const jwtToken = '<?= $token ?>';
+        // const jwtToken = '<?= $token ?>';
         const projectId = '<?= $project_id ?>';
 
         $(function() {

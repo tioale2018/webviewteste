@@ -107,6 +107,8 @@ $token = generate_jwt($payload, $secret);
       .then(res => {
         if (res.status === 'sucesso') {
           carregarNotificacoes();
+        } else {
+          alert('Erro ao marcar como lida: ' + res.mensagem);
         }
       });
     }

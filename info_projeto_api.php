@@ -364,7 +364,7 @@ $token = generate_jwt($payload, $secret);
                     }
 
                     // Inject full page: main + remaining
-                    let finalHtml = buildMainHtml() + buildRemainingHtml();
+                    let finalHtml = buildMainHtml();
                     $('#project-info').html(finalHtml);
 
                     // Attach click handlers to navbar items to load subsection views

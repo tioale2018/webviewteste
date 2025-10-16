@@ -247,10 +247,10 @@ $token = generate_jwt($payload, $secret);
                             html += `<div class="card mb-3">
                                 <div class="section-title">Dados do Proponente</div>
                                 <div class="card-body">
-                                    <div class="info-row"><div class="info-label">Nome Fantasia:</div><div class="info-value">${safe(dados.nomefantasia || dados.proponente)}</div></div>
-                                    <div class="info-row"><div class="info-label">CNPJ/CPF:</div><div class="info-value">${safe(dados.user_input || dados.cpf)}</div></div>
-                                    <div class="info-row"><div class="info-label">E-mail:</div><div class="info-value">${safe(dados.email)}</div></div>
-                                    <div class="info-row"><div class="info-label">Telefone:</div><div class="info-value">${safe(dados.telefone || dados.celular)}</div></div>
+                                    <div class="info-row"><div class="info-label">Nome Fantasia:</div><div class="info-value"><b>${safe(dados.nomefantasia || dados.proponente)}</b></div></div>
+                                    <div class="info-row"><div class="info-label">CNPJ/CPF:</div><div class="info-value"><b>${safe(dados.user_input || dados.cpf)}</b></div></div>
+                                    <div class="info-row"><div class="info-label">E-mail:</div><div class="info-value"><b>${safe(dados.email)}</b></div></div>
+                                    <div class="info-row"><div class="info-label">Telefone:</div><div class="info-value"><b>${safe(dados.telefone || dados.celular)}</b></div></div>
                                 </div>
                             </div>`;
 
@@ -274,16 +274,16 @@ $token = generate_jwt($payload, $secret);
 
                             // Categoria / Área cultural / Concorrência
                             if (dadosinfo && (dadosinfo.nome_categoria || dadosinfo.nome_acultural || dadosinfo.nome_concorrencia)) {
-                                if (dadosinfo.nome_categoria) html += `<div class="info-row"><div class="info-label">Categoria:</div><div class="info-value">${dadosinfo.nome_categoria}</div></div>`;
-                                if (dadosinfo.nome_acultural) html += `<div class="info-row"><div class="info-label">Área Cultural:</div><div class="info-value">${dadosinfo.nome_acultural}</div></div>`;
-                                if (dadosinfo.nome_concorrencia) html += `<div class="info-row"><div class="info-label">Concorrência:</div><div class="info-value">${dadosinfo.nome_concorrencia}</div></div>`;
+                                if (dadosinfo.nome_categoria) html += `<div class="info-row"><div class="info-label">Categoria:</div><div class="info-value"><b>${dadosinfo.nome_categoria}</b></div></div>`;
+                                if (dadosinfo.nome_acultural) html += `<div class="info-row"><div class="info-label">Área Cultural:</div><div class="info-value"><b>${dadosinfo.nome_acultural}</b></div></div>`;
+                                if (dadosinfo.nome_concorrencia) html += `<div class="info-row"><div class="info-label">Concorrência:</div><div class="info-value"><b>${dadosinfo.nome_concorrencia}</b></div></div>`;
                             }
 
                             // Título do Projeto e datas
-                            if (safe(dados.titulo)) html += `<div class="info-row"><div class="info-label">Nome do Projeto:</div><div class="info-value">${dados.titulo}</div></div>`;
+                            if (safe(dados.titulo)) html += `<div class="info-row"><div class="info-label">Nome do Projeto:</div><div class="info-value"><b>${dados.titulo}</b></div></div>`;
                             const inicio = safe(dados.dt_inicio_realiz) || safe(dados.dt_inicio_exec);
                             const fim = safe(dados.dt_fim_realiz) || safe(dados.dt_fim_exec);
-                            if (inicio || fim) html += `<div class="info-row"><div class="info-label">Data de Realização:</div><div class="info-value">${inicio}${inicio && fim ? ' a ' + fim : ''}</div></div>`;
+                            if (inicio || fim) html += `<div class="info-row"><div class="info-label">Data de Realização:</div><div class="info-value"><b>${inicio}${inicio && fim ? ' a ' + fim : ''}</b></div></div>`;
 
                             // Local
                             const localParts = [];
@@ -291,7 +291,7 @@ $token = generate_jwt($payload, $secret);
                             if (safe(dados.bairro)) localParts.push(dados.bairro);
                             if (safe(dados.municipio)) localParts.push(dados.municipio);
                             if (safe(dados.uf)) localParts.push(dados.uf);
-                            if (localParts.length) html += `<div class="info-row"><div class="info-label">Local:</div><div class="info-value">${localParts.join(' - ')}</div></div>`;
+                            if (localParts.length) html += `<div class="info-row"><div class="info-label">Local:</div><div class="info-value"><b>${localParts.join(' - ')}</b></div></div>`;
 
                             html += `</div></div>`;
 

@@ -109,139 +109,6 @@ $token = generate_jwt($payload, $secret);
                         return html;
                     }
 
-                    // Build the rest of the page (cards that come after the subsection)
-                    function buildRemainingHtml() {
-                        let html = '';
-                        // Checa se cada configuração está ativa no período (campo2)
-                        const ativoRecursoparecer = getItemSeAtivo(datas, 'recursoparecerdata');
-                        const ativoAvaltecrecursodata = getItemSeAtivo(datas, 'avaltecrecursodata');
-                        const ativoExibeNotaRecurso = getItemSeAtivo(datas, 'exibenotarecurso');
-                        const ativoExibeNotaProponente = getItemSeAtivo(datas, 'exibenotaproponente');
-                        const ativoResultadoRecurso = getItemSeAtivo(datas, 'resultadorecavaldoc') || getItemSeAtivo(datas, 'resultadoavaldoc');
-                        const ativoExibeRecursoAvalDoc = getItemSeAtivo(datas, 'exiberecursoavaldoc');
-
-                        // Parecer do Recurso
-                        if (ativoRecursoparecer) {
-                            html += `<div class="card">
-                                <div class="section-title">Parecer do Recurso</div>
-                                <div class="card-body">
-                                    <p>Período: ${ativoRecursoparecer.campo2}</p>
-                                </div>
-                            </div>`;
-                        }
-
-                        // Notas: só exibe se existir data.notas e alguma configuração de exibição estiver ativa
-                        const mostraNotas = data.notas && (ativoExibeNotaRecurso || ativoExibeNotaProponente || ativoResultadoRecurso);
-                        if (mostraNotas) {
-                            html += `<div class="card">
-                                <div class="section-title">Nota do projeto</div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-sm table-bordered align-middle mb-3">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th>Critério</th>
-                                                    <th>Média</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>`;
-
-                            (data.notas.criterios || []).forEach(function(criterio) {
-                                html += `<tr>
-                                    <td>${criterio.nome}</td>
-                                    <td>${criterio.nota}</td>
-                                </tr>`;
-                            });
-
-                            html += `</tbody>
-                                        <tfoot>
-                                            <tr class="fw-bold">
-                                                <td>Total</td>
-                                                <td>${data.notas.total}</td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>`;
-
-                            if (data.notas.pareceres) {
-                                html += `<div class="row">`;
-                                data.notas.pareceres.forEach(function(parecer, index) {
-                                    html += `<div class="col-md-6">
-                                        <h6>Avaliador ${index + 1}:</h6>
-                                        <p class="mb-2">${parecer}</p>
-                                    </div>`;
-                                });
-                                html += `</div>`;
-                            }
-
-                            html += `</div></div>`;
-                        }
-
-                        // Resultado do recurso: só exibe se configurado e existir
-                        if (data.resultado_recurso && ativoResultadoRecurso) {
-                            html += `<div class="card">
-                                <div class="section-title">Resultado Recurso Avaliação Documental</div>
-                                <div class="card-body">
-                                    <p><strong>Observação:</strong> ${data.resultado_recurso.observacao}</p>
-                                    <p><strong>Motivo da inabilitação:</strong> ${data.resultado_recurso.motivo || 'Habilitado'}</p>
-                                </div>
-                            </div>`;
-                        }
-
-                        // Avaliação documental (mantém exibição se existir)
-                        if (data.avaliacao_documental) {
-                            html += `<div class="card">
-                                <div class="section-title">Avaliação Documental</div>
-                                <div class="card-body">
-                                    <p><strong>Observação:</strong> ${data.avaliacao_documental.observacao}</p>
-                                    <p><strong>Motivo da inabilitação:</strong> ${data.avaliacao_documental.motivo || 'N/A'}</p>
-                                </div>
-                            </div>`;
-                        }
-
-                        // Envio de recurso: exibe somente durante o período configurado
-                        if (data.recurso && ativoExibeRecursoAvalDoc) {
-                            html += `<div class="card">
-                                <div class="section-title">Envio de Recurso</div>
-                                <div class="card-body">`;
-
-                            if (data.recurso.arquivo) {
-                                html += `<div class="mb-2">
-                                    <strong>Arquivo adicionado:</strong>
-                                    <div><a href="${data.recurso.arquivo.url}" class="file-link text-decoration-none"><i class="bi bi-paperclip"></i> ${data.recurso.arquivo.nome}</a></div>
-                                </div>`;
-                            }
-
-                            if (data.recurso.mensagem) {
-                                html += `<div class="mb-2">
-                                    <strong>Mensagem enviada:</strong>
-                                    <div class="border p-2 bg-light">${data.recurso.mensagem}</div>
-                                </div>`;
-                            }
-
-                            if (data.recurso.data_envio) {
-                                html += `<p class="text-danger mb-0"><strong>Recurso recebido em:</strong> ${new Date(data.recurso.data_envio * 1000).toLocaleString('pt-BR')}</p>`;
-                            }
-
-                            html += `</div></div>`;
-                        }
-
-                        // Recurso de nota: só exibe se configurado
-                        if (data.recurso_nota && ativoExibeNotaRecurso) {
-                            html += `<div class="card mb-5">
-                                <div class="section-title">Recurso de nota</div>
-                                <div class="card-body">
-                                    <div class="mb-2">
-                                        <p class="">${data.recurso_nota.mensagem}</p>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-
-                        html += '<div class="mb-5"></div><br>';
-                        return html;
-                    }
-
                     // Render subsection depending on selected view
                     function renderSubsection(view) {
                         const $sub = $('#project-subsection');
@@ -343,6 +210,153 @@ $token = generate_jwt($payload, $secret);
                                 </div>
                             </div>`;
                             $sub.html(html);
+
+                        } else if (view === 'fluxo') {
+                            // Build the rest of the page (cards that come after the subsection)
+                    
+                        // Checa se cada configuração está ativa no período (campo2)
+                        const ativoRecursoparecer = getItemSeAtivo(datas, 'recursoparecerdata');
+                        const ativoAvaltecrecursodata = getItemSeAtivo(datas, 'avaltecrecursodata');
+                        const ativoExibeNotaRecurso = getItemSeAtivo(datas, 'exibenotarecurso');
+                        const ativoExibeNotaProponente = getItemSeAtivo(datas, 'exibenotaproponente');
+                        const ativoResultadoRecurso = getItemSeAtivo(datas, 'resultadorecavaldoc') || getItemSeAtivo(datas, 'resultadoavaldoc');
+                        const ativoExibeRecursoAvalDoc = getItemSeAtivo(datas, 'exiberecursoavaldoc');
+
+                        // Parecer do Recurso
+                        if (ativoRecursoparecer) {
+                            html += `<div class="card">
+                                <div class="section-title">Parecer do Recurso</div>
+                                <div class="card-body">
+                                    <p>Período: ${ativoRecursoparecer.campo2}</p>
+                                </div>
+                            </div>`;
+                            $sub.html(html);
+                        }
+
+                        // Notas: só exibe se existir data.notas e alguma configuração de exibição estiver ativa
+                        const mostraNotas = data.notas && (ativoExibeNotaRecurso || ativoExibeNotaProponente || ativoResultadoRecurso);
+                        if (mostraNotas) {
+                            html += `<div class="card">
+                                <div class="section-title">Nota do projeto</div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered align-middle mb-3">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Critério</th>
+                                                    <th>Média</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>`;
+                                            $sub.html(html);
+
+                            (data.notas.criterios || []).forEach(function(criterio) {
+                                html += `<tr>
+                                    <td>${criterio.nome}</td>
+                                    <td>${criterio.nota}</td>
+                                </tr>`;
+                                $sub.html(html);
+                            });
+
+                            html += `</tbody>
+                                        <tfoot>
+                                            <tr class="fw-bold">
+                                                <td>Total</td>
+                                                <td>${data.notas.total}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>`;
+                                $sub.html(html);
+
+                            if (data.notas.pareceres) {
+                                html += `<div class="row">`;
+                                data.notas.pareceres.forEach(function(parecer, index) {
+                                    html += `<div class="col-md-6">
+                                        <h6>Avaliador ${index + 1}:</h6>
+                                        <p class="mb-2">${parecer}</p>
+                                    </div>`;
+                                    $sub.html(html);
+                                });
+                                html += `</div>`;
+                                $sub.html(html);
+                            }
+
+                            html += `</div></div>`;
+                            $sub.html(html);
+                        }
+
+                        // Resultado do recurso: só exibe se configurado e existir
+                        if (data.resultado_recurso && ativoResultadoRecurso) {
+                            html += `<div class="card">
+                                <div class="section-title">Resultado Recurso Avaliação Documental</div>
+                                <div class="card-body">
+                                    <p><strong>Observação:</strong> ${data.resultado_recurso.observacao}</p>
+                                    <p><strong>Motivo da inabilitação:</strong> ${data.resultado_recurso.motivo || 'Habilitado'}</p>
+                                </div>
+                            </div>`;
+                            $sub.html(html);
+                        }
+
+                        // Avaliação documental (mantém exibição se existir)
+                        if (data.avaliacao_documental) {
+                            html += `<div class="card">
+                                <div class="section-title">Avaliação Documental</div>
+                                <div class="card-body">
+                                    <p><strong>Observação:</strong> ${data.avaliacao_documental.observacao}</p>
+                                    <p><strong>Motivo da inabilitação:</strong> ${data.avaliacao_documental.motivo || 'N/A'}</p>
+                                </div>
+                            </div>`;
+                            $sub.html(html);
+                        }
+
+                        // Envio de recurso: exibe somente durante o período configurado
+                        if (data.recurso && ativoExibeRecursoAvalDoc) {
+                            html += `<div class="card">
+                                <div class="section-title">Envio de Recurso</div>
+                                <div class="card-body">`;
+                                $sub.html(html);
+
+                            if (data.recurso.arquivo) {
+                                html += `<div class="mb-2">
+                                    <strong>Arquivo adicionado:</strong>
+                                    <div><a href="${data.recurso.arquivo.url}" class="file-link text-decoration-none"><i class="bi bi-paperclip"></i> ${data.recurso.arquivo.nome}</a></div>
+                                </div>`;
+                                $sub.html(html);
+                            }
+
+                            if (data.recurso.mensagem) {
+                                html += `<div class="mb-2">
+                                    <strong>Mensagem enviada:</strong>
+                                    <div class="border p-2 bg-light">${data.recurso.mensagem}</div>
+                                </div>`;
+                                $sub.html(html);
+                            }
+
+                            if (data.recurso.data_envio) {
+                                html += `<p class="text-danger mb-0"><strong>Recurso recebido em:</strong> ${new Date(data.recurso.data_envio * 1000).toLocaleString('pt-BR')}</p>`;
+                                $sub.html(html);
+                            }
+
+                            html += `</div></div>`;
+                            $sub.html(html);
+                        }
+
+                        // Recurso de nota: só exibe se configurado
+                        if (data.recurso_nota && ativoExibeNotaRecurso) {
+                            html += `<div class="card mb-5">
+                                <div class="section-title">Recurso de nota</div>
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <p class="">${data.recurso_nota.mensagem}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+                            $sub.html(html);
+                        }
+
+                        html += '<div class="mb-5"></div><br>';
+                        $sub.html(html);
                         } else {
                             // default: fluxo — do nothing or show contextual info
                             $sub.html('<div class="alert alert-secondary">Selecione uma opção no menu inferior para ver mais detalhes relacionados ao andamento do processo.</div>');
@@ -391,15 +405,35 @@ $token = generate_jwt($payload, $secret);
     </script>
 
     <script>
+        // Retorna o item da configuração se o período (campo2) estiver ativo.
+        // campo2 esperado: "YYYY-MM-DD HH:mm,YYYY-MM-DD HH:mm" (abertura,fechamento)
+        function parseDateString(value) {
+            if (!value) return null;
+            const s = String(value).trim();
+            // Unix timestamp em segundos
+            if (/^\d{10}$/.test(s)) return new Date(parseInt(s, 10) * 1000);
+            // Substitui espaço por 'T' para parsing mais consistente (ISO-like)
+            const t = s.replace(' ', 'T');
+            const d = new Date(t);
+            return isNaN(d) ? null : d;
+        }
+
         function getItemSeAtivo(datas, chaveCampo1) {
+            if (!Array.isArray(datas)) return null;
             const item = datas.find(d => d.campo1 === chaveCampo1);
             if (!item || !item.campo2) return null;
 
-            const [inicioStr, fimStr] = item.campo2.split(',');
-            const inicio = new Date(inicioStr);
-            const fim = new Date(fimStr);
-            const agora = new Date();
+            const parts = item.campo2.split(',').map(p => p.trim()).filter(Boolean);
+            if (parts.length < 2) return null;
 
+            const inicio = parseDateString(parts[0]);
+            const fim = parseDateString(parts[1]);
+            if (!inicio || !fim) return null;
+
+            // Se as datas estiverem invertidas (início > fim), considerar como inválido
+            if (inicio > fim) return null;
+
+            const agora = new Date();
             return (agora >= inicio && agora <= fim) ? item : null;
         }
     </script>

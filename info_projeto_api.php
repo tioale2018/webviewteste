@@ -289,6 +289,7 @@ $token = generate_jwt($payload, $secret);
 
                         // Resultado do recurso: só exibe se configurado e existir
                         if (data.resultado_recurso && ativoResultadoRecurso) {
+                            let html = '';
                             html += `<div class="card">
                                 <div class="section-title">Resultado Recurso Avaliação Documental</div>
                                 <div class="card-body">

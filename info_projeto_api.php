@@ -194,8 +194,9 @@ $token = generate_jwt($payload, $secret);
 
                             $sub.html(html);
                         } else if (view === 'chat') {
+                             let html = '';
                             // Minimal chat placeholder (you can fetch server-rendered HTML if preferred)
-                            const html = `<div class="card">
+                            html += `<div class="card">
                                 <div class="section-title">Chat</div>
                                 <div class="card-body">
                                     <p class="mb-2">Área de mensagens e anexos do projeto.</p>

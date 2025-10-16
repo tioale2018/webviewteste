@@ -112,17 +112,27 @@ $token = generate_jwt($payload, $secret);
                     // Build the rest of the page (cards that come after the subsection)
                     function buildRemainingHtml() {
                         let html = '';
-                        const ativo = getItemSeAtivo(datas, "recursoparecerdata");
-                        if (ativo) {
+                        // Checa se cada configuração está ativa no período (campo2)
+                        const ativoRecursoparecer = getItemSeAtivo(datas, 'recursoparecerdata');
+                        const ativoAvaltecrecursodata = getItemSeAtivo(datas, 'avaltecrecursodata');
+                        const ativoExibeNotaRecurso = getItemSeAtivo(datas, 'exibenotarecurso');
+                        const ativoExibeNotaProponente = getItemSeAtivo(datas, 'exibenotaproponente');
+                        const ativoResultadoRecurso = getItemSeAtivo(datas, 'resultadorecavaldoc') || getItemSeAtivo(datas, 'resultadoavaldoc');
+                        const ativoExibeRecursoAvalDoc = getItemSeAtivo(datas, 'exiberecursoavaldoc');
+
+                        // Parecer do Recurso
+                        if (ativoRecursoparecer) {
                             html += `<div class="card">
                                 <div class="section-title">Parecer do Recurso</div>
                                 <div class="card-body">
-                                    <p>Período: ${ativo.campo2}</p>
+                                    <p>Período: ${ativoRecursoparecer.campo2}</p>
                                 </div>
                             </div>`;
                         }
 
-                        if (data.notas) {
+                        // Notas: só exibe se existir data.notas e alguma configuração de exibição estiver ativa
+                        const mostraNotas = data.notas && (ativoExibeNotaRecurso || ativoExibeNotaProponente || ativoResultadoRecurso);
+                        if (mostraNotas) {
                             html += `<div class="card">
                                 <div class="section-title">Nota do projeto</div>
                                 <div class="card-body">
@@ -136,7 +146,7 @@ $token = generate_jwt($payload, $secret);
                                             </thead>
                                             <tbody>`;
 
-                            data.notas.criterios.forEach(function(criterio) {
+                            (data.notas.criterios || []).forEach(function(criterio) {
                                 html += `<tr>
                                     <td>${criterio.nome}</td>
                                     <td>${criterio.nota}</td>
@@ -167,7 +177,8 @@ $token = generate_jwt($payload, $secret);
                             html += `</div></div>`;
                         }
 
-                        if (data.resultado_recurso) {
+                        // Resultado do recurso: só exibe se configurado e existir
+                        if (data.resultado_recurso && ativoResultadoRecurso) {
                             html += `<div class="card">
                                 <div class="section-title">Resultado Recurso Avaliação Documental</div>
                                 <div class="card-body">
@@ -177,6 +188,7 @@ $token = generate_jwt($payload, $secret);
                             </div>`;
                         }
 
+                        // Avaliação documental (mantém exibição se existir)
                         if (data.avaliacao_documental) {
                             html += `<div class="card">
                                 <div class="section-title">Avaliação Documental</div>
@@ -187,7 +199,8 @@ $token = generate_jwt($payload, $secret);
                             </div>`;
                         }
 
-                        if (data.recurso) {
+                        // Envio de recurso: exibe somente durante o período configurado
+                        if (data.recurso && ativoExibeRecursoAvalDoc) {
                             html += `<div class="card">
                                 <div class="section-title">Envio de Recurso</div>
                                 <div class="card-body">`;
@@ -213,7 +226,8 @@ $token = generate_jwt($payload, $secret);
                             html += `</div></div>`;
                         }
 
-                        if (data.recurso_nota) {
+                        // Recurso de nota: só exibe se configurado
+                        if (data.recurso_nota && ativoExibeNotaRecurso) {
                             html += `<div class="card mb-5">
                                 <div class="section-title">Recurso de nota</div>
                                 <div class="card-body">

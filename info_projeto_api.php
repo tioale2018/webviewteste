@@ -262,7 +262,7 @@ $token = generate_jwt($payload, $secret);
                                             <tfoot>
                                                 <tr class="fw-bold">
                                                     <td>Total</td>
-                                                    <td>${totalNota}</td>
+                                                    <td>${JSON.stringfy(totalNota)}</td>
                                                 </tr>
                                             </tfoot>
                                         </table>

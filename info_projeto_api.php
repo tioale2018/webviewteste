@@ -229,7 +229,7 @@ $token = generate_jwt($payload, $secret);
                                 html += `<div class="card">
                                     <div class="section-title">Parecer do Recurso</div>
                                     <div class="card-body">
-                                        <p>Período: ${ativoRecursoparecercampo2}</p>
+                                        <p>Período: ${ativoRecursoparecer.campo2}</p>
                                     </div>
                                 </div>`;
                             }

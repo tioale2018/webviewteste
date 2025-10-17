@@ -222,12 +222,7 @@ $token = generate_jwt($payload, $secret);
                             const ativoResultadoRecurso = getItemSeAtivo(datas, 'resultadorecavaldoc') || getItemSeAtivo(datas, 'resultadoavaldoc');
                             const ativoExibeRecursoAvalDoc = getItemSeAtivo(datas, 'exiberecursoavaldoc');
 
-                            alert(ativoRecursoparecer);
-                            alert(ativoAvaltecrecursodata);
-                            alert(ativoExibeNotaRecurso);
-                            alert(ativoExibeNotaProponente);
-                            alert(ativoResultadoRecurso);
-                            alert(ativoExibeRecursoAvalDoc);
+                            
 
                             // Parecer do Recurso
                             if (ativoRecursoparecer) {
@@ -416,7 +411,7 @@ $token = generate_jwt($payload, $secret);
             if (!item || !item.campo2) return null;
 
             const parts = item.campo2.split(',').map(p => p.trim()).filter(Boolean);
-            if (parts.length < 2) return null;
+            // if (parts.length < 2) return null;
 
             const inicio = parseDateString(parts[0]);
             const fim = parseDateString(parts[1]);

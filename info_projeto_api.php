@@ -229,7 +229,7 @@ $token = generate_jwt($payload, $secret);
                                 html += `<div class="card">
                                     <div class="section-title">Parecer do Recurso</div>
                                     <div class="card-body">
-                                        <p>Período: ${ativoRecursoparecer.campo2}</p>
+                                        <p>Período: ${ativoRecursoparecercampo2}</p>
                                     </div>
                                 </div>`;
                             }
@@ -250,10 +250,10 @@ $token = generate_jwt($payload, $secret);
                                                 </thead>
                                                 <tbody>`;
 
-                                (data.notas.criterios || []).forEach(function(criterio) {
+                                (data.notas || []).forEach(function(nota) {
                                     html += `<tr>
-                                        <td>${criterio.nome}</td>
-                                        <td>${criterio.nota}</td>
+                                        <td>${nota.pergunta}</td>
+                                        <td>${nota.media}</td>
                                     </tr>`;
                                 });
 

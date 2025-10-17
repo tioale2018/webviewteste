@@ -222,12 +222,6 @@ $token = generate_jwt($payload, $secret);
                             const ativoResultadoRecurso = getItemSeAtivo(datas, 'resultadorecavaldoc') || getItemSeAtivo(datas, 'resultadoavaldoc');
                             const ativoExibeRecursoAvalDoc = getItemSeAtivo(datas, 'exiberecursoavaldoc');
 
-                            alert(ativoRecursoparecer);
-                            alert(ativoAvaltecrecursodata);
-                            alert(ativoExibeNotaRecurso);
-                            alert(ativoExibeNotaProponente);
-                            alert(ativoResultadoRecurso);
-                            alert(ativoExibeRecursoAvalDoc);
                             
 
                             // Parecer do Recurso
@@ -412,22 +406,22 @@ $token = generate_jwt($payload, $secret);
         }
 
         function getItemSeAtivo(datas, chaveCampo1) {
-            if (!Array.isArray(datas)) return 'erro1';
+            if (!Array.isArray(datas)) return null;
             const item = datas.find(d => d.campo1 === chaveCampo1);
-            if (!item || !item.campo2) return 'erro2';
+            if (!item || !item.campo2) return null;
 
             const parts = item.campo2.split(',').map(p => p.trim()).filter(Boolean);
-            if (parts.length < 2) return 'erro3';
+            if (parts.length < 2) return null;
 
             const inicio = parseDateString(parts[0]);
             const fim = parseDateString(parts[1]);
-            if (!inicio || !fim) return 'erro4';
+            if (!inicio || !fim) return null;
 
             // Se as datas estiverem invertidas (início > fim), considerar como inválido
-            if (inicio > fim) return `${inicio} > ${fim}`;
+            if (inicio > fim) return null;
 
             const agora = new Date();
-            return JSON.stringify(item);
+            return (agora >= inicio && agora <= fim) ? item : null;
         }
     </script>
 

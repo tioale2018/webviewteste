@@ -249,19 +249,20 @@ $token = generate_jwt($payload, $secret);
                                                     </tr>
                                                 </thead>
                                                 <tbody>`;
-
+                                let totalNota = 0;
                                 (data.notas || []).forEach(function(nota) {
                                     html += `<tr>
                                         <td>${nota.pergunta}</td>
                                         <td>${nota.media}</td>
                                     </tr>`;
+                                    totalNota += parseFloat(nota.media) || 0;
                                 });
 
                                 html += `</tbody>
                                             <tfoot>
                                                 <tr class="fw-bold">
                                                     <td>Total</td>
-                                                    <td>${data.notas.total}</td>
+                                                    <td>${totalNota}</td>
                                                 </tr>
                                             </tfoot>
                                         </table>

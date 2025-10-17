@@ -222,6 +222,13 @@ $token = generate_jwt($payload, $secret);
                             const ativoResultadoRecurso = getItemSeAtivo(datas, 'resultadorecavaldoc') || getItemSeAtivo(datas, 'resultadoavaldoc');
                             const ativoExibeRecursoAvalDoc = getItemSeAtivo(datas, 'exiberecursoavaldoc');
 
+                            alert(ativoRecursoparecer);
+                            alert(ativoAvaltecrecursodata);
+                            alert(ativoExibeNotaRecurso);
+                            alert(ativoExibeNotaProponente);
+                            alert(ativoResultadoRecurso);
+                            alert(ativoExibeRecursoAvalDoc);
+
                             // Parecer do Recurso
                             if (ativoRecursoparecer) {
                                 html += `<div class="card">

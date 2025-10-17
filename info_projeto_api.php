@@ -419,16 +419,12 @@ $token = generate_jwt($payload, $secret);
             const parts = item.campo2.split(',').map(p => p.trim()).filter(Boolean);
             if (parts.length < 2) return 'erro3';
 
-            const dateObjectInicio = new Date(parts[0]);
-            const inicio = dateObjectInicio.getTime();
-
-            const dateObjectFim = new Date(parts[1]);
-            const fim = dateObjectFim.getTime();
-            
+            const inicio = parseDateString(parts[0]);
+            const fim = parseDateString(parts[1]);
             if (!inicio || !fim) return 'erro4';
 
             // Se as datas estiverem invertidas (início > fim), considerar como inválido
-            if (inicio > fim) return 'erro5';
+            if (inicio > fim) return `${inicio} > ${fim}`;
 
             const agora = new Date();
             return (agora >= inicio && agora <= fim) ? item : 'erro5';

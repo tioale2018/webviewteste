@@ -427,7 +427,7 @@ $token = generate_jwt($payload, $secret);
             if (inicio > fim) return `${inicio} > ${fim}`;
 
             const agora = new Date();
-            return (agora >= inicio && agora <= fim) ? item : 'erro5';
+            return item;
         }
     </script>
 

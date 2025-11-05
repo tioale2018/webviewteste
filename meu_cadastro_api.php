@@ -120,7 +120,7 @@ $token = generate_jwt($payload, $secret);
       formData.id_user = currentData.id_user;
       
       $.ajax({
-        url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/atualizar-usuario.php',
+        url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/atualizar-usuario.php',
         type: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -142,7 +142,7 @@ $token = generate_jwt($payload, $secret);
 
     function loadUserData() {
       $.ajax({
-        url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/usuario.php',
+        url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/usuario.php',
         type: 'GET',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

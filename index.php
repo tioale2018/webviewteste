@@ -328,7 +328,7 @@ $secret = getJwtSecret();
 
       const headers = { 'Content-Type': 'application/json' };
       if (tokenJwt) headers['Authorization'] = 'Bearer ' + tokenJwt;
-      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-cpf-vinculados.php', {
+      fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/buscar-cpf-vinculados.php', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({ token: tokenFinal })
@@ -376,7 +376,7 @@ $secret = getJwtSecret();
       if (!cpfParaDesvincular || !token) return;
       const headersDesv = { 'Content-Type': 'application/json' };
       if (tokenJwt) headersDesv['Authorization'] = 'Bearer ' + tokenJwt;
-      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/desvincular-cpf.php', {
+      fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/desvincular-cpf.php', {
           method: 'POST',
           headers: headersDesv,
           body: JSON.stringify({ token, cpf: cpfParaDesvincular })
@@ -409,7 +409,7 @@ $secret = getJwtSecret();
       const token = document.getElementById('token').value;
       const headersNot = { 'Content-Type': 'application/json' };
       if (tokenJwt) headersNot['Authorization'] = 'Bearer ' + tokenJwt;
-      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes.php', {
+      fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes.php', {
           method: 'POST',
           headers: headersNot,
           body: JSON.stringify({ token })
@@ -476,7 +476,7 @@ $secret = getJwtSecret();
       const token = document.getElementById('token').value;
       const headersMark = { 'Content-Type': 'application/json' };
       if (tokenJwt) headersMark['Authorization'] = 'Bearer ' + tokenJwt;
-      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
+      fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
          method: 'POST',
          headers: headersMark,
          body: JSON.stringify({ id, token })

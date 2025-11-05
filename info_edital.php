@@ -159,8 +159,8 @@
           </ul>
         <?php else: echo "Acesse o Desenvolve Cultura através do computador para visualizar as publicações."; endif ?>
       </div>
-      <div class="tab-pane fade" id="pane-manual" role="tabpanel">Clique aqui para fazer o download do <a href="http://cultura.rj.gov.br" target="_blank">Manual do Proponente</a></div>
-      <div class="tab-pane fade" id="pane-faq" role="tabpanel">Clique <a target="_blank" href="http://cultura.rj.gov.br/">aqui para acessar a Perguntas Frequentes</a></div>
+      <div class="tab-pane fade" id="pane-manual" role="tabpanel">Clique aqui para fazer o download do <a href="http://desenvolvecultura.rj.gov.br" target="_blank">Manual do Proponente</a></div>
+      <div class="tab-pane fade" id="pane-faq" role="tabpanel">Clique <a target="_blank" href="http://desenvolvecultura.rj.gov.br/">aqui para acessar a Perguntas Frequentes</a></div>
     </div>
   </main>
 

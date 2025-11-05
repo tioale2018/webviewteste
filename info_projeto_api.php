@@ -68,7 +68,7 @@ $token = generate_jwt($payload, $secret);
 
         $(function() {
             $.ajax({
-                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/info_projeto.php?id=' + encodeURIComponent(projectId),
+                url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/info_projeto.php?id=' + encodeURIComponent(projectId),
                 type: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ $token = generate_jwt($payload, $secret);
                         html += `<h1 class="h5 fw-bold mb-3">Inscrição de proposta de projeto para ${dados.titulo_edital || ''}</h1>`;
                         html += `<div class="card">
                             <div class="card-body">
-                                <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}</a></p>
+                                <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@desenvolvecultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@desenvolvecultura.rj.gov.br'}</a></p>
                             </div>
                         </div>`;
 

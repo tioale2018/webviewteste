@@ -90,7 +90,7 @@ $token = generate_jwt($payload, $secret);
 <script>
   let cpf = "<?php echo $_SESSION['cpf']; ?>";
   function atualizarBadgeNotificacoes() {
-    fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes-cpf.php', {
+    fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes-cpf.php', {
       method: 'POST',
       headers: {
                     'Content-Type': 'application/json',

@@ -51,7 +51,7 @@ $token = generate_jwt($payload, $secret);
     let contador = 0;
     function carregarNotificacoes() {
       const lista = document.getElementById('listaNotificacoes');
-      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes-cpf.php', {
+      fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes-cpf.php', {
       method: 'POST',
       headers: {
                     'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ $token = generate_jwt($payload, $secret);
       const token = "<?php echo isset($_SESSION['token']) ? $_SESSION['token'] : ''; ?>";
       const headersMark = { 'Content-Type': 'application/json' };
       if (jwtToken) headersMark['Authorization'] = 'Bearer ' + jwtToken;
-      fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
+      fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
          method: 'POST',
          headers: headersMark,
          body: JSON.stringify({ id, token })

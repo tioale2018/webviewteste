@@ -220,7 +220,7 @@ $secret = getJwtSecret();
         // Gera o token JWT para autenticação com a API
         const tokenJwt = await generateJWTToken(documento);
         
-        const response = await fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/login.php', {
+        const response = await fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/login.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

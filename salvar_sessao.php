@@ -12,10 +12,11 @@ if ($data && isset($data['user'])) {
     $_SESSION['nome'] = $data['user']['nome'];
     $_SESSION['id_user'] = $data['user']['id_user'];
     $_SESSION['tipo_doc'] = $data['user']['tipo_doc'];
-    $_SESSION['token'] = $token;
+    // $_SESSION['token'] = $token;
+    $_SESSION['token'] = $data['user']['token'];
 
     // Salva o token do dispositivo
-    salvarToken($data['user']['cpf'], $token);
+    salvarToken($data['user']['cpf'], $data['user']['token']);
     
     echo json_encode(['success' => true]);
 } else {

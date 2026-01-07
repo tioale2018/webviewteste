@@ -97,7 +97,8 @@ $secret = getJwtSecret();
       <h5 class="text-center mb-3 fw-semibold">Acesso ao Sistema</h5>
       <div id="error" class="text-center alert alert-danger" role="alert" style="display: none;"></div>
      <div id="success" class="text-center alert alert-success" role="alert" style="display: none;"></div>
-        <input type="text" id="token" name="token" value="<?php echo $token; ?>"  hidden>
+        <input type="text" id="token" name="token" value="" >
+        
         <div class="mb-3">
           <label for="documento" class="form-label">CNPJ/CPF</label>
           <div class="input-group">
@@ -137,6 +138,16 @@ $secret = getJwtSecret();
 
     var token = localStorage.getItem('token');
     document.getElementById('token').value = token;
+    // Prefill documento from previously selected CPF saved in localStorage
+    try {
+      const sel = localStorage.getItem('selected_cpf');
+      if (sel && !document.getElementById('documento').value) {
+        document.getElementById('documento').value = sel;
+      }
+    } catch (e) {
+      console.error('Erro ao preencher documento:', e);
+    }
+    // alert(token);
     
     // window.receberTokenDoApp = function(token) {
       // document.getElementById('token').value = token;
@@ -234,9 +245,11 @@ $secret = getJwtSecret();
         });
 
         const data = await response.json();
-        
+        // alert(data.token);
         if (data.success) {
           // Salva a sessão localmente
+          let iToken = data.token;
+          
           const sessaoResponse = await fetch('salvar_sessao.php', {
             method: 'POST',
             headers: {
@@ -244,11 +257,14 @@ $secret = getJwtSecret();
             },
             body: JSON.stringify({
               user: data.user,
-              token: token // Token do app
+              token: iToken
             })
           });
+          
 
           const sessaoResult = await sessaoResponse.json();
+
+          // document.writeln(JSON.stringify(sessaoResult)); //remover depois de testar
           
           if (sessaoResult.success) {
             showSuccess('Login realizado com sucesso!');

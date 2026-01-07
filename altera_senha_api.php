@@ -166,7 +166,7 @@ $token = generate_jwt($payload, $secret);
       }
 
       $.ajax({
-        url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/alterar-senha.php',
+        url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/alterar-senha.php',
         type: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

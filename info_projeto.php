@@ -33,7 +33,7 @@
 
     <div class="card">
       <div class="card-body">
-        <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:fluxosrj@cultura.rj.gov.br">fluxosrj@cultura.rj.gov.br</a></p>
+        <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:fluxosrj@desenvolvecultura.rj.gov.br">fluxosrj@desenvolvecultura.rj.gov.br</a></p>
       </div>
     </div>
 

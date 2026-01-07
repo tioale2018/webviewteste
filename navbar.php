@@ -7,6 +7,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   header("Location: index.php");
   exit;
 }
+
+$cpf = $_SESSION['cpf'] ?? null;
+$id = $_SESSION['id_user'] ?? null;
+
+$payload = [
+  'cpf' => $cpf,
+  'id_user' => $id
+];
+
+$secret = getJwtSecret();
+$token = generate_jwt($payload, $secret);
+
 ?>
 <nav class="navbar navbar-light fixed-top bg-primary text-white px-3">
   <div class="d-flex align-items-center w-100 justify-content-between">
@@ -72,13 +84,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   </div>
 </div>
 
+ <script>
+        const jwtToken = '<?= $token ?>';
+ </script>
 <script>
   let cpf = "<?php echo $_SESSION['cpf']; ?>";
   function atualizarBadgeNotificacoes() {
-    fetch('buscar-notificacoes-cpf.php', {
+    fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes-cpf.php', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cpf })
+      headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + jwtToken 
+                }
       })
     .then(r => r.json())
     .then(res => {

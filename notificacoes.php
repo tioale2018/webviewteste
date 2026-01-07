@@ -12,7 +12,27 @@
 
 <body class="bg-light">
 
-  <?php include_once "navbar.php";?>
+  <?php include_once "navbar.php";
+  
+  if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+  header("Location: index.php");
+  exit;
+}
+
+$cpf = $_SESSION['cpf'] ?? null;
+$id = $_SESSION['id_user'] ?? null;
+$token_celular = $_SESSION['token'] ?? null;
+
+$payload = [
+  'documento' => $cpf,
+  'id_user' => $id,
+  'token_celular' => $token_celular
+];
+
+$secret = getJwtSecret();
+$token = generate_jwt($payload, $secret);
+
+  ?>
 
   <main class="container py-3"> 
   <h1 class="h5 fw-bold mb-3">Notificações</h1>
@@ -24,16 +44,19 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    cpf = "<?php echo isset($_SESSION['cpf']) ? $_SESSION['cpf'] : ''; ?>";
+    const jwtToken = '<?= $token ?>';
+  </script>
+  <script>
     token = "<?php echo isset($_SESSION['token']) ? $_SESSION['token'] : ''; ?>";
     let contador = 0;
-// const token = "fTa0cCK3QK-9OjPlD21dZK:APA91bFPWM8lX4VsAZd0NcnIu2J0LkStdvst6e5T814g-hoqmxdTJsYJf06ea1LhQs3NlF2_JGhKqMJvT5YROZlWM04Ab7k8HGpdricBifEx06Zm4KqCuig";
     function carregarNotificacoes() {
       const lista = document.getElementById('listaNotificacoes');
-      fetch('buscar-notificacoes-cpf.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cpf })
+      fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/buscar-notificacoes-cpf.php', {
+      method: 'POST',
+      headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + jwtToken 
+                }
       })
       .then(r => r.json())
       .then(res => {
@@ -75,15 +98,20 @@
     }
 
     function marcarComoLida(id) {
-      fetch('marcar-notificacao.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, cpf, token })
-      })
+      const token = "<?php echo isset($_SESSION['token']) ? $_SESSION['token'] : ''; ?>";
+      const headersMark = { 'Content-Type': 'application/json' };
+      if (jwtToken) headersMark['Authorization'] = 'Bearer ' + jwtToken;
+      fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/marcar-notificacao.php', {
+         method: 'POST',
+         headers: headersMark,
+         body: JSON.stringify({ id, token })
+        })
       .then(r => r.json())
       .then(res => {
         if (res.status === 'sucesso') {
           carregarNotificacoes();
+        } else {
+          alert('Erro ao marcar como lida: ' + JSON.stringify(res));
         }
       });
     }

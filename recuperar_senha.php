@@ -163,7 +163,7 @@ $secret = getJwtSecret();
       try {
         const token = await generateToken(documento);
         
-        const response = await fetch('https://cultura.rj.gov.br/desenvolve-cultura/api/recupera-senha.php', {
+        const response = await fetch('https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/recupera-senha.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -48,7 +48,9 @@ $token = generate_jwt($payload, $secret);
   </main>
    <script src="./js/jquery-3.7.1.min.js"></script>
   <script>
-     const jwtToken = '<?= $token ?>';
+   if (typeof jwtToken === 'undefined') {
+             const jwtToken = '<?= $token ?>';
+        }
     // Pega o id da query string
     function getIdFromUrl() {
       const params = new URLSearchParams(window.location.search);
@@ -61,7 +63,7 @@ $token = generate_jwt($payload, $secret);
         return;
       }
             $.ajax({
-                url: 'https://cultura.rj.gov.br/desenvolve-cultura/api/info_edital.php?id=' + encodeURIComponent(id),
+                url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/info_edital.php?id=' + encodeURIComponent(id),
                 type: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +75,7 @@ $token = generate_jwt($payload, $secret);
                 success: function(data) {
 
                   let linha2 = data.dados.linha2;
-                  let baseUrl = `https://cultura.rj.gov.br/desenvolve-cultura/inscricao/${linha2}/anexos/`;
+                  let baseUrl = `https://desenvolvecultura.rj.gov.br/desenvolve-cultura/inscricao/${linha2}/anexos/`;
 
         $('#titulo-edital').text(data.dados.titulo || 'Oportunidade');
         // Tabs
@@ -182,10 +184,10 @@ $token = generate_jwt($payload, $secret);
             ` : 'Acesse o Desenvolve Cultura através do computador para visualizar as publicações.'}
           </div>
           <div class="tab-pane fade" id="pane-manual" role="tabpanel">
-            Clique aqui para fazer o download do <a href="http://cultura.rj.gov.br" target="_blank">Manual do Proponente</a>
+            Clique aqui para fazer o download do <a href="http://desenvolvecultura.rj.gov.br" target="_blank">Manual do Proponente</a>
           </div>
           <div class="tab-pane fade" id="pane-faq" role="tabpanel">
-            Clique <a target="_blank" href="http://cultura.rj.gov.br/">aqui para acessar a Perguntas Frequentes</a>
+            Clique <a target="_blank" href="http://desenvolvecultura.rj.gov.br/">aqui para acessar a Perguntas Frequentes</a>
           </div>
         </div>
         `;

@@ -41,6 +41,7 @@ $token = generate_jwt($payload, $secret);
 ?>
     <main class="container py-3">
         <?php // include_once "navbar-bottom.php"; 
+/*
         ?>
 
         <div class="row">
@@ -52,7 +53,7 @@ $token = generate_jwt($payload, $secret);
                 </div>
             </nav>
         </div>
-
+<?php */ ?>
         
         <div id="project-info"></div>
     </main>

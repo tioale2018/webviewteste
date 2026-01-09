@@ -113,7 +113,9 @@ $token = generate_jwt($payload, $secret);
                     // Render subsection depending on selected view
                     function renderSubsection(view) {
                         const $sub = $('#project-subsection');
+                        /*
                         $sub.html('<div class="p-3 text-center text-muted">Carregando...</div>');
+                        */
                         let html = '';
                         if (view === 'dados') {
                             if (!dados && !dadosinfo) {

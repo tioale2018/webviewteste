@@ -92,7 +92,7 @@ $token = generate_jwt($payload, $secret);
                         html += `<h1 class="h5 fw-bold mb-3">Inscrição de proposta de projeto para ${dados.titulo_edital || ''}</h1>`;
                         html += `<div class="card">
                             <div class="card-body">
-                                <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@desenvolvecultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@desenvolvecultura.rj.gov.br'}</a></p>
+                                <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}</a></p>
                             </div>
                         </div>`;
 
@@ -212,7 +212,7 @@ $token = generate_jwt($payload, $secret);
                                 </div>
                             </div>`;
                             $sub.html(html);
-
+/*
                         } else if (view === 'fluxo') {
                             // Build the rest of the page (cards that come after the subsection)
                             // Checa se cada configuração está ativa no período (campo2)
@@ -223,7 +223,7 @@ $token = generate_jwt($payload, $secret);
                             const ativoResultadoRecurso = getItemSeAtivo(datas, 'resultadorecavaldoc') || getItemSeAtivo(datas, 'resultadoavaldoc');
                             const ativoExibeRecursoAvalDoc = getItemSeAtivo(datas, 'exiberecursoavaldoc');
 
-                            
+                          
 
                             // Parecer do Recurso
                             if (ativoRecursoparecer) {
@@ -346,10 +346,12 @@ $token = generate_jwt($payload, $secret);
 
                             html += '<div class="mb-5"></div><br>';
                             $sub.html(html);
+                            */
                         } else {
                             // default: fluxo — do nothing or show contextual info
                             $sub.html('<div class="alert alert-secondary">Selecione uma opção no menu inferior para ver mais detalhes relacionados ao andamento do processo.</div>');
                         }
+                            
                     }
 
                     // Inject full page: main + remaining
@@ -385,7 +387,7 @@ $token = generate_jwt($payload, $secret);
                     renderSubsection('fluxo');
                 },
                 error: function(err) {
-                    const htmlErro = '<div class="alert alert-danger" role="alert">Erro ao carregar os dados do projeto. Tente novamente mais tarde.</div>';
+                    const htmlErro = '<div class="alert alert-danger" role="alert">Erro ao carregar os dados do projeto. Para visualizar mais detalhes, entre no Desenvolve Cultura através do nosso site.</div>';
                     $('#project-info').html(htmlErro);
                     console.error('Erro na requisição:', err);
                 }

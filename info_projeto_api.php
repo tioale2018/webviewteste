@@ -41,7 +41,7 @@ $token = generate_jwt($payload, $secret);
 ?>
     <main class="container py-3">
         <?php // include_once "navbar-bottom.php"; 
-/*
+
         ?>
 
         <div class="row">
@@ -53,7 +53,7 @@ $token = generate_jwt($payload, $secret);
                 </div>
             </nav>
         </div>
-<?php */ ?>
+<?php  ?>
         
         <div id="project-info"></div>
     </main>
@@ -113,9 +113,9 @@ $token = generate_jwt($payload, $secret);
                     // Render subsection depending on selected view
                     function renderSubsection(view) {
                         const $sub = $('#project-subsection');
-                        /*
+                        
                         $sub.html('<div class="p-3 text-center text-muted">Carregando...</div>');
-                        */
+                        
                         let html = '';
                         if (view === 'dados') {
                             if (!dados && !dadosinfo) {
@@ -214,7 +214,7 @@ $token = generate_jwt($payload, $secret);
                                 </div>
                             </div>`;
                             $sub.html(html);
-/*
+
                         } else if (view === 'fluxo') {
                             // Build the rest of the page (cards that come after the subsection)
                             // Checa se cada configuração está ativa no período (campo2)
@@ -348,12 +348,12 @@ $token = generate_jwt($payload, $secret);
 
                             html += '<div class="mb-5"></div><br>';
                             $sub.html(html);
-                            */
+                            
                         } else {
                             // default: fluxo — do nothing or show contextual info
-                            /*
+                            
                             $sub.html('<div class="alert alert-secondary">Selecione uma opção no menu inferior para ver mais detalhes relacionados ao andamento do processo.</div>');
-                            */
+                            
                         }
                             
                     }

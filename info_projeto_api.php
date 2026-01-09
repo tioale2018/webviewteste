@@ -349,7 +349,9 @@ $token = generate_jwt($payload, $secret);
                             */
                         } else {
                             // default: fluxo — do nothing or show contextual info
+                            /*
                             $sub.html('<div class="alert alert-secondary">Selecione uma opção no menu inferior para ver mais detalhes relacionados ao andamento do processo.</div>');
+                            */
                         }
                             
                     }

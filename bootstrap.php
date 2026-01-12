@@ -13,12 +13,19 @@ require $autoload_path;
 
 use Dotenv\Dotenv;
 
-// $env_path = $is_production ? '/home/comsophxadm' : __DIR__;
-$env_path = '/home/comsophxadm';
-
-if (!file_exists($env_path . '/.env')) {
-    die("Erro: O arquivo .env não foi encontrado em: $env_path");
+// Definir o caminho do .env baseado no ambiente
+if ($is_production) {
+    $env_path = '/home/comsophxadm';
+    $env_file = '.env';
+} else {
+    $env_path = __DIR__;
+    // Usar .env.local em desenvolvimento, fallback para .env
+    $env_file = file_exists(__DIR__ . '/.env.local') ? '.env.local' : '.env';
 }
 
-$dotenv = Dotenv::createImmutable($env_path);
+if (!file_exists($env_path . '/' . $env_file)) {
+    die("Erro: O arquivo $env_file não foi encontrado em: $env_path");
+}
+
+$dotenv = Dotenv::createImmutable($env_path, $env_file);
 $dotenv->load();

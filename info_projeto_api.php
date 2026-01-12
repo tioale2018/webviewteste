@@ -8,6 +8,40 @@
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .info-row {
+            display: flex;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .info-label {
+            flex: 0 0 200px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .info-value {
+            flex: 1;
+        }
+
+        .chat-history .chat-message {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+            background-color: #f8f9fa;
+        }
+
+        .chat-history .chat-message.sent {
+            background-color: #d1e7dd;
+            align-self: flex-end;
+        }
+
+        .chat-history .chat-message.received {
+            background-color: #e9ecef;
+            align-self: flex-start;
+        }
+    </style>
 </head>
 
 <body class="bg-light">

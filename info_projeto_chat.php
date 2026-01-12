@@ -218,7 +218,6 @@
         <div class="chat-history mb-3">
           <!-- Mensagem Recebida -->
           <div class="chat-message-wrapper received">
-            <div class="chat-avatar">A</div>
             <div>
               <div class="chat-sender">Avaliador</div>
               <div class="chat-bubble">
@@ -237,12 +236,10 @@
               </div>
               <div class="chat-timestamp">12/01/2026 15:45</div>
             </div>
-            <div class="chat-avatar" style="background: #0d6efd; color: white;">V</div>
           </div>
 
           <!-- Mensagem Recebida -->
           <div class="chat-message-wrapper received">
-            <div class="chat-avatar">A</div>
             <div>
               <div class="chat-sender">Avaliador</div>
               <div class="chat-bubble">

@@ -4,49 +4,41 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Redirecionando - Desenvolve Cultura</title>
+    <title>Acompanhamento da Proposta - Desenvolve Cultura</title>
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body class="bg-light">
-    <?php
-    /**
-     * BACKWARD COMPATIBILITY REDIRECT
-     *
-     * This file has been refactored into separate pages for better maintainability:
-     * - info_projeto_dados_api.php (Project data)
-     * - info_projeto_fluxo_api.php (Process flow)
-     * - info_projeto_chat_api.php (Chat/messaging)
-     *
-     * This redirect ensures old links continue to work.
-     */
-
-    // Get parameters
-    $projectId = $_GET['id'] ?? '';
-    $view = $_GET['view'] ?? 'fluxo';  // Default to fluxo (original default)
-
-    // Map view parameter to new page
-    $redirectMap = [
-        'dados' => 'info_projeto_dados_api.php',
-        'chat' => 'info_projeto_chat_api.php',
-        'fluxo' => 'info_projeto_fluxo_api.php'
-    ];
-
-    // Get target page (default to fluxo if view is invalid)
-    $targetPage = $redirectMap[$view] ?? 'info_projeto_fluxo_api.php';
-
-    // Build redirect URL
-    $redirectUrl = $targetPage;
-    if ($projectId) {
-        $redirectUrl .= '?id=' . urlencode($projectId);
-    }
-
-    // Redirect
-    header("Location: {$redirectUrl}");
-    exit;
+    <?php // if ($cpf): 
     ?>
+    <script>
+        // window.ReactNativeWebView?.postMessage(JSON.stringify({
+        //     tipo: 'autenticacao',
+        //     cpf: 
+        // }));
+    </script>
+    <?php // endif; 
+    ?>
+
+    <?php include_once "navbar.php"; ?>
+    <?php
+// include_once "funcoes.php";
+
+$cpf = $_SESSION['cpf'] ?? null;
+$id = $_SESSION['id_user'] ?? null;
+$project_id = $_GET['id'] ?? null;
+
+
+$payload = [
+    'cpf' => $cpf,
+    'id_user' => $id
+];
+
+$secret = getJwtSecret();
+$token = generate_jwt($payload, $secret);
+?>
     <main class="container py-3">
         <?php // include_once "navbar-bottom.php"; 
 

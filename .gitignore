@@ -1,6 +1,5 @@
 /vendor/
 .env
-.env.local
 firebase_credentials.json
 /api/
 /vendor.zip/

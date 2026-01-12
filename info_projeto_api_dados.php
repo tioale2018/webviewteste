@@ -2,167 +2,241 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dados do Projeto - Desenvolve Cultura</title>
-    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css">
-    <style>
-        .info-row {
-            display: flex;
-            padding: 0.25rem 0;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .info-label {
-            flex: 0 0 200px;
-            font-weight: 600;
-            color: #495057;
-        }
-
-        .info-value {
-            flex: 1;
-        }
-
-        @media (max-width: 576px) {
-            .info-row {
-                flex-direction: column;
-            }
-
-            .info-label {
-                flex: 1;
-                margin-bottom: 0.25rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dados do Projeto - Desenvolve Cultura</title>
+  <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body class="bg-light">
-    <?php include_once "navbar.php"; ?>
-    <main class="container py-3">
-        <?php include_once "navbar-bottom.php"; ?>
+  <?php include_once "navbar.php"; ?>
+  <main class="container py-3">
+    <?php include_once "navbar-bottom.php"; ?>
 
-        <div id="project-info">
-            <!-- Content dynamically loaded via AJAX -->
+    <h1 class="h5 fw-bold mb-3" id="editalTitle">Carregando...</h1>
+
+    <!-- Card 1: Support Email -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:" id="supportEmail"></a></p>
+      </div>
+    </div>
+
+    <!-- Card 2: Process Status -->
+    <div class="card mb-3">
+      <div class="section-title">Andamento do processo</div>
+      <div class="card-body">
+        <p>Seu projeto <strong id="projectTitle"></strong> foi submetido para análise em <strong id="submissionDate"></strong> sob o número <strong id="projectNumber"></strong>.</p>
+        <p class="mb-0">Fase atual: <strong class="text-primary" id="currentPhase"></strong></p>
+      </div>
+    </div>
+
+    <!-- Card 3: Dados do Proponente -->
+    <div class="card mb-3">
+      <div class="section-title">Dados do Proponente</div>
+      <div class="card-body">
+        <div class="info-row">
+          <div class="info-label">Nome Fantasia:</div>
+          <div class="info-value"><b id="nomefantasia"></b></div>
         </div>
+        <div class="info-row">
+          <div class="info-label">CNPJ/CPF:</div>
+          <div class="info-value"><b id="cnpjcpf"></b></div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">E-mail:</div>
+          <div class="info-value"><b id="email"></b></div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Telefone:</div>
+          <div class="info-value"><b id="telefone"></b></div>
+        </div>
+      </div>
+    </div>
 
-        <div class="mt-5"></div>
-        <br>
-    </main>
+    <!-- Card 4: Informações Socioeconômicas -->
+    <div class="card mb-3" id="cardSocioeconomicas" style="display:none;">
+      <div class="section-title">Informações Socioeconômicas</div>
+      <div class="card-body" id="socioeconomicasBody">
+      </div>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="./js/api-helpers.js"></script>
-    <script>
-        const jwtToken = '<?= $token ?>';
-        const projectId = '<?= $_GET["id"] ?? "" ?>';
+    <!-- Card 5: Dados da Proposta Cultural -->
+    <div class="card mb-3">
+      <div class="section-title">Dados da Proposta Cultural</div>
+      <div class="card-body">
+        <div class="info-row" id="rowCategoria" style="display:none;">
+          <div class="info-label">Categoria:</div>
+          <div class="info-value"><b id="categoria"></b></div>
+        </div>
+        <div class="info-row" id="rowAreaCultural" style="display:none;">
+          <div class="info-label">Área Cultural:</div>
+          <div class="info-value"><b id="areaCultural"></b></div>
+        </div>
+        <div class="info-row" id="rowConcorrencia" style="display:none;">
+          <div class="info-label">Concorrência:</div>
+          <div class="info-value"><b id="concorrencia"></b></div>
+        </div>
+        <div class="info-row" id="rowNomeProjeto" style="display:none;">
+          <div class="info-label">Nome do Projeto:</div>
+          <div class="info-value"><b id="nomeProjeto"></b></div>
+        </div>
+        <div class="info-row" id="rowDataRealizacao" style="display:none;">
+          <div class="info-label">Data de Realização:</div>
+          <div class="info-value"><b id="dataRealizacao"></b></div>
+        </div>
+        <div class="info-row" id="rowLocal" style="display:none;">
+          <div class="info-label">Local:</div>
+          <div class="info-value"><b id="local"></b></div>
+        </div>
+      </div>
+    </div>
 
-        $(function() {
-            if (!projectId) {
-                $('#project-info').html(`
-                    <div class="alert alert-warning" role="alert">
-                        <h5 class="alert-heading">ID do projeto não informado</h5>
-                        <p class="mb-0">Por favor, acesse esta página através da lista de projetos.</p>
-                        <a href="lista_projetos_api.php" class="btn btn-primary mt-2">Ver Meus Projetos</a>
-                    </div>
-                `);
-                return;
-            }
+    <!-- Card 6: Equipe -->
+    <div class="card mb-3" id="cardEquipe" style="display:none;">
+      <div class="section-title">Equipe</div>
+      <div class="card-body">
+        <ul class="list-group" id="equipeList">
+        </ul>
+      </div>
+    </div>
 
-            fetchProjectInfo(projectId, jwtToken, {
-                success: function(data) {
-                    if (!data || !data.dados) {
-                        $('#project-info').html(`
-                            <div class="alert alert-warning" role="alert">
-                                <h5 class="alert-heading">Dados não disponíveis</h5>
-                                <p class="mb-0">Nenhum dado foi encontrado para este projeto.</p>
-                            </div>
-                        `);
-                        return;
-                    }
+    <!-- Card 7: Anexos -->
+    <div class="card mb-3">
+      <div class="section-title">Anexos</div>
+      <div class="card-body">
+        <ul class="list-group mb-0">
+          <li class="list-group-item">
+            <i class="bi bi-paperclip me-1"></i> Contrato Social - <a href="#" class="text-decoration-none">Baixar</a>
+          </li>
+          <li class="list-group-item">
+            <i class="bi bi-paperclip me-1"></i> Plano de Execução - <a href="#" class="text-decoration-none">Baixar</a>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-                    const dados = data.dados;
-                    const dadosinfo = data.dadosinfo || {};
+    <div class="mb-4"></div>
+  </main>
 
-                    let html = buildCommonHeader(dados);
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/jquery-3.7.1.min.js"></script>
+  <script>
+    const jwtToken = '<?= $token ?>';
+    const projectId = '<?= $_GET["id"] ?? "" ?>';
 
-                    // Dados do Proponente
-                    html += `<div class="card mb-3">
-                        <div class="section-title">Dados do Proponente</div>
-                        <div class="card-body">
-                            <div class="info-row"><div class="info-label">Nome Fantasia:</div><div class="info-value"><b>${safe(dados.nomefantasia || dados.proponente)}</b></div></div>
-                            <div class="info-row"><div class="info-label">CNPJ/CPF:</div><div class="info-value"><b>${safe(dados.user_input || dados.cpf)}</b></div></div>
-                            <div class="info-row"><div class="info-label">E-mail:</div><div class="info-value"><b>${safe(dados.email)}</b></div></div>
-                            <div class="info-row"><div class="info-label">Telefone:</div><div class="info-value"><b>${safe(dados.telefone || dados.celular)}</b></div></div>
-                        </div>
-                    </div>`;
+    function safe(v) {
+      return (v === null || v === undefined || v === '' || v === '0000-00-00') ? '' : v;
+    }
 
-                    // Informações Socioeconômicas (render only if any present)
-                    const socioKeys = ['perfil', 'democratizacao', 'receita_bruta'];
-                    const hasSocio = socioKeys.some(k => safe(dados[k]));
-                    if (hasSocio) {
-                        html += `<div class="card mb-3">
-                            <div class="section-title">Informações Socioeconômicas</div>
-                            <div class="card-body">`;
-                        socioKeys.forEach(function(k) {
-                            if (safe(dados[k])) {
-                                const label = k.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                                html += `<div class="info-row"><div class="info-label">${label}:</div><div class="info-value">${dados[k]}</div></div>`;
-                            }
-                        });
-                        html += `</div></div>`;
-                    }
+    $(function() {
+      if (!projectId) {
+        alert('ID do projeto não informado. Por favor, acesse esta página através da lista de projetos.');
+        window.location.href = 'lista_projetos_api.php';
+        return;
+      }
 
-                    // Dados da Proposta Cultural
-                    html += `<div class="card mb-3">
-                        <div class="section-title">Dados da Proposta Cultural</div>
-                        <div class="card-body">`;
+      $.ajax({
+        url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/info_projeto.php?id=' + encodeURIComponent(projectId),
+        type: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + jwtToken
+        },
+        success: function(data) {
+          const dados = data.dados;
+          const dadosinfo = data.dadosinfo || {};
 
-                    // Categoria / Área cultural / Concorrência
-                    if (dadosinfo.nome_categoria) html += `<div class="info-row"><div class="info-label">Categoria:</div><div class="info-value"><b>${dadosinfo.nome_categoria}</b></div></div>`;
-                    if (dadosinfo.nome_acultural) html += `<div class="info-row"><div class="info-label">Área Cultural:</div><div class="info-value"><b>${dadosinfo.nome_acultural}</b></div></div>`;
-                    if (dadosinfo.nome_concorrencia) html += `<div class="info-row"><div class="info-label">Concorrência:</div><div class="info-value"><b>${dadosinfo.nome_concorrencia}</b></div></div>`;
+          // Populate header fields
+          $('#editalTitle').text('Inscrição de proposta de projeto para ' + (dados.titulo_edital || ''));
+          $('#supportEmail').attr('href', 'mailto:' + (dados.linha1 || 'suportedesenvolvecultura@cultura.rj.gov.br')).text(dados.linha1 || 'suportedesenvolvecultura@cultura.rj.gov.br');
 
-                    // Título do Projeto e datas
-                    if (safe(dados.titulo)) html += `<div class="info-row"><div class="info-label">Nome do Projeto:</div><div class="info-value"><b>${dados.titulo}</b></div></div>`;
-                    const inicio = safe(dados.dt_inicio_realiz) || safe(dados.dt_inicio_exec);
-                    const fim = safe(dados.dt_fim_realiz) || safe(dados.dt_fim_exec);
-                    if (inicio || fim) html += `<div class="info-row"><div class="info-label">Data de Realização:</div><div class="info-value"><b>${inicio}${inicio && fim ? ' a ' + fim : ''}</b></div></div>`;
+          // Populate process status
+          $('#projectTitle').text(dados.titulo || '');
+          $('#submissionDate').text(dados.datasubmete ? new Date(dados.datasubmete * 1000).toLocaleDateString('pt-BR') : '');
+          $('#projectNumber').text(dados.id_project || '');
+          $('#currentPhase').text(dados.nomepublico || '');
 
-                    // Local
-                    const localParts = [];
-                    if (safe(dados.endereco)) localParts.push(dados.endereco + (dados.numero ? ', ' + dados.numero : ''));
-                    if (safe(dados.bairro)) localParts.push(dados.bairro);
-                    if (safe(dados.municipio)) localParts.push(dados.municipio);
-                    if (safe(dados.uf)) localParts.push(dados.uf);
-                    if (localParts.length) html += `<div class="info-row"><div class="info-label">Local:</div><div class="info-value"><b>${localParts.join(' - ')}</b></div></div>`;
+          // Populate proponent data
+          $('#nomefantasia').text(safe(dados.nomefantasia || dados.proponente));
+          $('#cnpjcpf').text(safe(dados.user_input || dados.cpf));
+          $('#email').text(safe(dados.email));
+          $('#telefone').text(safe(dados.telefone || dados.celular));
 
-                    html += `</div></div>`;
-
-                    // Equipe
-                    const equipeItems = [];
-                    if (safe(dados.nome_resp)) equipeItems.push({name: dados.nome_resp, role: 'Responsável'});
-                    if (safe(dados.nome_coord)) equipeItems.push({name: dados.nome_coord, role: 'Coordenador'});
-                    if (equipeItems.length) {
-                        html += `<div class="card mb-3"><div class="section-title">Equipe</div><div class="card-body"><ul class="list-group">`;
-                        equipeItems.forEach(function(p) {
-                            html += `<li class="list-group-item d-flex justify-content-between align-items-center"><span><i class="bi bi-person-fill me-1"></i> ${p.name}</span><small class="text-muted">${p.role}</small></li>`;
-                        });
-                        html += `</ul></div></div>`;
-                    }
-
-                    // Anexos (placeholder)
-                    html += `<div class="card mb-3"><div class="section-title">Anexos</div><div class="card-body"><ul class="list-group mb-0">`;
-                    html += `<li class="list-group-item"><i class="bi bi-paperclip me-1"></i> Contrato Social - <a href="#" class="text-decoration-none">Baixar</a></li>`;
-                    html += `<li class="list-group-item"><i class="bi bi-paperclip me-1"></i> Plano de Execução - <a href="#" class="text-decoration-none">Baixar</a></li>`;
-                    html += `</ul></div></div>`;
-
-                    $('#project-info').html(html);
-                }
+          // Socioeconomic information (conditional)
+          const socioKeys = ['perfil', 'democratizacao', 'receita_bruta'];
+          const hasSocio = socioKeys.some(k => safe(dados[k]));
+          if (hasSocio) {
+            let socioHtml = '';
+            socioKeys.forEach(function(k) {
+              if (safe(dados[k])) {
+                const label = k.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                socioHtml += '<div class="info-row"><div class="info-label">' + label + ':</div><div class="info-value">' + dados[k] + '</div></div>';
+              }
             });
-        });
-    </script>
+            $('#socioeconomicasBody').html(socioHtml);
+            $('#cardSocioeconomicas').show();
+          }
+
+          // Cultural proposal data
+          if (dadosinfo.nome_categoria) {
+            $('#categoria').text(dadosinfo.nome_categoria);
+            $('#rowCategoria').show();
+          }
+          if (dadosinfo.nome_acultural) {
+            $('#areaCultural').text(dadosinfo.nome_acultural);
+            $('#rowAreaCultural').show();
+          }
+          if (dadosinfo.nome_concorrencia) {
+            $('#concorrencia').text(dadosinfo.nome_concorrencia);
+            $('#rowConcorrencia').show();
+          }
+          if (safe(dados.titulo)) {
+            $('#nomeProjeto').text(dados.titulo);
+            $('#rowNomeProjeto').show();
+          }
+
+          // Dates
+          const inicio = safe(dados.dt_inicio_realiz) || safe(dados.dt_inicio_exec);
+          const fim = safe(dados.dt_fim_realiz) || safe(dados.dt_fim_exec);
+          if (inicio || fim) {
+            $('#dataRealizacao').text(inicio + (inicio && fim ? ' a ' + fim : ''));
+            $('#rowDataRealizacao').show();
+          }
+
+          // Location
+          const localParts = [];
+          if (safe(dados.endereco)) localParts.push(dados.endereco + (dados.numero ? ', ' + dados.numero : ''));
+          if (safe(dados.bairro)) localParts.push(dados.bairro);
+          if (safe(dados.municipio)) localParts.push(dados.municipio);
+          if (safe(dados.uf)) localParts.push(dados.uf);
+          if (localParts.length) {
+            $('#local').text(localParts.join(' - '));
+            $('#rowLocal').show();
+          }
+
+          // Team
+          const equipeItems = [];
+          if (safe(dados.nome_resp)) equipeItems.push({name: dados.nome_resp, role: 'Responsável'});
+          if (safe(dados.nome_coord)) equipeItems.push({name: dados.nome_coord, role: 'Coordenador'});
+          if (equipeItems.length) {
+            let equipeHtml = '';
+            equipeItems.forEach(function(p) {
+              equipeHtml += '<li class="list-group-item d-flex justify-content-between align-items-center"><span><i class="bi bi-person-fill me-1"></i> ' + p.name + '</span><small class="text-muted">' + p.role + '</small></li>';
+            });
+            $('#equipeList').html(equipeHtml);
+            $('#cardEquipe').show();
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error('Erro na requisição:', {status: xhr.status, error: error});
+          alert('Erro ao carregar os dados do projeto. Para visualizar mais detalhes, entre no Desenvolve Cultura através do nosso site.');
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

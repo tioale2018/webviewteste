@@ -1,6 +1,6 @@
 <?php
 $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
-$is_production = ($server_name === 'webview.sophx.com.br' );
+$is_production = ($server_name === 'webview.sophx.com.br' || $server_name === 'www.webview.sophx.com.br');
 
 $base_path = $is_production ? '/home/comsophxadm/webview.sophx.com.br' : __DIR__;
 $autoload_path = $base_path . '/vendor/autoload.php';

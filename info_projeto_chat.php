@@ -47,12 +47,90 @@
     .chat-history {
       display: flex;
       flex-direction: column;
-      gap: .5rem;
+      gap: .75rem;
       overflow-y: auto;
-      height: 200px;
+      height: auto;
+      max-height: 400px;
       padding-right: .25rem;
     }
 
+    .chat-message-wrapper {
+      display: flex;
+      margin-bottom: 1rem;
+      align-items: flex-start;
+      gap: .5rem;
+    }
+
+    .chat-message-wrapper.sent {
+      justify-content: flex-end;
+    }
+
+    .chat-message-wrapper.received {
+      justify-content: flex-start;
+    }
+
+    .chat-bubble {
+      max-width: 75%;
+      padding: 1rem;
+      border-radius: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      word-wrap: break-word;
+      line-height: 1.4;
+    }
+
+    .chat-message-wrapper.received .chat-bubble {
+      background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+      color: #222;
+      border-bottom-left-radius: .25rem;
+    }
+
+    .chat-message-wrapper.sent .chat-bubble {
+      background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+      color: #fff;
+      border-bottom-right-radius: .25rem;
+    }
+
+    .chat-sender {
+      font-weight: 600;
+      font-size: .85rem;
+      margin-bottom: .25rem;
+      color: #495057;
+    }
+
+    .chat-message-wrapper.sent .chat-sender {
+      color: #0d6efd;
+      text-align: right;
+    }
+
+    .chat-timestamp {
+      font-size: .75rem;
+      color: #6c757d;
+      margin-top: .25rem;
+    }
+
+    .chat-message-wrapper.sent .chat-timestamp {
+      text-align: right;
+    }
+
+    .chat-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e9ecef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: .75rem;
+      color: #495057;
+    }
+
+    .chat-message-wrapper.sent .chat-avatar {
+      background: #0d6efd;
+      color: white;
+    }
+
+    /* Mensagens antigas */
     .chat-message {
       max-width: 80%;
       padding: .75rem;
@@ -138,14 +216,40 @@
       <div class="section-title">Mensagens</div>
       <div class="card-body d-flex flex-column">
         <div class="chat-history mb-3">
-          <div class="chat-message">
-            Mobilização e contratação de equipe técnica e artística; Planejamento logístico do evento; Criação de elementos visuais e outros registros.
+          <!-- Mensagem Recebida -->
+          <div class="chat-message-wrapper received">
+            <div class="chat-avatar">A</div>
+            <div>
+              <div class="chat-sender">Avaliador</div>
+              <div class="chat-bubble">
+                Mobilização e contratação de equipe técnica e artística; Planejamento logístico do evento; Criação de elementos visuais e outros registros.
+              </div>
+              <div class="chat-timestamp">12/01/2026 14:30</div>
+            </div>
           </div>
-          <div class="chat-message sent">
-            A execução do objeto foi realizada no período oficial junino na data 20/07/2024, Quadra da Praça Pública J, bairro Irajá, RJ.
+
+          <!-- Mensagem Enviada -->
+          <div class="chat-message-wrapper sent">
+            <div>
+              <div class="chat-sender">Você</div>
+              <div class="chat-bubble">
+                A execução do objeto foi realizada no período oficial junino na data 20/07/2024, Quadra da Praça Pública J, bairro Irajá, RJ.
+              </div>
+              <div class="chat-timestamp">12/01/2026 15:45</div>
+            </div>
+            <div class="chat-avatar" style="background: #0d6efd; color: white;">V</div>
           </div>
-          <div class="chat-message">
-            Quais os desdobramentos da proposta cultural? O projeto proporcionou a salvaguarda das tradições da quadrilha junina.
+
+          <!-- Mensagem Recebida -->
+          <div class="chat-message-wrapper received">
+            <div class="chat-avatar">A</div>
+            <div>
+              <div class="chat-sender">Avaliador</div>
+              <div class="chat-bubble">
+                Quais os desdobramentos da proposta cultural? O projeto proporcionou a salvaguarda das tradições da quadrilha junina.
+              </div>
+              <div class="chat-timestamp">12/01/2026 16:20</div>
+            </div>
           </div>
         </div>
 

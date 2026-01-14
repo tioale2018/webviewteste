@@ -51,6 +51,17 @@
       </div>
     </div>
 
+    <!-- Card 3.5: Sector Selection (conditional) -->
+    <div class="card mb-3" id="sectorSelectionCard" style="display: none;">
+      <div class="card-body">
+        <label for="sectorSelect" class="form-label fw-bold">Enviar mensagem para:</label>
+        <select class="form-select" id="sectorSelect">
+          <option value="2" selected>Comissão</option>
+          <option value="3">Prestação de Contas (Execução Financeira)</option>
+        </select>
+      </div>
+    </div>
+
     <!-- Card 4: Mensagens -->
     <div class="card mb-3">
       <div class="section-title">Mensagens</div>
@@ -142,7 +153,8 @@
               mensagens.forEach(function(msg) {
                 // tiporesposta: 1 = user, 2 = admin
                 const isReceived = msg.tiporesposta === 2;
-                const avatar = isReceived ? (msg.nome_setor ? msg.nome_setor.substring(0,2).toUpperCase() : 'SC') : 'EU';
+                // Avatar only needed for received messages (admin/setor)
+                const avatar = isReceived ? (msg.nome_setor ? msg.nome_setor.substring(0,2).toUpperCase() : 'SC') : '';
                 const wrapperClass = isReceived ? 'received' : 'sent';
                 const sender = isReceived ? (msg.nome_setor || 'Secretaria de Cultura') : 'Você';
                 // dataresposta is Unix timestamp, multiply by 1000 for milliseconds
@@ -156,7 +168,8 @@
                       <div class="chat-bubble">${msg.texto || ''}</div>
                       <div class="chat-timestamp">${timestamp}</div>
                     </div>
-                    ${!isReceived ? '<div class="chat-avatar">' + avatar + '</div>' : ''}
+                    <!-- User avatar removed as per user request -->
+                    <!-- ${!isReceived ? '<div class="chat-avatar">' + avatar + '</div>' : ''} -->
                   </div>
                 `;
               });
@@ -199,6 +212,14 @@
               `);
             }
 
+            // Show sector selection if in "Comprovação de Execução Financeira" phase
+            const $sectorCard = $('#sectorSelectionCard');
+            if (dados.nomepublico === 'Comprovação de Execução Financeira') {
+              $sectorCard.show();
+            } else {
+              $sectorCard.hide();
+            }
+
             // Populate files
             let filesHtml = '';
             if (anexos.length === 0) {
@@ -209,9 +230,15 @@
                 // dataenvio is Unix timestamp, multiply by 1000 for milliseconds
                 const uploadDate = file.dataenvio ? new Date(file.dataenvio * 1000).toLocaleDateString('pt-BR') : '';
 
+                // Construct file URL
+                const cpf = dados.user_input; // CPF from project data
+                const fileUrl = `https://desenvolvecultura.rj.gov.br/inscricao/documentos-projetos/${cpf}-${projectId}/recurso/${file.nomearquivo}`;
+
                 filesHtml += `
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span><i class="bi ${fileIcon} me-1"></i> ${file.nomeoriginal || file.nomearquivo || 'Arquivo'}</span>
+                    <a href="${fileUrl}" target="_blank" class="text-decoration-none text-dark">
+                      <i class="bi ${fileIcon} me-1"></i> ${file.nomeoriginal || file.nomearquivo || 'Arquivo'}
+                    </a>
                     <small class="text-muted">${uploadDate}</small>
                   </li>
                 `;
@@ -253,6 +280,11 @@
           return;
         }
 
+        // Get selected sector (defaults to 2 if select not visible)
+        const selectedSetor = $('#sectorSelect').length && $('#sectorSelect').is(':visible')
+          ? parseInt($('#sectorSelect').val())
+          : 2;
+
         $.ajax({
           url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/projeto_chat.php?id=' + encodeURIComponent(projectId),
           type: 'POST',
@@ -262,7 +294,7 @@
           },
           data: JSON.stringify({
             texto: mensagem,
-            setor_id: 2  // Comissão (default)
+            setor_id: selectedSetor
           }),
           success: function(response) {
             // NEW: Check for explicit error response from backend

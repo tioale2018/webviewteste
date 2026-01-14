@@ -38,9 +38,10 @@
       <div class="section-title">Arquivos Anexados</div>
       <div class="card-body">
         <div class="mb-2">
-          <a href="#" class="file-link text-decoration-none">
-            <i class="bi bi-plus-circle me-1"></i> Adicionar arquivo
-          </a>
+          <input type="file" id="fileInput" class="d-none" accept=".pdf">
+          <button type="button" id="uploadFileBtn" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-paperclip me-1"></i> Anexar PDF
+          </button>
         </div>
         <div class="anexos-scroll">
           <ul class="list-group mb-0" id="fileList">
@@ -120,8 +121,8 @@
             const mensagens = data.mensagens || [];
             const anexos = data.anexos || [];
 
-            // NEW: Check if chat interaction is enabled (from backend)
-            const chatInterativo = dados.chat_interativo === true || dados.campoextra1 == 1;
+            // Check if chat interaction is enabled (from backend)
+            const chatInterativo = dados.chat_interativo === true;
 
             // Populate header fields
             $('#editalTitle').text('Inscrição de proposta de projeto para ' + (dados.titulo_edital || ''));
@@ -139,11 +140,13 @@
               chatHtml = '<div class="text-center text-muted py-3">Nenhuma mensagem ainda</div>';
             } else {
               mensagens.forEach(function(msg) {
-                const isReceived = msg.tiporesposta === 'admin' || msg.tiporesposta === 'avaliador';
+                // tiporesposta: 1 = user, 2 = admin
+                const isReceived = msg.tiporesposta === 2;
                 const avatar = isReceived ? (msg.nome_setor ? msg.nome_setor.substring(0,2).toUpperCase() : 'SC') : 'EU';
                 const wrapperClass = isReceived ? 'received' : 'sent';
                 const sender = isReceived ? (msg.nome_setor || 'Secretaria de Cultura') : 'Você';
-                const timestamp = msg.dataresposta ? new Date(msg.dataresposta).toLocaleString('pt-BR') : '';
+                // dataresposta is Unix timestamp, multiply by 1000 for milliseconds
+                const timestamp = msg.dataresposta ? new Date(msg.dataresposta * 1000).toLocaleString('pt-BR') : '';
 
                 chatHtml += `
                   <div class="chat-message-wrapper ${wrapperClass}">
@@ -160,11 +163,12 @@
             }
             $('#chatMessages').html(chatHtml);
 
-            // NEW: Control chat form interaction based on campoextra1
+            // NEW: Control chat form interaction based on chat_interativo
             const $form = $('#chatForm');
             const $formWrapper = $('.form-chat-fixed');
             const $textarea = $form.find('textarea');
             const $submitBtn = $form.find('button[type="submit"]');
+            const $uploadBtn = $('#uploadFileBtn');
 
             // Remove any previous warning messages
             $('.chat-disabled-warning').remove();
@@ -174,6 +178,7 @@
               $textarea.prop('disabled', false).prop('readonly', false);
               $textarea.attr('placeholder', 'Escreva sua mensagem...');
               $submitBtn.prop('disabled', false);
+              $uploadBtn.prop('disabled', false);
               $form.removeClass('chat-disabled');
               $formWrapper.removeClass('chat-disabled');
             } else {
@@ -181,6 +186,7 @@
               $textarea.prop('disabled', true).prop('readonly', true);
               $textarea.attr('placeholder', 'Interação desabilitada');
               $submitBtn.prop('disabled', true);
+              $uploadBtn.prop('disabled', true);
               $form.addClass('chat-disabled');
               $formWrapper.addClass('chat-disabled');
 
@@ -199,12 +205,13 @@
               filesHtml = '<li class="list-group-item text-muted">Nenhum arquivo anexado</li>';
             } else {
               anexos.forEach(function(file) {
-                const fileIcon = getFileIcon(file.tipo_arquivo || file.nome_arquivo);
-                const uploadDate = file.data_upload ? new Date(file.data_upload).toLocaleDateString('pt-BR') : '';
+                const fileIcon = getFileIcon(file.tipo_arquivo || file.nomearquivo);
+                // dataenvio is Unix timestamp, multiply by 1000 for milliseconds
+                const uploadDate = file.dataenvio ? new Date(file.dataenvio * 1000).toLocaleDateString('pt-BR') : '';
 
                 filesHtml += `
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span><i class="bi ${fileIcon} me-1"></i> ${file.nome_arquivo || 'Arquivo'}</span>
+                    <span><i class="bi ${fileIcon} me-1"></i> ${file.nomeoriginal || file.nomearquivo || 'Arquivo'}</span>
                     <small class="text-muted">${uploadDate}</small>
                   </li>
                 `;
@@ -255,7 +262,7 @@
           },
           data: JSON.stringify({
             texto: mensagem,
-            setor_id: null
+            setor_id: 2  // Comissão (default)
           }),
           success: function(response) {
             // NEW: Check for explicit error response from backend
@@ -275,6 +282,74 @@
               console.error('Erro ao enviar mensagem:', {status: xhr.status, error: error});
               alert('Erro ao enviar mensagem. Tente novamente.');
             }
+          }
+        });
+      });
+
+      // File upload functionality
+      $('#uploadFileBtn').on('click', function() {
+        // Check if chat is enabled before allowing file upload
+        if ($(this).prop('disabled')) {
+          alert('Upload de arquivos não está habilitado neste momento.');
+          return;
+        }
+        $('#fileInput').click();
+      });
+
+      $('#fileInput').on('change', function(e) {
+        const file = e.target.files[0];
+
+        if (!file) return;
+
+        // Validate PDF
+        if (!file.name.toLowerCase().endsWith('.pdf')) {
+          alert('Apenas arquivos PDF são permitidos');
+          $(this).val(''); // Clear input
+          return;
+        }
+
+        // Validate size (max 5MB)
+        if (file.size > 5242880) {
+          alert('Arquivo muito grande. Máximo: 5MB');
+          $(this).val(''); // Clear input
+          return;
+        }
+
+        // Upload file
+        const formData = new FormData();
+        formData.append('arquivo', file);
+        formData.append('setor_id', 2); // Comissão
+
+        $.ajax({
+          url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/projeto_chat.php?id=' + encodeURIComponent(projectId),
+          type: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + jwtToken
+          },
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            // NEW: Check for explicit error response from backend
+            if (response && response.success === false) {
+              alert(response.message || 'Erro ao enviar arquivo.');
+              $('#fileInput').val(''); // Clear input
+              return;
+            }
+            alert('Arquivo enviado com sucesso!');
+            $('#fileInput').val(''); // Clear input
+            loadMessages(); // Reload to show new file
+          },
+          error: function(xhr, status, error) {
+            // Handle 403 Forbidden (chat disabled)
+            if (xhr.status === 403) {
+              alert('Upload de arquivos não está habilitado neste momento.');
+              loadMessages(); // Refresh to update UI state
+            } else {
+              console.error('Erro ao enviar arquivo:', {status: xhr.status, error: error});
+              alert('Erro ao enviar arquivo. Tente novamente.');
+            }
+            $('#fileInput').val(''); // Clear input
           }
         });
       });

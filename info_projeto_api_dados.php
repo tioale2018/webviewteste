@@ -139,7 +139,7 @@
       }
 
       $.ajax({
-        url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/info_projeto.php?id=' + encodeURIComponent(projectId),
+        url: 'https://desenvolvecultura.rj.gov.br/desenvolve-cultura/api/projeto_dados.php?id=' + encodeURIComponent(projectId),
         type: 'GET',
         headers: {
           'Content-Type': 'application/json',

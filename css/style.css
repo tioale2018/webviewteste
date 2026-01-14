@@ -183,3 +183,27 @@ body {
   }
 }
 
+/* Chat form disabled state */
+.form-chat-fixed.chat-disabled textarea {
+  background-color: #f5f5f5 !important;
+  cursor: not-allowed !important;
+  opacity: 0.6;
+  color: #6c757d;
+}
+
+.form-chat-fixed.chat-disabled button {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+#chatForm.chat-disabled textarea:focus {
+  box-shadow: none;
+  border-color: #ced4da;
+}
+
+.chat-disabled-warning {
+  font-size: 0.9rem;
+  border-left: 4px solid #ffc107;
+}
+

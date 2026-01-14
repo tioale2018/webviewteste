@@ -74,7 +74,7 @@ foreach ($tokens as $key =>$token) {
         [
             RequestOptions::JSON => $message
         ]
-    );
+***REMOVED***;
 }
 
 // $response = $httpClient->request('POST',

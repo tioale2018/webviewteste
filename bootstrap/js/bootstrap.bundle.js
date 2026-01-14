@@ -1976,7 +1976,7 @@
       // $FlowFixMe[incompatible-call]: HTMLElement is a Node
       getDocumentElement(element) // fallback
 
-    );
+***REMOVED***;
   }
 
   function getTrueOffsetParent(element) {

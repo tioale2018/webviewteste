@@ -64,7 +64,7 @@ function enviarMensagensPendentes($connPDO, $httpClient, $projectId, $title = 'N
                     'POST',
                     "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send",
                     [RequestOptions::JSON => $message]
-                );
+            ***REMOVED***;
 
                 $decoded = json_decode($res->getBody(), true);
                 $resumo['enviadas']++;
@@ -99,7 +99,7 @@ function enviarMensagensPendentes($connPDO, $httpClient, $projectId, $title = 'N
                 if (
                     isset($erro['error']['status']) &&
                     in_array($erro['error']['status'], $errosInvalidos)
-                ) {
+            ***REMOVED*** {
                     $connPDO->prepare("UPDATE tokens SET ativo = 0 WHERE token = :token")
                         ->execute(['token' => $token]);
                 }

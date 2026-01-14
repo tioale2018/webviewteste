@@ -8,6 +8,118 @@
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .info-row {
+            display: flex;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .info-label {
+            flex: 0 0 200px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .info-value {
+            flex: 1;
+        }
+
+        .chat-history .chat-message {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+            background-color: #f8f9fa;
+        }
+
+        .chat-history .chat-message.sent {
+            background-color: #d1e7dd;
+            align-self: flex-end;
+        }
+
+        .chat-history .chat-message.received {
+            background-color: #e9ecef;
+            align-self: flex-start;
+        }
+
+        /* Novos estilos melhorados */
+        .chat-message-wrapper {
+            display: flex;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+            gap: .5rem;
+        }
+
+        .chat-message-wrapper.sent {
+            justify-content: flex-end;
+        }
+
+        .chat-message-wrapper.received {
+            justify-content: flex-start;
+        }
+
+        .chat-bubble {
+            max-width: 75%;
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .chat-message-wrapper.received .chat-bubble {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+            color: #222;
+            border-bottom-left-radius: .25rem;
+        }
+
+        .chat-message-wrapper.sent .chat-bubble {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            color: #fff;
+            border-bottom-right-radius: .25rem;
+        }
+
+        .chat-sender {
+            font-weight: 600;
+            font-size: .85rem;
+            margin-bottom: .25rem;
+            color: #495057;
+        }
+
+        .chat-message-wrapper.sent .chat-sender {
+            color: #0d6efd;
+            text-align: right;
+        }
+
+        .chat-timestamp {
+            font-size: .75rem;
+            color: #6c757d;
+            margin-top: .25rem;
+        }
+
+        .chat-message-wrapper.sent .chat-timestamp {
+            text-align: right;
+        }
+
+        .chat-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: .75rem;
+            color: #495057;
+            flex-shrink: 0;
+        }
+
+        .chat-message-wrapper.sent .chat-avatar {
+            background: #0d6efd;
+            color: white;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
@@ -41,6 +153,7 @@ $token = generate_jwt($payload, $secret);
 ?>
     <main class="container py-3">
         <?php // include_once "navbar-bottom.php"; 
+
         ?>
 
         <div class="row">
@@ -52,7 +165,7 @@ $token = generate_jwt($payload, $secret);
                 </div>
             </nav>
         </div>
-
+<?php  ?>
         
         <div id="project-info"></div>
     </main>
@@ -91,7 +204,7 @@ $token = generate_jwt($payload, $secret);
                         html += `<h1 class="h5 fw-bold mb-3">Inscrição de proposta de projeto para ${dados.titulo_edital || ''}</h1>`;
                         html += `<div class="card">
                             <div class="card-body">
-                                <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@desenvolvecultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@desenvolvecultura.rj.gov.br'}</a></p>
+                                <p class="mb-0">Dúvidas relacionadas ao edital devem ser encaminhadas para o e-mail <a href="mailto:${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}">${dados.linha1 ? dados.linha1 : 'suportedesenvolvecultura@cultura.rj.gov.br'}</a></p>
                             </div>
                         </div>`;
 
@@ -112,7 +225,9 @@ $token = generate_jwt($payload, $secret);
                     // Render subsection depending on selected view
                     function renderSubsection(view) {
                         const $sub = $('#project-subsection');
+                        
                         $sub.html('<div class="p-3 text-center text-muted">Carregando...</div>');
+                        
                         let html = '';
                         if (view === 'dados') {
                             if (!dados && !dadosinfo) {
@@ -222,7 +337,7 @@ $token = generate_jwt($payload, $secret);
                             const ativoResultadoRecurso = getItemSeAtivo(datas, 'resultadorecavaldoc') || getItemSeAtivo(datas, 'resultadoavaldoc');
                             const ativoExibeRecursoAvalDoc = getItemSeAtivo(datas, 'exiberecursoavaldoc');
 
-                            
+                          
 
                             // Parecer do Recurso
                             if (ativoRecursoparecer) {
@@ -345,10 +460,14 @@ $token = generate_jwt($payload, $secret);
 
                             html += '<div class="mb-5"></div><br>';
                             $sub.html(html);
+                            
                         } else {
                             // default: fluxo — do nothing or show contextual info
+                            
                             $sub.html('<div class="alert alert-secondary">Selecione uma opção no menu inferior para ver mais detalhes relacionados ao andamento do processo.</div>');
+                            
                         }
+                            
                     }
 
                     // Inject full page: main + remaining
@@ -384,7 +503,7 @@ $token = generate_jwt($payload, $secret);
                     renderSubsection('fluxo');
                 },
                 error: function(err) {
-                    const htmlErro = '<div class="alert alert-danger" role="alert">Erro ao carregar os dados do projeto. Tente novamente mais tarde.</div>';
+                    const htmlErro = '<div class="alert alert-danger" role="alert">Erro ao carregar os dados do projeto. Para visualizar mais detalhes, entre no Desenvolve Cultura através do nosso site.</div>';
                     $('#project-info').html(htmlErro);
                     console.error('Erro na requisição:', err);
                 }

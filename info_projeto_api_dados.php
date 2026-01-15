@@ -119,7 +119,9 @@
     </div>
 
     <div class="mb-4"></div>
-  </main>
+  <!-- Spacer for fixed bottom navbar -->
+  <div style="height: 80px;"></div>
+</main>
 
   <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="./js/jquery-3.7.1.min.js"></script>

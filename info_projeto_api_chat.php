@@ -84,7 +84,9 @@
     </div>
 
     <div class="mb-4"></div>
-  </main>
+  <!-- Spacer for fixed bottom navbar -->
+  <div style="height: 80px;"></div>
+</main>
 
   <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="./js/jquery-3.7.1.min.js"></script>
@@ -145,7 +147,7 @@
             $('#projectNumber').text(dados.id_project || '');
             $('#currentPhase').text(dados.nomepublico || '');
 
-            // Populate messages
+            // Populate messages - using pure Bootstrap classes for WebView compatibility
             let chatHtml = '';
             if (mensagens.length === 0) {
               chatHtml = '<div class="text-center text-muted py-3">Nenhuma mensagem ainda</div>';
@@ -153,25 +155,36 @@
               mensagens.forEach(function(msg) {
                 // tiporesposta: 1 = user, 2 = admin
                 const isReceived = msg.tiporesposta === 2;
-                // Avatar only needed for received messages (admin/setor)
                 const avatar = isReceived ? (msg.nome_setor ? msg.nome_setor.substring(0,2).toUpperCase() : 'SC') : '';
-                const wrapperClass = isReceived ? 'received' : 'sent';
                 const sender = isReceived ? (msg.nome_setor || 'Secretaria de Cultura') : 'Você';
-                // dataresposta is Unix timestamp, multiply by 1000 for milliseconds
                 const timestamp = msg.dataresposta ? new Date(msg.dataresposta * 1000).toLocaleString('pt-BR') : '';
 
-                chatHtml += `
-                  <div class="chat-message-wrapper ${wrapperClass}">
-                    ${isReceived ? '<div class="chat-avatar">' + avatar + '</div>' : ''}
-                    <div>
-                      <div class="chat-sender">${sender}</div>
-                      <div class="chat-bubble">${msg.texto || ''}</div>
-                      <div class="chat-timestamp">${timestamp}</div>
+                if (isReceived) {
+                  // Received message - aligned left with avatar
+                  chatHtml += `
+                    <div class="mb-3">
+                      <table><tr>
+                        <td style="vertical-align:top;padding-right:8px;">
+                          <div class="bg-secondary text-white rounded-circle text-center" style="width:32px;height:32px;line-height:32px;font-size:12px;">${avatar}</div>
+                        </td>
+                        <td>
+                          <div class="small fw-bold text-muted">${sender}</div>
+                          <div class="bg-light p-2 rounded" style="display:inline-block;">${msg.texto || ''}</div>
+                          <div class="small text-muted">${timestamp}</div>
+                        </td>
+                      </tr></table>
                     </div>
-                    <!-- User avatar removed as per user request -->
-                    <!-- ${!isReceived ? '<div class="chat-avatar">' + avatar + '</div>' : ''} -->
-                  </div>
-                `;
+                  `;
+                } else {
+                  // Sent message - aligned right
+                  chatHtml += `
+                    <div class="mb-3 text-end">
+                      <div class="small fw-bold text-primary">${sender}</div>
+                      <div class="bg-primary text-white p-2 rounded" style="display:inline-block;">${msg.texto || ''}</div>
+                      <div class="small text-muted">${timestamp}</div>
+                    </div>
+                  `;
+                }
               });
             }
             $('#chatMessages').html(chatHtml);

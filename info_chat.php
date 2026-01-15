@@ -165,7 +165,9 @@
       </div>
     </div>
     <div class="mb-5"></div>
-  </main>
+  <!-- Spacer for fixed bottom navbar -->
+  <div style="height: 80px;"></div>
+</main>
 
   <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

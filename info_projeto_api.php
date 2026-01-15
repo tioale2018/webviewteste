@@ -168,7 +168,9 @@ $token = generate_jwt($payload, $secret);
 <?php  ?>
         
         <div id="project-info"></div>
-    </main>
+    <!-- Spacer for fixed bottom navbar -->
+  <div style="height: 80px;"></div>
+</main>
 
     <script src="./js/jquery-3.7.1.min.js"></script>
     <script>

@@ -232,7 +232,7 @@
 
                 // Construct file URL
                 const cpf = dados.user_input; // CPF from project data
-                const fileUrl = `https://desenvolvecultura.rj.gov.br/inscricao/documentos-projetos/${cpf}-${projectId}/recurso/${file.nomearquivo}`;
+                const fileUrl = `https://desenvolvecultura.rj.gov.br/desenvolve-culura/inscricao/documentos-projetos/${cpf}-${projectId}/recurso/${file.nomearquivo}`;
 
                 filesHtml += `
                   <li class="list-group-item d-flex justify-content-between align-items-center">

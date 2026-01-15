@@ -4,3 +4,4 @@ firebase_credentials.json
 /api/
 /vendor.zip/
 vendor.zip
+/.claude/

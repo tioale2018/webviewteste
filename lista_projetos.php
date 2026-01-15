@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
   <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="./bootstrap/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -161,7 +161,7 @@
       </div>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -197,7 +197,7 @@
           }
 
           // Notas
-          const mostraNotas = data.notas && (ativoExibeNotaRecurso || ativoExibeNotaProponente || ativoResultadoRecurso);
+          const mostraNotas = data.notas && (ativoExibeNotaRecurso || ativoExibeNotaProponente);
           if (mostraNotas) {
             let totalNota = 0;
             let rowsHtml = '';

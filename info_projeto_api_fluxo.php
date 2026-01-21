@@ -155,6 +155,17 @@
       return (agora >= inicio && agora <= fim) ? item : null;
     }
 
+    function getDataFim(datas, chaveCampo1) {
+      if (!Array.isArray(datas)) return null;
+      const item = datas.find(d => d.campo1 === chaveCampo1);
+      if (!item || !item.campo2) return null;
+
+      const parts = item.campo2.split(',').map(p => p.trim()).filter(Boolean);
+      if (parts.length < 2) return null;
+
+      return parseDateString(parts[1]);
+    }
+
     $(function() {
       if (!projectId) {
         alert('ID do projeto não informado. Por favor, acesse esta página através da lista de projetos.');
@@ -197,7 +208,9 @@
           }
 
           // Notas
-          const mostraNotas = data.notas && (ativoExibeNotaRecurso || ativoExibeNotaProponente);
+          const dataFimRecurso = getDataFim(datas, 'exibenotarecurso');
+          const agora = new Date();
+          const mostraNotas = data.notas && (ativoExibeNotaRecurso || ativoExibeNotaProponente || (dataFimRecurso && agora > dataFimRecurso));
           if (mostraNotas) {
             let totalNota = 0;
             let rowsHtml = '';

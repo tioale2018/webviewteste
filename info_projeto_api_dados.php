@@ -103,6 +103,7 @@
       </div>
     </div>
 
+    <?php /*
     <!-- Card 7: Anexos -->
     <div class="card mb-3">
       <div class="section-title">Anexos</div>
@@ -117,6 +118,7 @@
         </ul>
       </div>
     </div>
+    */ ?>
 
     <div class="mb-4"></div>
   <!-- Spacer for fixed bottom navbar -->
